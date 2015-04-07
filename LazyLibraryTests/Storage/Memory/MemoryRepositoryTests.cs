@@ -20,15 +20,4 @@ namespace LazyLibrary.Tests.Storage.Memory
             Assert.IsTrue(repo.Get().Any(), "The object could not be added to the repository");
         }
     }
-
-    public class TestObject : IStorable
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public DateTime startDate { get; set; }
-
-        public DateTime endDate { get; set; }
-    }
 }
