@@ -1,12 +1,13 @@
-﻿namespace LazyLibrary.Storage
+﻿using System.Linq;
+namespace LazyLibrary.Storage
 {
     public interface IRepository<T>
     {
         T GetById(int id);
 
-        void Insert(T item);
+        IQueryable<T> Get();
 
-        void Update(T item);
+        void Upsert(T item);
 
         void Delete(T item);
     }

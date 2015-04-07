@@ -1,33 +1,46 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace LazyLibrary.Storage.Memory
 {
     internal class MemoryRepository<T> : IRepository<T> where T : IStorable
     {
-        private Dictionary<int, T> repository = new Dictionary<int, T>();
+        private List<T> repository = new List<T>();
 
         public T GetById(int id)
         {
-            return this.repository.ContainsKey(id) ? this.repository[id] : default(T);
+            return this.repository.Where(x => x.Id == id).SingleOrDefault();
         }
 
-        public void Insert(T item)
+        public IQueryable<T> Get(System.Func<T, bool> exp)
         {
-            int nextId = this.repository.Keys.Max() + 1;
-            item.Id = nextId;
-            this.repository.Add(item.Id, item);
+            return repository.Where(exp).AsQueryable<T>();
         }
 
-        public void Update(T item)
+        public void Upsert(T item)
         {
-            this.repository.Remove(item.Id);
-            this.repository.Add(item.Id, item);
+            var obj = GetById(item.Id);
+
+            if (obj != null)
+            {
+                // Update
+                this.repository.Remove(obj);
+                this.repository.Add(item);
+            }
+            else
+            {
+                // Insert
+                var nextId = this.repository.Max(x => x.Id) + 1;
+                item.Id = nextId;
+                this.repository.Add(item);
+            }
         }
 
         public void Delete(T item)
         {
-            this.repository.Remove(item.Id);
+            var obj = GetById(item.Id);
+            this.repository.Remove(obj);
         }
     }
 }
