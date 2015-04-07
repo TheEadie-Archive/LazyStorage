@@ -19,5 +19,16 @@ namespace LazyLibrary.Tests.Storage.Memory
 
             Assert.IsTrue(repo.Get().Any(), "The object could not be added to the repository");
         }
+
+        [TestMethod]
+        public void CanGetById()
+        {
+            var repo = new MemoryRepository<TestObject>();
+            var obj = new TestObject();
+
+            repo.Upsert(obj);
+
+            Assert.IsNotNull(repo.GetById(1), "The object could not be retrieved from the repository");
+        }
     }
 }
