@@ -30,5 +30,21 @@ namespace LazyLibrary.Tests.Storage.Memory
 
             Assert.IsNotNull(repo.GetById(1), "The object could not be retrieved from the repository");
         }
+
+        [TestMethod]
+        public void CanGetByLINQ()
+        {
+            var repo = new MemoryRepository<TestObject>();
+            var objOne = new TestObject() { Name = "one" };
+            var objTwo = new TestObject() { Name = "two" };
+
+            repo.Upsert(objOne);
+            repo.Upsert(objTwo);
+
+            var result = repo.Get(x => x.Name == "one").SingleOrDefault();
+
+            Assert.IsNotNull(result, "The object could not be retrieved from the repository");
+            Assert.IsTrue(result.Equals(objOne), "The object could not be retrieved from the repository");
+        }
     }
 }
