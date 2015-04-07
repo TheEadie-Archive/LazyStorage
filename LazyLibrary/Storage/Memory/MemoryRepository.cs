@@ -13,9 +13,9 @@ namespace LazyLibrary.Storage.Memory
             return this.repository.Where(x => x.Id == id).SingleOrDefault();
         }
 
-        public IQueryable<T> Get(System.Func<T, bool> exp)
+        public IQueryable<T> Get(System.Func<T, bool> exp = null)
         {
-            return repository.Where(exp).AsQueryable<T>();
+            return exp != null ? repository.Where(exp).AsQueryable<T>() : repository.AsQueryable<T>();
         }
 
         public void Upsert(T item)
@@ -31,7 +31,7 @@ namespace LazyLibrary.Storage.Memory
             else
             {
                 // Insert
-                var nextId = this.repository.Max(x => x.Id) + 1;
+                var nextId = this.repository.Any() ? this.repository.Max(x => x.Id) + 1 : 1;
                 item.Id = nextId;
                 this.repository.Add(item);
             }
