@@ -5,7 +5,7 @@ namespace LazyLibrary.Storage
     {
         T GetById(int id);
 
-        IQueryable<T> Get(System.Func<T, bool> exp);
+        IQueryable<T> Get(System.Func<T, bool> exp = null);
 
         void Upsert(T item);
 

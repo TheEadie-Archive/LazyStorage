@@ -17,7 +17,7 @@ namespace LazyLibrary.Tests.Storage
 
             repo.Upsert(obj);
 
-            Assert.IsTrue(repo.Get(x => x.Id > 0).Any(), "The object could not be added to the repository");
+            Assert.IsTrue(repo.Get().Any(), "The object could not be added to the repository");
         }
     }
 }
