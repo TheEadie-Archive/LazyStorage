@@ -5,6 +5,11 @@ namespace LazyLibrary.Storage.Memory
     {
         private Dictionary<string, IRepository> repos = new Dictionary<string,IRepository>();
 
+        public MemoryStorage()
+        {
+            repos = MemorySingleton.GetRepo();
+        }
+
         public IRepository<T> GetRepository<T>() where T : IStorable
         {
             string typeAsString = typeof(T).ToString();
@@ -19,6 +24,7 @@ namespace LazyLibrary.Storage.Memory
 
         public void Save()
         {
+            MemorySingleton.Sync(repos);
         }
 
         public void Discard()

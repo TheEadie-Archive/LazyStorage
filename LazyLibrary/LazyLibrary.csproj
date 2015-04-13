@@ -44,6 +44,7 @@
     <Compile Include="Storage\IStorable.cs" />
     <Compile Include="Storage\IStorage.cs" />
     <Compile Include="Storage\Memory\MemoryRepository.cs" />
+    <Compile Include="Storage\Memory\MemorySingleton.cs" />
     <Compile Include="Storage\Memory\MemoryStorage.cs" />
     <Compile Include="Storage\StorageFactory.cs" />
   </ItemGroup>
