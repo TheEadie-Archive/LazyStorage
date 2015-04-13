@@ -12,7 +12,7 @@ namespace LazyLibrary.Storage
 
         public IStorage GetStorage()
         {
-            if (this.store != null)
+            if (this.store == null)
             {
                 this.store = new MemoryStorage();
             }
