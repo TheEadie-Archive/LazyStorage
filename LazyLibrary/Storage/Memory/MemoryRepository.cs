@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace LazyLibrary.Storage.Memory
 {
-    internal class MemoryRepository<T> : IRepository<T> where T : IStorable
+    internal class MemoryRepository<T> : IRepository<T> where T : IStorable<T>
     {
         private List<T> repository = new List<T>();
 
@@ -23,8 +23,8 @@ namespace LazyLibrary.Storage.Memory
             if (repository.Contains(item))
             {
                 // Update
-                var obj = repository.Single(x => x.Equals(item));
-                this.repository.Remove(obj);
+                var obj = repository.Where(x => x.Equals(item));
+                this.repository.Remove(obj.First());
                 this.repository.Add(item);
             }
             else

@@ -10,7 +10,7 @@ namespace LazyLibrary.Storage.Memory
             repos = MemorySingleton.GetRepo();
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable
+        public IRepository<T> GetRepository<T>() where T : IStorable<T>
         {
             string typeAsString = typeof(T).ToString();
 

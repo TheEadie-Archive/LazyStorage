@@ -2,7 +2,7 @@
 {
     public interface IStorage
     {
-        IRepository<T> GetRepository<T>() where T : IStorable;
+        IRepository<T> GetRepository<T>() where T : IStorable<T>;
 
         void Save();
 
