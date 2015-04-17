@@ -10,7 +10,7 @@ namespace LazyLibrary.Storage.Memory
 
         public T GetById(int id)
         {
-            return this.repository.Where(x => x.Id == id).SingleOrDefault();
+            return this.repository.SingleOrDefault(x => x.Id == id);
         }
 
         public IQueryable<T> Get(System.Func<T, bool> exp = null)
@@ -20,11 +20,10 @@ namespace LazyLibrary.Storage.Memory
 
         public void Upsert(T item)
         {
-            var obj = GetById(item.Id);
-
-            if (obj != null)
+            if (repository.Contains(item))
             {
                 // Update
+                var obj = repository.Single(x => x.Equals(item));
                 this.repository.Remove(obj);
                 this.repository.Add(item);
             }
