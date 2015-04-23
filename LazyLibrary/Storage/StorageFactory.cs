@@ -4,20 +4,16 @@ namespace LazyLibrary.Storage
 {
     public class StorageFactory
     {
-        private IStorage store;
-
-        public StorageFactory()
-        {
-        }
+        private IStorage m_Store;
 
         public IStorage GetStorage()
         {
-            if (this.store == null)
+            if (m_Store == null)
             {
-                this.store = new MemoryStorage();
+                m_Store = new MemoryStorage();
             }
 
-            return this.store;
+            return m_Store;
         }
     }
 }

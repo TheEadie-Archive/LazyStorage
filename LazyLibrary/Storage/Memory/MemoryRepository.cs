@@ -1,45 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace LazyLibrary.Storage.Memory
 {
     internal class MemoryRepository<T> : IRepository<T> where T : IStorable<T>
     {
-        private List<T> repository = new List<T>();
+        private readonly List<T> m_Repository = new List<T>();
 
         public T GetById(int id)
         {
-            return this.repository.SingleOrDefault(x => x.Id == id);
+            return m_Repository.SingleOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<T> Get(System.Func<T, bool> exp = null)
+        public IQueryable<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? repository.Where(exp).AsQueryable<T>() : repository.AsQueryable<T>();
+            return exp != null ? m_Repository.Where(exp).AsQueryable() : m_Repository.AsQueryable();
         }
 
         public void Upsert(T item)
         {
-            if (repository.Contains(item))
+            if (m_Repository.Contains(item))
             {
                 // Update
-                var obj = repository.Where(x => x.Equals(item));
-                this.repository.Remove(obj.First());
-                this.repository.Add(item);
+                var obj = m_Repository.Where(x => x.Equals(item));
+                m_Repository.Remove(obj.First());
+                m_Repository.Add(item);
             }
             else
             {
                 // Insert
-                var nextId = this.repository.Any() ? this.repository.Max(x => x.Id) + 1 : 1;
+                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.Id) + 1 : 1;
                 item.Id = nextId;
-                this.repository.Add(item);
+                m_Repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
             var obj = GetById(item.Id);
-            this.repository.Remove(obj);
+            m_Repository.Remove(obj);
         }
     }
 }

@@ -1,30 +1,31 @@
 ﻿using System.Collections.Generic;
+
 namespace LazyLibrary.Storage.Memory
 {
     internal class MemoryStorage : IStorage
     {
-        private Dictionary<string, IRepository> repos = new Dictionary<string,IRepository>();
+        private readonly Dictionary<string, IRepository> m_Repos;
 
         public MemoryStorage()
         {
-            repos = MemorySingleton.GetRepo();
+            m_Repos = MemorySingleton.GetRepo();
         }
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>
         {
-            string typeAsString = typeof(T).ToString();
+            var typeAsString = typeof (T).ToString();
 
-            if (!repos.ContainsKey(typeAsString))
+            if (!m_Repos.ContainsKey(typeAsString))
             {
-                repos.Add(typeAsString, new MemoryRepository<T>());
+                m_Repos.Add(typeAsString, new MemoryRepository<T>());
             }
 
-            return (IRepository<T>) repos[typeAsString];
+            return (IRepository<T>) m_Repos[typeAsString];
         }
 
         public void Save()
         {
-            MemorySingleton.Sync(repos);
+            MemorySingleton.Sync(m_Repos);
         }
 
         public void Discard()
