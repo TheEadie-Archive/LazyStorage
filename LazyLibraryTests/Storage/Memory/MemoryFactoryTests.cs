@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using LazyLibrary.Storage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LazyLibrary.Tests.Storage
+namespace LazyLibrary.Tests.Storage.Memory
 {
     [TestClass]
-    public class StorageFactoryTests
+    public class MemoryFactoryTests
     {
         [TestMethod]
         public void CanGetMemoryStorage()
