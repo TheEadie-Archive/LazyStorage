@@ -21,6 +21,32 @@ namespace LazyLibrary.Tests.Storage.Memory
         }
 
         [TestMethod]
+        public void CanUpdate()
+        {
+            var repo = new MemoryRepository<TestObject>();
+            var obj = new TestObject();
+
+            repo.Upsert(obj);
+
+            obj.Name = "Test";
+            repo.Upsert(obj);
+
+            Assert.IsTrue(repo.Get().Any(), "The object could not be updated in the repository");
+        }
+
+        [TestMethod]
+        public void CanDelete()
+        {
+            var repo = new MemoryRepository<TestObject>();
+            var obj = new TestObject();
+
+            repo.Upsert(obj);
+            repo.Delete(obj);
+
+            Assert.IsFalse(repo.Get().Any(), "The object could not be deleted from the repository");
+        }
+
+        [TestMethod]
         public void CanGetById()
         {
             var repo = new MemoryRepository<TestObject>();
