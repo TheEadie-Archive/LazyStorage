@@ -1,15 +1,12 @@
-﻿using LazyLibrary.Storage;
+﻿using System.Linq;
 using LazyLibrary.Storage.Memory;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
+using Xunit;
 
 namespace LazyLibrary.Tests.Storage.Memory
 {
-    [TestClass]
     public class MemoryRepositoryTests
     {
-        [TestMethod]
+        [Fact]
         public void CanAdd()
         {
             var repo = new MemoryRepository<TestObject>();
@@ -17,10 +14,10 @@ namespace LazyLibrary.Tests.Storage.Memory
 
             repo.Upsert(obj);
 
-            Assert.IsTrue(repo.Get().Any(), "The object could not be added to the repository");
+            Assert.True(repo.Get().Any(), "The object could not be added to the repository");
         }
 
-        [TestMethod]
+        [Fact]
         public void CanUpdate()
         {
             var repo = new MemoryRepository<TestObject>();
@@ -31,10 +28,10 @@ namespace LazyLibrary.Tests.Storage.Memory
             obj.Name = "Test";
             repo.Upsert(obj);
 
-            Assert.IsTrue(repo.Get().Any(), "The object could not be updated in the repository");
+            Assert.True(repo.Get().Any(), "The object could not be updated in the repository");
         }
 
-        [TestMethod]
+        [Fact]
         public void CanDelete()
         {
             var repo = new MemoryRepository<TestObject>();
@@ -43,10 +40,10 @@ namespace LazyLibrary.Tests.Storage.Memory
             repo.Upsert(obj);
             repo.Delete(obj);
 
-            Assert.IsFalse(repo.Get().Any(), "The object could not be deleted from the repository");
+            Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
         }
 
-        [TestMethod]
+        [Fact]
         public void CanGetById()
         {
             var repo = new MemoryRepository<TestObject>();
@@ -54,23 +51,23 @@ namespace LazyLibrary.Tests.Storage.Memory
 
             repo.Upsert(obj);
 
-            Assert.IsNotNull(repo.GetById(1), "The object could not be retrieved from the repository");
+            Assert.NotNull(repo.GetById(1));
         }
 
-        [TestMethod]
-        public void CanGetByLINQ()
+        [Fact]
+        public void CanGetByLinq()
         {
             var repo = new MemoryRepository<TestObject>();
-            var objOne = new TestObject() { Name = "one" };
-            var objTwo = new TestObject() { Name = "two" };
+            var objOne = new TestObject {Name = "one"};
+            var objTwo = new TestObject {Name = "two"};
 
             repo.Upsert(objOne);
             repo.Upsert(objTwo);
 
             var result = repo.Get(x => x.Name == "one").SingleOrDefault();
 
-            Assert.IsNotNull(result, "The object could not be retrieved from the repository");
-            Assert.IsTrue(result.Equals(objOne), "The object could not be retrieved from the repository");
+            Assert.NotNull(result);
+            Assert.True(result.Equals(objOne), "The object could not be retrieved from the repository");
         }
     }
 }

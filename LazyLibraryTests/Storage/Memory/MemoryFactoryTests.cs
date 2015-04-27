@@ -1,13 +1,12 @@
 ﻿using System.Linq;
 using LazyLibrary.Storage;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace LazyLibrary.Tests.Storage.Memory
 {
-    [TestClass]
     public class MemoryFactoryTests
     {
-        [TestMethod]
+        [Fact]
         public void CanGetMemoryStorage()
         {
             var dal = new StorageFactory().GetStorage();
@@ -16,10 +15,10 @@ namespace LazyLibrary.Tests.Storage.Memory
 
             repo.Upsert(obj);
 
-            Assert.IsTrue(repo.Get().Any(), "The object could not be added to the repository");
+            Assert.True(repo.Get().Any(), "The object could not be added to the repository");
         }
 
-        [TestMethod]
+        [Fact]
         public void SingletonWorks()
         {
             var dal = new StorageFactory().GetStorage();
@@ -32,7 +31,7 @@ namespace LazyLibrary.Tests.Storage.Memory
             var dal2 = new StorageFactory().GetStorage();
             var repo2 = dal2.GetRepository<TestObject>();
 
-            Assert.IsTrue(repo2.Get().Any(), "The object could not be added to the repository");
+            Assert.True(repo2.Get().Any(), "The object could not be added to the repository");
         }
     }
 }
