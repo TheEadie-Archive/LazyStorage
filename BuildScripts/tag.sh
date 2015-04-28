@@ -12,16 +12,6 @@ then
 	nextRelease="$G_NextRelease"
 fi
 
-if [ -n "$G_Remote" ]
-then
-	remote="$G_Remote"
-else
-	remote=$(git config --get remote.origin.url)
-	remote=$(awk -F/ 'gsub($3,"git@gitlab.com",$0)' <<< "$remote")
-	remote=$(echo $remote | sed 's,/,:,3')
-	remote=$(echo $remote | sed 's,https://,,g')
-fi
-
 nextBuildNumber=$TRAVIS_BUILD_NUMBER
 printf -v nextBuildNumber %05d $nextBuildNumber
 
