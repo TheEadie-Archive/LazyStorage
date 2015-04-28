@@ -7,3 +7,6 @@ script:
   - bash ./BuildScripts/tag.sh
   - xbuild /p:Configuration=Release LazyLibrary.sln
   - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./LazyLibraryTests/bin/Release/LazyLibrary.Tests.dll
+branches:
+  except:
+    - /^build.*$/

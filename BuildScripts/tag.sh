@@ -22,7 +22,7 @@ else
 	tag=$buildTagString$nextRelease.$nextBuildNumber
 fi
 
-if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "BuildSettings" ]
+if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ]
 then
 	git tag $tag
 	remote=$(git config --get remote.origin.url)
