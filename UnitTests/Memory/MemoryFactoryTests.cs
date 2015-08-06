@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using LazyStorage.Storage;
 using Xunit;
 
-namespace LazyStorage.Tests.Storage.Memory
+namespace LazyStorage.Tests.Memory
 {
     public class MemoryFactoryTests
     {

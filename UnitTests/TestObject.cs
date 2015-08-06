@@ -1,7 +1,6 @@
 ﻿using System;
-using LazyStorage.Storage;
 
-namespace LazyStorage.Tests.Storage
+namespace LazyStorage.Tests
 {
     public class TestObject : IStorable<TestObject>
     {

@@ -1,4 +1,4 @@
-﻿namespace LazyStorage.Storage
+﻿namespace LazyStorage
 {
     public interface IStorage
     {

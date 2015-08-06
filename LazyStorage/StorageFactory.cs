@@ -1,6 +1,6 @@
-﻿using LazyStorage.Storage.Memory;
+﻿using LazyStorage.Memory;
 
-namespace LazyStorage.Storage
+namespace LazyStorage
 {
     public class StorageFactory
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace LazyStorage.Storage
+namespace LazyStorage
 {
     public interface IRepository<T> : IRepository
     {

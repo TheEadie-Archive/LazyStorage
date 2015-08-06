@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LazyStorage.Storage.Memory
+namespace LazyStorage.Memory
 {
     internal class MemoryStorage : IStorage
     {
