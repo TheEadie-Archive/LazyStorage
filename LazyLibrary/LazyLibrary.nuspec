@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>LazyLibrary</id>
+    <version>$version$</version>
+    <title>LazyLibrary</title>
+    <authors>David Eadie</authors>
+    <owners>David Eadie</owners>
+    <licenseUrl>https://github.com/TheEadie/LazyStorage/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/TheEadie/LazyLibrary</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Automates the create of a storage layer when creating prototypes</description>
+    <copyright>Copyright 2015</copyright>
+  </metadata>
+</package>
