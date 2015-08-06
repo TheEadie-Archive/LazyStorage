@@ -7,8 +7,8 @@
     <ProjectGuid>{14193C9F-6AC1-49EB-AC55-708C0DC78475}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LazyLibrary.Tests</RootNamespace>
-    <AssemblyName>LazyLibrary.Tests</AssemblyName>
+    <RootNamespace>LazyStorage.Tests</RootNamespace>
+    <AssemblyName>LazyStorage.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LazyLibrary.Storage.Memory
+namespace LazyStorage.Storage.Memory
 {
     internal class MemoryRepository<T> : IRepository<T> where T : IStorable<T>
     {

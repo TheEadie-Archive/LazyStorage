@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LazyLibrary.Storage.Memory
+namespace LazyStorage.Storage.Memory
 {
     internal static class MemorySingleton
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using LazyLibrary.Storage.Memory;
+using LazyStorage.Storage.Memory;
 using Xunit;
 
-namespace LazyLibrary.Tests.Storage.Memory
+namespace LazyStorage.Tests.Storage.Memory
 {
     public class MemoryRepositoryTests
     {
