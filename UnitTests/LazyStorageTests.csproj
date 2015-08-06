@@ -58,7 +58,7 @@
     <Compile Include="Storage\Memory\MemoryFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LazyLibrary\LazyLibrary.csproj">
+    <ProjectReference Include="..\LazyStorage\LazyStorage.csproj">
       <Project>{ad75e73b-c3a9-4b7c-bd9d-10874a3e07a9}</Project>
       <Name>LazyLibrary</Name>
     </ProjectReference>
