@@ -11,9 +11,9 @@ before_build:
 configuration: Release
 
 build:
-  project: LazyLibrary.sln
+  project: LazyStorage.sln
   verbosity: minimal
 
 after_build:
-  - cmd: nuget pack LazyLibrary\LazyLibrary.csproj -version "%GitVersion_NuGetVersion%" -prop "target=Release"
-  - cmd: appveyor PushArtifact "LazyLibrary.%GitVersion_NuGetVersion%.nupkg"
+  - cmd: nuget pack LazyStorage\LazyStorage.csproj -version "%GitVersion_NuGetVersion%" -prop "target=Release"
+  - cmd: appveyor PushArtifact "LazyStorage.%GitVersion_NuGetVersion%.nupkg"
