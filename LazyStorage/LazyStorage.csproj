@@ -47,6 +47,7 @@
     <Compile Include="InMemory\InMemorySingleton.cs" />
     <Compile Include="InMemory\InMemoryStorage.cs" />
     <Compile Include="StorageFactory.cs" />
+    <Compile Include="Xml\XmlRepository.cs" />
     <Compile Include="Xml\XmlStorage.cs" />
   </ItemGroup>
   <ItemGroup />
