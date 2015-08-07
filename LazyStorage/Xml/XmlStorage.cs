@@ -8,12 +8,14 @@ namespace LazyStorage.Xml
 {
     public class XmlStorage : IStorage
     {
-        private readonly string m_StorageFolder;
+        private readonly XDocument m_File;
+        private readonly string m_Uri;
         private readonly Dictionary<string, IRepository> m_Repos;
 
         public XmlStorage(string storageFolder)
         {
-            m_StorageFolder = storageFolder;
+            m_Uri = $"{storageFolder}/LazyStorage.xml";
+            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
             m_Repos = new Dictionary<string, IRepository>();
         }
 
@@ -23,11 +25,7 @@ namespace LazyStorage.Xml
 
             if (!m_Repos.ContainsKey(typeAsString))
             {
-                string uri = $"{m_StorageFolder}/{typeAsString}.xml";
-                
-                var file = !File.Exists(uri) ? new XDocument(new XElement("Root")) : XDocument.Load(uri);
-                
-                m_Repos.Add(typeAsString, new XmlRepository<T>(file));
+                m_Repos.Add(typeAsString, new XmlRepository<T>(m_File));
             }
 
             return m_Repos[typeAsString] as IRepository<T>;
@@ -35,7 +33,7 @@ namespace LazyStorage.Xml
 
         public void Save()
         {
-            throw new NotImplementedException();
+            m_File.Save(m_Uri);
         }
 
         public void Discard()
