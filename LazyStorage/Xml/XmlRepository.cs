@@ -24,10 +24,17 @@ namespace LazyStorage.Xml
         {
             ICollection<T> found = new List<T>();
 
-            foreach (XElement node in XmlFile.Descendants())
+            foreach (var node in XmlFile.Element("Root").Elements())
             {
                 var temp = new T();
+                var info = new SerializationInfo(temp.GetType(), new FormatterConverter());
+                
+                foreach (var element in node.Descendants())
+                {
+                    info.AddValue(element.Name.ToString(), element.Value);
+                }
 
+                temp.InitialiseWithStorageInfo(info);
 
                 found.Add(temp);
             }
