@@ -45,12 +45,11 @@ namespace LazyStorage.Xml
 
             item.Id = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
 
-            var serializationInfo = new SerializationInfo(item.GetType(), new FormatterConverter());
-            item.GetObjectData(serializationInfo, new StreamingContext());
+            var info = item.GetStorageInfo();
 
             var newElement = new XElement(typeAsString);
 
-            foreach (var data in serializationInfo)
+            foreach (var data in info)
             {
                 newElement.Add(new XElement(data.Name, data.Value));
             }

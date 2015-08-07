@@ -4,8 +4,10 @@ using System.Xml;
 
 namespace LazyStorage
 {
-    public interface IStorable<T> : IEquatable<T>, ISerializable where T : new()
+    public interface IStorable<T> : IEquatable<T> where T : new()
     {
         int Id { get; set; }
+        SerializationInfo GetStorageInfo();
+        void InitialiseWithStorageInfo(SerializationInfo info);
     }
 }

@@ -7,20 +7,22 @@ namespace LazyStorage.Tests
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        private DateTime m_StartDate;
+        private DateTime m_EndDate;
 
-        private readonly DateTime m_StartDate;
-        private readonly DateTime m_EndDate;
-
-        public TestObject()
+        public SerializationInfo GetStorageInfo()
         {
+            var info = new SerializationInfo(GetType(),new FormatterConverter());
+
+            info.AddValue("Id", Id);
+            info.AddValue("Name", Name);
+            info.AddValue("StartDate", m_StartDate);
+            info.AddValue("EndDate", m_EndDate);
+
+            return info;
         }
 
-        public bool Equals(TestObject other)
-        {
-            return (other.Id == Id);
-        }
-
-        protected TestObject(SerializationInfo info, StreamingContext context)
+        public void InitialiseWithStorageInfo(SerializationInfo info)
         {
             Id = info.GetInt32("Id");
             Name = info.GetString("Name");
@@ -28,14 +30,9 @@ namespace LazyStorage.Tests
             m_EndDate = info.GetDateTime("EndDate");
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public bool Equals(TestObject other)
         {
-            info.AddValue("Id", Id);
-            info.AddValue("Name", Name);
-            info.AddValue("StartDate", m_StartDate);
-            info.AddValue("EndDate", m_EndDate);
-        }
-
-        
+            return (other.Id == Id);
+        }        
     }
 }
