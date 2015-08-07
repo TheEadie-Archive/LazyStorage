@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace LazyStorage.Memory
+namespace LazyStorage.InMemory
 {
-    internal static class MemorySingleton
+    internal static class InMemorySingleton
     {
         private static Dictionary<string, IRepository> repos = new Dictionary<string, IRepository>();
 

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Xunit;
 
-namespace LazyStorage.Tests.Memory
+namespace LazyStorage.Tests.InMemory
 {
-    public class MemoryFactoryTests
+    public class InMemoryFactoryTests
     {
         [Fact]
         public void CanGetMemoryStorage()
