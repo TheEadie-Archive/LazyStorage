@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LazyStorage.InMemory
 {
-    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>
+    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private readonly List<T> m_Repository = new List<T>();
 
@@ -13,9 +13,9 @@ namespace LazyStorage.InMemory
             return m_Repository.SingleOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? m_Repository.Where(exp).AsQueryable() : m_Repository.AsQueryable();
+            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
         }
 
         public void Upsert(T item)

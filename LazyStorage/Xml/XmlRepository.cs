@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace LazyStorage.Xml
 {
-    public class XmlRepository<T> : IRepository<T> where T : IStorable<T>
+    public class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private XDocument XmlFile { get; set; }
 
@@ -20,9 +20,20 @@ namespace LazyStorage.Xml
             throw new NotImplementedException();
         }
 
-        public IQueryable<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            throw new NotImplementedException();
+            ICollection<T> found = new List<T>();
+
+            foreach (XElement node in XmlFile.Descendants())
+            {
+                var temp = new T();
+
+
+                found.Add(temp);
+            }
+
+            var query = found.AsQueryable<T>();
+            return exp != null ? query.Where(exp).ToList() : found;
         }
 
         public void Upsert(T item)

@@ -19,7 +19,7 @@ namespace LazyStorage.Xml
             m_Repos = new Dictionary<string, IRepository>();
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable<T>
+        public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
         {
             var typeAsString = typeof(T).ToString();
 

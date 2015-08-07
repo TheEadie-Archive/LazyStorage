@@ -11,7 +11,7 @@ namespace LazyStorage.InMemory
             m_Repos = InMemorySingleton.GetRepo();
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable<T>
+        public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
         {
             var typeAsString = typeof (T).ToString();
 
