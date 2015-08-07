@@ -1,5 +1,5 @@
-﻿using System;
-using LazyStorage.InMemory;
+﻿using LazyStorage.InMemory;
+using LazyStorage.Xml;
 
 namespace LazyStorage
 {
@@ -19,7 +19,7 @@ namespace LazyStorage
 
         public IStorage GetXmlStorage(string storageFolder)
         {
-            throw new NotImplementedException();
+            return new XmlStorage(storageFolder);
         }
     }
 }
