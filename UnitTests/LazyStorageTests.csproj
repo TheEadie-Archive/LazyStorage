@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
       <Private>True</Private>
@@ -56,6 +57,7 @@
     <Compile Include="InMemory\InMemoryRepositoryTests.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="InMemory\InMemoryFactoryTests.cs" />
+    <Compile Include="Xml\XmlRepositoryTests.cs" />
     <Compile Include="Xml\XmlFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>

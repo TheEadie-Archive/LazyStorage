@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 using LazyStorage.InMemory;
 
 namespace LazyStorage.Xml
@@ -21,7 +23,11 @@ namespace LazyStorage.Xml
 
             if (!m_Repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new XmlRepository<T>(m_StorageFolder));
+                string uri = $"{m_StorageFolder}/{typeAsString}.xml";
+                
+                var file = !File.Exists(uri) ? new XDocument(new XElement("Root")) : XDocument.Load(uri);
+                
+                m_Repos.Add(typeAsString, new XmlRepository<T>(file));
             }
 
             return m_Repos[typeAsString] as IRepository<T>;

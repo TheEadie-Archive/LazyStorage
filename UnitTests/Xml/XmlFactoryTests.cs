@@ -8,7 +8,7 @@ namespace LazyStorage.Tests.Xml
         [Fact]
         public void CanGetXmlStorage()
         {
-            var dal = new StorageFactory().GetXmlStorage("");
+            var dal = new StorageFactory().GetXmlStorage("/");
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
 
