@@ -43,9 +43,9 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IStorable.cs" />
     <Compile Include="IStorage.cs" />
-    <Compile Include="Memory\MemoryRepository.cs" />
-    <Compile Include="Memory\MemorySingleton.cs" />
-    <Compile Include="Memory\MemoryStorage.cs" />
+    <Compile Include="InMemory\InMemoryRepository.cs" />
+    <Compile Include="InMemory\InMemorySingleton.cs" />
+    <Compile Include="InMemory\InMemoryStorage.cs" />
     <Compile Include="StorageFactory.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,4 @@
-﻿using LazyStorage.Memory;
+﻿using LazyStorage.InMemory;
 
 namespace LazyStorage
 {
@@ -10,7 +10,7 @@ namespace LazyStorage
         {
             if (m_Store == null)
             {
-                m_Store = new MemoryStorage();
+                m_Store = new InMemoryStorage();
             }
 
             return m_Store;
