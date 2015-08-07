@@ -56,6 +56,7 @@
     <Compile Include="InMemory\InMemoryRepositoryTests.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="InMemory\InMemoryFactoryTests.cs" />
+    <Compile Include="Xml\XmlFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LazyStorage\LazyStorage.csproj">

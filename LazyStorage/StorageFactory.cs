@@ -1,4 +1,5 @@
-﻿using LazyStorage.InMemory;
+﻿using System;
+using LazyStorage.InMemory;
 
 namespace LazyStorage
 {
@@ -6,7 +7,7 @@ namespace LazyStorage
     {
         private IStorage m_Store;
 
-        public IStorage GetStorage()
+        public IStorage GetInMemoryStorage()
         {
             if (m_Store == null)
             {
@@ -14,6 +15,11 @@ namespace LazyStorage
             }
 
             return m_Store;
+        }
+
+        public IStorage GetXmlStorage(string storageFolder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
