@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LazyLibrary.Storage.Memory
+namespace LazyStorage.InMemory
 {
-    internal class MemoryRepository<T> : IRepository<T> where T : IStorable<T>
+    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>
     {
         private readonly List<T> m_Repository = new List<T>();
 

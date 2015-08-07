@@ -7,8 +7,8 @@
     <ProjectGuid>{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LazyLibrary</RootNamespace>
-    <AssemblyName>LazyLibrary</AssemblyName>
+    <RootNamespace>LazyStorage</RootNamespace>
+    <AssemblyName>LazyStorage</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,13 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storage\IRepository.cs" />
-    <Compile Include="Storage\IStorable.cs" />
-    <Compile Include="Storage\IStorage.cs" />
-    <Compile Include="Storage\Memory\MemoryRepository.cs" />
-    <Compile Include="Storage\Memory\MemorySingleton.cs" />
-    <Compile Include="Storage\Memory\MemoryStorage.cs" />
-    <Compile Include="Storage\StorageFactory.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IStorable.cs" />
+    <Compile Include="IStorage.cs" />
+    <Compile Include="InMemory\InMemoryRepository.cs" />
+    <Compile Include="InMemory\InMemorySingleton.cs" />
+    <Compile Include="InMemory\InMemoryStorage.cs" />
+    <Compile Include="StorageFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

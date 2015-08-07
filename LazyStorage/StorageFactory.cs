@@ -1,6 +1,6 @@
-﻿using LazyLibrary.Storage.Memory;
+﻿using LazyStorage.InMemory;
 
-namespace LazyLibrary.Storage
+namespace LazyStorage
 {
     public class StorageFactory
     {
@@ -10,7 +10,7 @@ namespace LazyLibrary.Storage
         {
             if (m_Store == null)
             {
-                m_Store = new MemoryStorage();
+                m_Store = new InMemoryStorage();
             }
 
             return m_Store;

@@ -1,15 +1,15 @@
 ﻿using System.Linq;
-using LazyLibrary.Storage.Memory;
+using LazyStorage.InMemory;
 using Xunit;
 
-namespace LazyLibrary.Tests.Storage.Memory
+namespace LazyStorage.Tests.InMemory
 {
-    public class MemoryRepositoryTests
+    public class InMemoryRepositoryTests
     {
         [Fact]
         public void CanAdd()
         {
-            var repo = new MemoryRepository<TestObject>();
+            var repo = new InMemoryRepository<TestObject>();
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -20,7 +20,7 @@ namespace LazyLibrary.Tests.Storage.Memory
         [Fact]
         public void CanUpdate()
         {
-            var repo = new MemoryRepository<TestObject>();
+            var repo = new InMemoryRepository<TestObject>();
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -34,7 +34,7 @@ namespace LazyLibrary.Tests.Storage.Memory
         [Fact]
         public void CanDelete()
         {
-            var repo = new MemoryRepository<TestObject>();
+            var repo = new InMemoryRepository<TestObject>();
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -46,7 +46,7 @@ namespace LazyLibrary.Tests.Storage.Memory
         [Fact]
         public void CanGetById()
         {
-            var repo = new MemoryRepository<TestObject>();
+            var repo = new InMemoryRepository<TestObject>();
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -57,7 +57,7 @@ namespace LazyLibrary.Tests.Storage.Memory
         [Fact]
         public void CanGetByLinq()
         {
-            var repo = new MemoryRepository<TestObject>();
+            var repo = new InMemoryRepository<TestObject>();
             var objOne = new TestObject {Name = "one"};
             var objTwo = new TestObject {Name = "two"};
 

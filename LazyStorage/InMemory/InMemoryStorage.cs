@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace LazyLibrary.Storage.Memory
+namespace LazyStorage.InMemory
 {
-    internal class MemoryStorage : IStorage
+    internal class InMemoryStorage : IStorage
     {
         private readonly Dictionary<string, IRepository> m_Repos;
 
-        public MemoryStorage()
+        public InMemoryStorage()
         {
-            m_Repos = MemorySingleton.GetRepo();
+            m_Repos = InMemorySingleton.GetRepo();
         }
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>
@@ -17,7 +17,7 @@ namespace LazyLibrary.Storage.Memory
 
             if (!m_Repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new MemoryRepository<T>());
+                m_Repos.Add(typeAsString, new InMemoryRepository<T>());
             }
 
             return (IRepository<T>) m_Repos[typeAsString];
@@ -25,7 +25,7 @@ namespace LazyLibrary.Storage.Memory
 
         public void Save()
         {
-            MemorySingleton.Sync(m_Repos);
+            InMemorySingleton.Sync(m_Repos);
         }
 
         public void Discard()

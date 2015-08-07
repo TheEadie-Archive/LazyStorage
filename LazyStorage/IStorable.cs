@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LazyLibrary.Storage
+namespace LazyStorage
 {
     public interface IStorable<T> : IEquatable<T>
     {
