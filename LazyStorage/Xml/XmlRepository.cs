@@ -17,7 +17,7 @@ namespace LazyStorage.Xml
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return Get(x => x.Id == id).SingleOrDefault();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
