@@ -101,7 +101,12 @@ namespace LazyStorage.Xml
 
         public void Delete(T item)
         {
-            throw new NotImplementedException();
+            var rootElement = XmlFile.Element("Root");
+            var idXElements = rootElement.Descendants("Id");
+            var node = idXElements.SingleOrDefault(x => x.Value == item.Id.ToString());
+
+            node = node.Parent;
+            node.Remove();
         }
     }
 }
