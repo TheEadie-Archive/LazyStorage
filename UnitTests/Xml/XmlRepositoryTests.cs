@@ -23,6 +23,17 @@ namespace LazyStorage.Tests.Xml
         }
 
         [Fact]
+        public void CanGetById()
+        {
+            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
+            var obj = new TestObject();
+
+            repo.Upsert(obj);
+
+            Assert.NotNull(repo.GetById(1));
+        }
+
+        [Fact]
         public void CanGetByLinq()
         {
             var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
