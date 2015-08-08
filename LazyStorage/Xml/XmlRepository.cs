@@ -49,30 +49,32 @@ namespace LazyStorage.Xml
 
             if (matchingItem.Any())
             {
-                var found = matchingItem.Single();
-
-                // Update
-                var info = item.GetStorageInfo();
-
-                var rootElement = XmlFile.Element("Root");
-                var idXElements = rootElement.Descendants("Id");
-                var node = idXElements.SingleOrDefault(x => x.Value == found.Id.ToString());
-
-                foreach (var data in info)
-                {
-                    var asDateTime = (data.Value as DateTime?);
-                    if (asDateTime != null)
-                    {
-                        node.Parent.Element(data.Name).Value = asDateTime.Value.ToString("s");
-                        continue;
-                    }
-
-                    node.Parent.Element(data.Name).Value = data.Value.ToString();
-                }
+                Update(item);
             }
             else
             {
                 Insert(item);
+            }
+        }
+
+        private void Update(T item)
+        {
+            var info = item.GetStorageInfo();
+
+            var rootElement = XmlFile.Element("Root");
+            var idXElements = rootElement.Descendants("Id");
+            var node = idXElements.SingleOrDefault(x => x.Value == item.Id.ToString());
+
+            foreach (var data in info)
+            {
+                var asDateTime = (data.Value as DateTime?);
+                if (asDateTime != null)
+                {
+                    node.Parent.Element(data.Name).Value = asDateTime.Value.ToString("s");
+                    continue;
+                }
+
+                node.Parent.Element(data.Name).Value = data.Value.ToString();
             }
         }
 
