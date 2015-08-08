@@ -53,6 +53,32 @@ namespace LazyStorage.Tests
             Assert.True(repo2.Get().Single().ContentEquals(obj), "The object could not be found in the persistent repo");
         }
 
+        [Theory, MemberData("StorageTypes")]
+        public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
+        {
+            currentStorage = storage;
+
+            // Create an object in memory
+            var obj1 = new TestObject();
+
+            // Insert into the repo
+            var dal = storage.GetStorage();
+            var repo = dal.GetRepository<TestObject>();
+            repo.Upsert(obj1);
+            dal.Save();
+
+            // Make some changes
+            var obj2 = new TestObject();
+            obj2.Id = 1;
+            obj2.Name = "Test";
+
+            // Update the object in the repo but discard changes
+            repo.Upsert(obj2);
+            dal.Discard();
+
+            Assert.True(repo.Get().Single().ContentEquals(obj1), "The object changes were not reverted in the repo");
+        }
+
         public void Dispose()
         {
             currentStorage.CleanUp();
