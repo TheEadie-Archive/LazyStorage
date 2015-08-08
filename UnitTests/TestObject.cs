@@ -10,6 +10,11 @@ namespace LazyStorage.Tests
         private DateTime m_StartDate;
         private DateTime m_EndDate;
 
+        public TestObject()
+        {
+            Name = "";
+        }
+
         public SerializationInfo GetStorageInfo()
         {
             var info = new SerializationInfo(GetType(),new FormatterConverter());
@@ -33,6 +38,14 @@ namespace LazyStorage.Tests
         public bool Equals(TestObject other)
         {
             return (other.Id == Id);
-        }        
+        }
+
+        public bool ContentEquals(TestObject other)
+        {
+            return (other.Id == Id)
+                && (other.Name == Name)
+                && (other.m_StartDate == m_StartDate)
+                && (other.m_EndDate == m_EndDate);
+        }
     }
 }

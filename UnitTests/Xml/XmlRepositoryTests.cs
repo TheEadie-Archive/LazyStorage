@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using LazyStorage.InMemory;
 using LazyStorage.Xml;
@@ -9,14 +10,16 @@ namespace LazyStorage.Tests.Xml
     public class XmlRepositoryTests
     {
         [Fact]
-        public void CanAdd()
+        public void CanAddToRepo()
         {
             var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
             var obj = new TestObject();
 
             repo.Upsert(obj);
+            
+            var repoObj = repo.Get().Single();
 
-            Assert.True(repo.Get().Any(), "The object could not be added to the repository");
+            Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
         [Fact]
