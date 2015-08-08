@@ -37,7 +37,7 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData("StorageTypes")]
-        public void StoragePersists(ITestStorage storage)
+        public void StoragePersistsBetweenSessions(ITestStorage storage)
         {
             currentStorage = storage;
             var dal = storage.GetStorage();
