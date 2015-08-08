@@ -5,14 +5,19 @@ using LazyStorage.InMemory;
 using LazyStorage.Xml;
 using Xunit;
 
-namespace LazyStorage.Tests.Xml
+namespace LazyStorage.Tests
 {
-    public class XmlRepositoryTests
+    public class RepositoryTests
     {
-        [Fact]
-        public void CanAddToRepo()
+        public static IEnumerable<object[]> Repos => new[]
         {
-            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
+            new object[] {new InMemoryRepository<TestObject>()},
+            new object[] {new XmlRepository<TestObject>(new XDocument(new XElement("Root")))}
+        };
+
+        [Theory, MemberData("Repos")]
+        public void CanAddToRepo(IRepository<TestObject> repo)
+        {
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -21,11 +26,10 @@ namespace LazyStorage.Tests.Xml
 
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
-
-        [Fact]
-        public void CanUpdateRepo()
+        
+        [Theory, MemberData("Repos")]
+        public void CanUpdateRepo(IRepository<TestObject> repo)
         {
-            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -38,10 +42,9 @@ namespace LazyStorage.Tests.Xml
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
-        [Fact]
-        public void CanDelete()
+        [Theory, MemberData("Repos")]
+        public void CanDelete(IRepository<TestObject> repo)
         {
-            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -50,10 +53,9 @@ namespace LazyStorage.Tests.Xml
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
         }
 
-        [Fact]
-        public void CanGetById()
+        [Theory, MemberData("Repos")]
+        public void CanGetById(IRepository<TestObject> repo)
         {
-            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
             var obj = new TestObject();
 
             repo.Upsert(obj);
@@ -61,10 +63,9 @@ namespace LazyStorage.Tests.Xml
             Assert.NotNull(repo.GetById(1));
         }
 
-        [Fact]
-        public void CanGetByLinq()
+        [Theory, MemberData("Repos")]
+        public void CanGetByLinq(IRepository<TestObject> repo)
         {
-            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
             var objOne = new TestObject {Name = "one"};
             var objTwo = new TestObject {Name = "two"};
 
