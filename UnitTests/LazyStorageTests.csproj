@@ -65,10 +65,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="InMemory\InMemoryRepositoryTests.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="InMemory\InMemoryFactoryTests.cs" />
-    <Compile Include="Xml\XmlRepositoryTests.cs" />
+    <Compile Include="RepositoryTests.cs" />
     <Compile Include="Xml\XmlFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
