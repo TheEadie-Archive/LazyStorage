@@ -39,6 +39,18 @@ namespace LazyStorage.Tests.Xml
         }
 
         [Fact]
+        public void CanDelete()
+        {
+            var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
+            var obj = new TestObject();
+
+            repo.Upsert(obj);
+            repo.Delete(obj);
+
+            Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
+        }
+
+        [Fact]
         public void CanGetById()
         {
             var repo = new XmlRepository<TestObject>(new XDocument(new XElement("Root")));
