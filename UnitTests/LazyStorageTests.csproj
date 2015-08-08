@@ -64,11 +64,13 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="StorageTypes\InMemoryTestStorage.cs" />
+    <Compile Include="StorageTypes\ITestStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestObject.cs" />
-    <Compile Include="InMemory\InMemoryFactoryTests.cs" />
     <Compile Include="RepositoryTests.cs" />
-    <Compile Include="Xml\XmlFactoryTests.cs" />
+    <Compile Include="StorageTypes\XmlTestStorage.cs" />
+    <Compile Include="PersistenceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LazyStorage\LazyStorage.csproj">

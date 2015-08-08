@@ -15,5 +15,10 @@ namespace LazyStorage.InMemory
         {
             return repos;
         }
+
+        public static void Clear()
+        {
+            repos = new Dictionary<string, IRepository>();
+        }
     }
 }
