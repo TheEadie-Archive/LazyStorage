@@ -45,7 +45,40 @@ namespace LazyStorage.Xml
 
         public void Upsert(T item)
         {
-            var typeAsString = typeof(T).ToString();
+            var matchingItem = Get(x => x.Equals(item));
+
+            if (matchingItem.Any())
+            {
+                var found = matchingItem.Single();
+
+                // Update
+                var info = item.GetStorageInfo();
+
+                var rootElement = XmlFile.Element("Root");
+                var idXElements = rootElement.Descendants("Id");
+                var node = idXElements.SingleOrDefault(x => x.Value == found.Id.ToString());
+
+                foreach (var data in info)
+                {
+                    var asDateTime = (data.Value as DateTime?);
+                    if (asDateTime != null)
+                    {
+                        node.Parent.Element(data.Name).Value = asDateTime.Value.ToString("s");
+                        continue;
+                    }
+
+                    node.Parent.Element(data.Name).Value = data.Value.ToString();
+                }
+            }
+            else
+            {
+                Insert(item);
+            }
+        }
+
+        private void Insert(T item)
+        {
+            var typeAsString = typeof (T).ToString();
 
             var rootElement = XmlFile.Element("Root");
             var idXElements = rootElement.Descendants("Id");
