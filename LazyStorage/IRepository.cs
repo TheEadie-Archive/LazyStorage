@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LazyStorage
@@ -6,12 +7,12 @@ namespace LazyStorage
     public interface IRepository<T> : IRepository
     {
         T GetById(int id);
-        IQueryable<T> Get(Func<T, bool> exp = null);
+        ICollection<T> Get(Func<T, bool> exp = null);
         void Upsert(T item);
         void Delete(T item);
     }
 
-    public interface IRepository
+    public interface IRepository : ICloneable
     {
     }
 }

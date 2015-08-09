@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace LazyStorage.InMemory
 {
-    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>
+    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private readonly List<T> m_Repository = new List<T>();
 
@@ -13,9 +14,9 @@ namespace LazyStorage.InMemory
             return m_Repository.SingleOrDefault(x => x.Id == id);
         }
 
-        public IQueryable<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? m_Repository.Where(exp).AsQueryable() : m_Repository.AsQueryable();
+            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
         }
 
         public void Upsert(T item)
@@ -40,6 +41,25 @@ namespace LazyStorage.InMemory
         {
             var obj = GetById(item.Id);
             m_Repository.Remove(obj);
+        }
+
+
+        public object Clone()
+        {
+            var newRepo = new InMemoryRepository<T>();
+
+            foreach (var item in Get())
+            {
+                var temp = new T();
+
+                var info = item.GetStorageInfo();
+
+                temp.InitialiseWithStorageInfo(info);
+
+                newRepo.Upsert(temp);
+            }
+
+            return newRepo;
         }
     }
 }
