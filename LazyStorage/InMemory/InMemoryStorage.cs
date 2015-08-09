@@ -4,7 +4,7 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryStorage : IStorage
     {
-        private readonly Dictionary<string, IRepository> m_Repos;
+        private Dictionary<string, IRepository> m_Repos;
 
         public InMemoryStorage()
         {
@@ -30,6 +30,7 @@ namespace LazyStorage.InMemory
 
         public void Discard()
         {
+            m_Repos = InMemorySingleton.GetRepo();
         }
     }
 }

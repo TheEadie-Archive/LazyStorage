@@ -108,5 +108,23 @@ namespace LazyStorage.Xml
             node = node.Parent;
             node.Remove();
         }
+
+        public object Clone()
+        {
+            var newRepo = new XmlRepository<T>(XmlFile);
+
+            foreach (var item in Get())
+            {
+                var temp = new T();
+
+                var info = item.GetStorageInfo();
+
+                temp.InitialiseWithStorageInfo(info);
+
+                newRepo.Upsert(temp);
+            }
+
+            return newRepo;
+        }
     }
 }

@@ -9,12 +9,7 @@ namespace LazyStorage
 
         public IStorage GetInMemoryStorage()
         {
-            if (m_Store == null)
-            {
-                m_Store = new InMemoryStorage();
-            }
-
-            return m_Store;
+            return m_Store = new InMemoryStorage();
         }
 
         public IStorage GetXmlStorage(string storageFolder)

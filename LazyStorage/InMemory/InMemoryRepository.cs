@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace LazyStorage.InMemory
 {
@@ -40,6 +41,25 @@ namespace LazyStorage.InMemory
         {
             var obj = GetById(item.Id);
             m_Repository.Remove(obj);
+        }
+
+
+        public object Clone()
+        {
+            var newRepo = new InMemoryRepository<T>();
+
+            foreach (var item in Get())
+            {
+                var temp = new T();
+
+                var info = item.GetStorageInfo();
+
+                temp.InitialiseWithStorageInfo(info);
+
+                newRepo.Upsert(temp);
+            }
+
+            return newRepo;
         }
     }
 }

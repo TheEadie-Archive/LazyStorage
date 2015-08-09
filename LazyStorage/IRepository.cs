@@ -12,7 +12,7 @@ namespace LazyStorage
         void Delete(T item);
     }
 
-    public interface IRepository
+    public interface IRepository : ICloneable
     {
     }
 }

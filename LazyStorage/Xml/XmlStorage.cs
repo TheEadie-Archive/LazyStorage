@@ -8,9 +8,9 @@ namespace LazyStorage.Xml
 {
     public class XmlStorage : IStorage
     {
-        private readonly XDocument m_File;
+        private XDocument m_File;
         private readonly string m_Uri;
-        private readonly Dictionary<string, IRepository> m_Repos;
+        private Dictionary<string, IRepository> m_Repos;
 
         public XmlStorage(string storageFolder)
         {
@@ -38,7 +38,9 @@ namespace LazyStorage.Xml
 
         public void Discard()
         {
-            throw new NotImplementedException();
+            // Don't save
+            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
+            m_Repos = new Dictionary<string, IRepository>();
         }
     }
 }

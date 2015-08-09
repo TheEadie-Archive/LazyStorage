@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LazyStorage.InMemory
 {
@@ -8,7 +9,12 @@ namespace LazyStorage.InMemory
 
         public static void Sync(Dictionary<string, IRepository> repoList)
         {
-            repos = repoList;
+            repos = new Dictionary<string, IRepository>();
+
+            foreach (var repo in repoList)
+            {
+                repos.Add(repo.Key, (IRepository)repo.Value.Clone());
+            }
         }
 
         public static Dictionary<string, IRepository> GetRepo()
@@ -18,7 +24,7 @@ namespace LazyStorage.InMemory
 
         public static void Clear()
         {
-            repos = new Dictionary<string, IRepository>();
+            repos.Clear();
         }
     }
 }

@@ -76,7 +76,11 @@ namespace LazyStorage.Tests
             repo.Upsert(obj2);
             dal.Discard();
 
-            Assert.True(repo.Get().Single().ContentEquals(obj1), "The object changes were not reverted in the repo");
+            var dal2 = storage.GetStorage();
+            var repo2 = dal2.GetRepository<TestObject>();
+
+            var testObject = repo2.Get().Single();
+            Assert.True(testObject.ContentEquals(obj1), "The object changes were not reverted in the repo");
         }
 
         public void Dispose()
