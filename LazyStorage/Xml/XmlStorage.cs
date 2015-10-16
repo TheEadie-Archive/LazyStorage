@@ -6,7 +6,7 @@ using LazyStorage.InMemory;
 
 namespace LazyStorage.Xml
 {
-    public class XmlStorage : IStorage
+    internal class XmlStorage : IStorage
     {
         private XDocument m_File;
         private readonly string m_Uri;
