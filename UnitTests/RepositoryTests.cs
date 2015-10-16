@@ -9,17 +9,11 @@ namespace LazyStorage.Tests
 {
     public class RepositoryTests
     {
-        public static IEnumerable<object[]> Repos
+        public static IEnumerable<object[]> Repos => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    new object[] {new InMemoryRepository<TestObject>()},
-                    new object[] {new XmlRepository<TestObject>(new XDocument(new XElement("Root")))}
-                };
-            }
-        }
+            new object[] {new InMemoryRepository<TestObject>()},
+            new object[] {new XmlRepository<TestObject>(new XDocument(new XElement("Root")))}
+        };
 
         [Theory, MemberData("Repos")]
         public void CanAddToRepo(IRepository<TestObject> repo)
