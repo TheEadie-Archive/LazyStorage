@@ -5,11 +5,9 @@ namespace LazyStorage
 {
     public class StorageFactory
     {
-        private IStorage m_Store;
-
         public IStorage GetInMemoryStorage()
         {
-            return m_Store = new InMemoryStorage();
+            return new InMemoryStorage();
         }
 
         public IStorage GetXmlStorage(string storageFolder)
