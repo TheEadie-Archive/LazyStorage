@@ -4,11 +4,11 @@ namespace LazyStorage.Tests.StorageTypes
 {
     public class XmlTestStorage : ITestStorage
     {
-        private readonly IStorage m_storage = new StorageFactory().GetXmlStorage(@"");
+        private readonly IStorage m_Storage = StorageFactory.GetXmlStorage(@"");
 
         public IStorage GetStorage()
         {
-            return m_storage;
+            return m_Storage;
         }
 
         public void CleanUp()

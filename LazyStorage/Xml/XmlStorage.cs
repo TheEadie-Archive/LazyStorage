@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using LazyStorage.InMemory;
 
 namespace LazyStorage.Xml
 {
-    public class XmlStorage : IStorage
+    internal class XmlStorage : IStorage
     {
         private XDocument m_File;
         private readonly string m_Uri;
@@ -14,7 +12,7 @@ namespace LazyStorage.Xml
 
         public XmlStorage(string storageFolder)
         {
-            m_Uri = string.Format("{0}LazyStorage.xml", storageFolder);
+            m_Uri = $"{storageFolder}LazyStorage.xml";
             m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
             m_Repos = new Dictionary<string, IRepository>();
         }

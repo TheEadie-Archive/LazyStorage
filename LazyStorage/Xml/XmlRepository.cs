@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace LazyStorage.Xml
 {
-    public class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    internal class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private XDocument XmlFile { get; set; }
 

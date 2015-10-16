@@ -3,16 +3,14 @@ using LazyStorage.Xml;
 
 namespace LazyStorage
 {
-    public class StorageFactory
+    public static class StorageFactory
     {
-        private IStorage m_Store;
-
-        public IStorage GetInMemoryStorage()
+        public static IStorage GetInMemoryStorage()
         {
-            return m_Store = new InMemoryStorage();
+            return new InMemoryStorage();
         }
 
-        public IStorage GetXmlStorage(string storageFolder)
+        public static IStorage GetXmlStorage(string storageFolder)
         {
             return new XmlStorage(storageFolder);
         }

@@ -4,11 +4,11 @@ namespace LazyStorage.Tests.StorageTypes
 {
     public class InMemoryTestStorage : ITestStorage
     {
-        private readonly IStorage m_storage = new StorageFactory().GetInMemoryStorage();
+        private readonly IStorage m_Storage = StorageFactory.GetInMemoryStorage();
 
         public IStorage GetStorage()
         {
-            return m_storage;
+            return m_Storage;
         }
 
         public void CleanUp()

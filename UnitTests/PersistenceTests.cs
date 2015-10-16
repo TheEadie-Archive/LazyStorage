@@ -8,24 +8,18 @@ namespace LazyStorage.Tests
 {
     public class PersistenceTests : IDisposable
     {
-        public static IEnumerable<object[]> StorageTypes
+        public static IEnumerable<object[]> StorageTypes => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    new object[] {new InMemoryTestStorage(), },
-                    new object[] {new XmlTestStorage()},
-                };
-            }
-        }
+            new object[] {new InMemoryTestStorage(), },
+            new object[] {new XmlTestStorage()},
+        };
 
-        private ITestStorage currentStorage;
+        private ITestStorage m_CurrentStorage;
 
         [Theory, MemberData("StorageTypes")]
         public void CanSaveToStorage(ITestStorage storage)
         {
-            currentStorage = storage;
+            m_CurrentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
@@ -39,7 +33,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StoragePersistsBetweenSessions(ITestStorage storage)
         {
-            currentStorage = storage;
+            m_CurrentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
@@ -56,7 +50,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
         {
-            currentStorage = storage;
+            m_CurrentStorage = storage;
 
             // Create an object in memory
             var obj1 = new TestObject();
@@ -85,7 +79,7 @@ namespace LazyStorage.Tests
 
         public void Dispose()
         {
-            currentStorage.CleanUp();
+            m_CurrentStorage.CleanUp();
         }
     }
 }
