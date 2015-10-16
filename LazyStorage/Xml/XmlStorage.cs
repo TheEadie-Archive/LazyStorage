@@ -14,7 +14,7 @@ namespace LazyStorage.Xml
 
         public XmlStorage(string storageFolder)
         {
-            m_Uri = string.Format("{0}LazyStorage.xml", storageFolder);
+            m_Uri = $"{storageFolder}LazyStorage.xml";
             m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
             m_Repos = new Dictionary<string, IRepository>();
         }
