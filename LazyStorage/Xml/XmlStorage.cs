@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 
@@ -27,6 +28,11 @@ namespace LazyStorage.Xml
             }
 
             return m_Repos[typeAsString] as IRepository<T>;
+        }
+
+        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : IEquatable<T>, new()
+        {
+            throw new NotImplementedException();
         }
 
         public void Save()
