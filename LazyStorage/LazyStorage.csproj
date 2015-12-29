@@ -50,6 +50,7 @@
     <Compile Include="InMemory\InMemoryRepository.cs" />
     <Compile Include="InMemory\InMemorySingleton.cs" />
     <Compile Include="InMemory\InMemoryStorage.cs" />
+    <Compile Include="StorableObject.cs" />
     <Compile Include="StorageFactory.cs" />
     <Compile Include="Xml\XmlRepository.cs" />
     <Compile Include="Xml\XmlStorage.cs" />
