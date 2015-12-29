@@ -35,7 +35,31 @@ namespace LazyStorage.Tests
 
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
-        
+
+        [Theory, MemberData("StorageTypes")]
+        public void CanUpdateRepo(ITestStorage storage)
+        {
+            m_CurrentStorage = storage;
+
+            var converter = new TestObjectStorageConverter();
+
+            var repo = storage.GetStorage().GetRepository(converter);
+
+            var obj = new TestObjectNotIStorable();
+            obj.Name = "Test";
+            obj.StartDate = DateTime.Now;
+            obj.EndDate = DateTime.Now;
+            repo.Upsert(obj);
+
+            obj.StartDate = DateTime.Now;
+            obj.EndDate = DateTime.Now;
+            repo.Upsert(obj);
+
+            var repoObj = repo.Get().Single();
+
+            Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
+        }
+
         public void Dispose()
         {
             m_CurrentStorage.CleanUp();
