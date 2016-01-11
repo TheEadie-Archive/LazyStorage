@@ -29,12 +29,13 @@ namespace LazyStorage.InMemory
 
         public void Upsert(T item)
         {
+            var allObjects = m_Repository.Select(i => m_Converter.GetOriginalObject(i)).ToList();
             var storableItem = m_Converter.GetStorableObject(item);
 
-            if (m_Repository.Contains(storableItem))
+            if (allObjects.Contains(item))
             {
                 // Update
-                var obj = m_Repository.Where(x => x.Equals(item));
+                var obj = m_Repository.Where(x => m_Converter.IsEqual(storableItem, item));
                 m_Repository.Remove(obj.First());
                 m_Repository.Add(storableItem);
             }

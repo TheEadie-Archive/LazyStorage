@@ -50,5 +50,10 @@ namespace LazyStorage.Tests
 
             return orginalObject;
         }
+
+        public bool IsEqual(StorableObject storageObject, TestObjectNotIStorable realObject)
+        {
+            return realObject.Name == storageObject.Info.GetString("Name");
+        }
     }
 }

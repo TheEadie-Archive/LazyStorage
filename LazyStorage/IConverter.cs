@@ -6,5 +6,6 @@ namespace LazyStorage
     {
         StorableObject GetStorableObject(T item);
         T GetOriginalObject(StorableObject info);
+        bool IsEqual(StorableObject storageObject, T realObject);
     }
 }
