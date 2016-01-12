@@ -30,9 +30,16 @@ namespace LazyStorage.Xml
             return m_Repos[typeAsString] as IRepository<T>;
         }
 
-        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : IEquatable<T>, new()
+        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : new()
         {
-            throw new NotImplementedException();
+            var typeAsString = typeof(T).ToString();
+
+            if (!m_Repos.ContainsKey(typeAsString))
+            {
+                m_Repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(m_File, converter));
+            }
+
+            return (IRepository<T>)m_Repos[typeAsString];
         }
 
         public void Save()

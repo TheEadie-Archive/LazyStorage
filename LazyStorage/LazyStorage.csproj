@@ -52,6 +52,7 @@
     <Compile Include="InMemory\InMemoryStorage.cs" />
     <Compile Include="StorableObject.cs" />
     <Compile Include="StorageFactory.cs" />
+    <Compile Include="Xml\XmlRepositoryWithConverter.cs" />
     <Compile Include="Xml\XmlRepository.cs" />
     <Compile Include="Xml\XmlStorage.cs" />
   </ItemGroup>
