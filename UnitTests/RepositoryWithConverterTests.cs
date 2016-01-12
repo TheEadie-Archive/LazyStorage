@@ -60,6 +60,23 @@ namespace LazyStorage.Tests
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
+        [Theory, MemberData("StorageTypes")]
+        public void CanDeleteFromRepo(ITestStorage storage)
+        {
+            m_CurrentStorage = storage;
+            var converter = new TestObjectStorageConverter();
+
+            var repo = storage.GetStorage().GetRepository(converter);
+
+            var obj = new TestObjectNotIStorable();
+            obj.Name = "Test";
+
+            repo.Upsert(obj);
+            repo.Delete(obj);
+
+            Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
+        }
+
         public void Dispose()
         {
             m_CurrentStorage.CleanUp();
