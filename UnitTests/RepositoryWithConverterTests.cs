@@ -77,6 +77,25 @@ namespace LazyStorage.Tests
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
         }
 
+        [Theory, MemberData("StorageTypes")]
+        public void CanGetByLinq(ITestStorage storage)
+        {
+            m_CurrentStorage = storage;
+            var converter = new TestObjectStorageConverter();
+
+            var repo = storage.GetStorage().GetRepository(converter);
+            var objOne = new TestObjectNotIStorable { Name = "one" };
+            var objTwo = new TestObjectNotIStorable { Name = "two" };
+
+            repo.Upsert(objOne);
+            repo.Upsert(objTwo);
+
+            var result = repo.Get(x => x.Name == "one").SingleOrDefault();
+
+            Assert.NotNull(result);
+            Assert.True(result.Equals(objOne), "The object could not be retrieved from the repository");
+        }
+
         public void Dispose()
         {
             m_CurrentStorage.CleanUp();
