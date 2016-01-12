@@ -54,16 +54,6 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData("Repos")]
-        public void CanGetById(IRepository<TestObject> repo)
-        {
-            var obj = new TestObject();
-
-            repo.Upsert(obj);
-
-            Assert.NotNull(repo.GetById(1));
-        }
-
-        [Theory, MemberData("Repos")]
         public void CanGetByLinq(IRepository<TestObject> repo)
         {
             var objOne = new TestObject {Name = "one"};

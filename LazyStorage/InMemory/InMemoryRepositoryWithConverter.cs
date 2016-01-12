@@ -14,12 +14,7 @@ namespace LazyStorage.InMemory
         }
 
         private readonly List<StorableObject> m_Repository = new List<StorableObject>();
-
-        public T GetById(int id)
-        {
-            return m_Converter.GetOriginalObject(m_Repository.SingleOrDefault(x => x.Id == id));
-        }
-
+        
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
             var allObjects = m_Repository.Select(item => m_Converter.GetOriginalObject(item)).ToList();

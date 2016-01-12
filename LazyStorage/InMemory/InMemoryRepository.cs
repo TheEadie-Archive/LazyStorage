@@ -8,11 +8,6 @@ namespace LazyStorage.InMemory
     {
         private readonly List<T> m_Repository = new List<T>();
 
-        public T GetById(int id)
-        {
-            return m_Repository.SingleOrDefault(x => x.Id == id);
-        }
-
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
             return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
@@ -38,7 +33,7 @@ namespace LazyStorage.InMemory
 
         public void Delete(T item)
         {
-            var obj = GetById(item.Id);
+            var obj = m_Repository.SingleOrDefault(x => x.Id == item.Id);
             m_Repository.Remove(obj);
         }
 
