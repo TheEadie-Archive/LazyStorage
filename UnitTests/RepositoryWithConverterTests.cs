@@ -11,7 +11,7 @@ namespace LazyStorage.Tests
         public static IEnumerable<object[]> StorageTypes => new[]
         {
             new object[] {new InMemoryTestStorage(), },
-            new object[] {new XmlTestStorage(), },
+            //new object[] {new XmlTestStorage(), },
         };
 
         private ITestStorage m_CurrentStorage;
@@ -94,7 +94,7 @@ namespace LazyStorage.Tests
             var result = repo.Get(x => x.Name == "one").SingleOrDefault();
 
             Assert.NotNull(result);
-            Assert.True(result.Equals(objOne), "The object could not be retrieved from the repository");
+            Assert.True(result.ContentEquals(objOne), "The object could not be retrieved from the repository");
         }
 
         public void Dispose()
