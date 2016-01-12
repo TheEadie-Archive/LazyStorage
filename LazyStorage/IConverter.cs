@@ -2,7 +2,7 @@
 
 namespace LazyStorage
 {
-    public interface IConverter<T> where T : IEquatable<T>
+    public interface IConverter<T>
     {
         StorableObject GetStorableObject(T item);
         T GetOriginalObject(StorableObject info);

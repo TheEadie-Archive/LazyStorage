@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace LazyStorage.Tests
 {
-    public class TestObjectNotIStorable : IEquatable<TestObjectNotIStorable>
+    public class TestObjectNotIStorable
     {
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
@@ -12,11 +12,6 @@ namespace LazyStorage.Tests
         public TestObjectNotIStorable()
         {
             Name = "";
-        }
-
-        public bool Equals(TestObjectNotIStorable other)
-        {
-            return (other.Name == Name);
         }
 
         public bool ContentEquals(TestObjectNotIStorable other)

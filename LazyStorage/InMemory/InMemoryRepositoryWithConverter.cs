@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LazyStorage.InMemory
 {
-    internal class InMemoryRepositoryWithConverter<T> : IRepository<T> where T : IEquatable<T>, new()
+    internal class InMemoryRepositoryWithConverter<T> : IRepository<T> where T : new()
     {
         private readonly IConverter<T> m_Converter;
 
@@ -24,13 +24,13 @@ namespace LazyStorage.InMemory
 
         public void Upsert(T item)
         {
-            var allObjects = m_Repository.Select(i => m_Converter.GetOriginalObject(i)).ToList();
             var storableItem = m_Converter.GetStorableObject(item);
+            var matchingItemsInStore = m_Repository.Where(x => m_Converter.IsEqual(x, item));
 
-            if (allObjects.Contains(item))
+            if (matchingItemsInStore.Any())
             {
                 // Update
-                var obj = m_Repository.Where(x => m_Converter.IsEqual(storableItem, item));
+                var obj = matchingItemsInStore;
                 m_Repository.Remove(obj.First());
                 m_Repository.Add(storableItem);
             }
