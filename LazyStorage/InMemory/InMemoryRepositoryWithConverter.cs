@@ -52,8 +52,8 @@ namespace LazyStorage.InMemory
         {
             var storableItem = m_Converter.GetStorableObject(item);
 
-            var obj = m_Repository.SingleOrDefault(x => x.Id == storableItem.Id);
-            m_Repository.Remove(obj);
+            var obj = m_Repository.Where(x => m_Converter.IsEqual(storableItem, item));
+            m_Repository.Remove(obj.First());
         }
 
 
