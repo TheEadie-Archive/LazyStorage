@@ -130,7 +130,19 @@ namespace LazyStorage.Xml
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newRepo = new XmlRepositoryWithConverter<T>(XmlFile, m_Converter);
+
+            foreach (var item in Get())
+            {
+                var info = m_Converter.GetStorableObject(item);
+
+                var temp = m_Converter.GetOriginalObject(info);
+
+                newRepo.Upsert(temp);
+            }
+
+            return newRepo;
+
         }
     }
 }
