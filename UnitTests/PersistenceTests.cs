@@ -24,7 +24,7 @@ namespace LazyStorage.Tests
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             dal.Save();
             
             Assert.True(repo.Get().Any(), "The object could not be added to the repository");
@@ -38,7 +38,7 @@ namespace LazyStorage.Tests
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             dal.Save();
 
             var dal2 = storage.GetStorage();
@@ -58,7 +58,7 @@ namespace LazyStorage.Tests
             // Insert into the repo
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
-            repo.Upsert(obj1);
+            repo.Set(obj1);
             dal.Save();
 
             // Make some changes
@@ -67,7 +67,7 @@ namespace LazyStorage.Tests
             obj2.Name = "Test";
 
             // Update the object in the repo but discard changes
-            repo.Upsert(obj2);
+            repo.Set(obj2);
             dal.Discard();
 
             var dal2 = storage.GetStorage();

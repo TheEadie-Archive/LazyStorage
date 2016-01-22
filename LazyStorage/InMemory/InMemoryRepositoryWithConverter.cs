@@ -22,7 +22,7 @@ namespace LazyStorage.InMemory
             return exp != null ? allObjects.Where(exp).ToList() : allObjects.ToList();
         }
 
-        public void Upsert(T item)
+        public void Set(T item)
         {
             var storableItem = m_Converter.GetStorableObject(item);
             var matchingItemsInStore = m_Repository.Where(x => m_Converter.IsEqual(x, item));
@@ -62,7 +62,7 @@ namespace LazyStorage.InMemory
 
                 var temp = m_Converter.GetOriginalObject(info);
 
-                newRepo.Upsert(temp);
+                newRepo.Set(temp);
             }
 
             return newRepo;

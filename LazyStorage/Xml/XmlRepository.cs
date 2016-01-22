@@ -38,7 +38,7 @@ namespace LazyStorage.Xml
             return exp != null ? query.Where(exp).ToList() : found;
         }
 
-        public void Upsert(T item)
+        public void Set(T item)
         {
             var matchingItem = Get(x => x.Equals(item));
 
@@ -116,7 +116,7 @@ namespace LazyStorage.Xml
 
                 temp.InitialiseWithStorageInfo(info);
 
-                newRepo.Upsert(temp);
+                newRepo.Set(temp);
             }
 
             return newRepo;

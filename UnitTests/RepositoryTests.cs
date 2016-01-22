@@ -20,7 +20,7 @@ namespace LazyStorage.Tests
         {
             var obj = new TestObject();
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             
             var repoObj = repo.Get().Single();
 
@@ -32,10 +32,10 @@ namespace LazyStorage.Tests
         {
             var obj = new TestObject();
 
-            repo.Upsert(obj);
+            repo.Set(obj);
 
             obj.Name = "Test";
-            repo.Upsert(obj);
+            repo.Set(obj);
 
             var repoObj = repo.Get().Single();
 
@@ -47,7 +47,7 @@ namespace LazyStorage.Tests
         {
             var obj = new TestObject();
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             repo.Delete(obj);
 
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
@@ -59,8 +59,8 @@ namespace LazyStorage.Tests
             var objOne = new TestObject {Name = "one"};
             var objTwo = new TestObject {Name = "two"};
 
-            repo.Upsert(objOne);
-            repo.Upsert(objTwo);
+            repo.Set(objOne);
+            repo.Set(objTwo);
 
             var result = repo.Get(x => x.Name == "one").SingleOrDefault();
 

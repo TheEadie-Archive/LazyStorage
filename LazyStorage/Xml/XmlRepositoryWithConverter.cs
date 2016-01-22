@@ -59,7 +59,7 @@ namespace LazyStorage.Xml
             return found.Where(x => m_Converter.IsEqual(x, item));
         }
 
-        public void Upsert(T item)
+        public void Set(T item)
         {
             var storableItem = m_Converter.GetStorableObject(item);
 
@@ -138,7 +138,7 @@ namespace LazyStorage.Xml
 
                 var temp = m_Converter.GetOriginalObject(info);
 
-                newRepo.Upsert(temp);
+                newRepo.Set(temp);
             }
 
             return newRepo;

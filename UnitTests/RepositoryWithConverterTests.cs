@@ -30,7 +30,7 @@ namespace LazyStorage.Tests
             obj.StartDate = DateTime.Now;
             obj.EndDate = DateTime.Now;
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             
             var repoObj = repo.Get().Single();
 
@@ -50,11 +50,11 @@ namespace LazyStorage.Tests
             obj.Name = "Test";
             obj.StartDate = new DateTime(2015, 12, 31, 13, 54, 23);
             obj.EndDate = new DateTime(2015, 12, 31, 13, 54, 23);
-            repo.Upsert(obj);
+            repo.Set(obj);
 
             obj.StartDate = new DateTime(2015, 1, 10, 13, 54, 23);
             obj.EndDate = new DateTime(2015, 2, 28, 13, 54, 23);
-            repo.Upsert(obj);
+            repo.Set(obj);
 
             var repoObj = repo.Get().Single();
 
@@ -72,7 +72,7 @@ namespace LazyStorage.Tests
             var obj = new TestObjectNotIStorable();
             obj.Name = "Test";
 
-            repo.Upsert(obj);
+            repo.Set(obj);
             repo.Delete(obj);
 
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
@@ -88,8 +88,8 @@ namespace LazyStorage.Tests
             var objOne = new TestObjectNotIStorable { Name = "one" };
             var objTwo = new TestObjectNotIStorable { Name = "two" };
 
-            repo.Upsert(objOne);
-            repo.Upsert(objTwo);
+            repo.Set(objOne);
+            repo.Set(objTwo);
 
             var result = repo.Get(x => x.Name == "one").SingleOrDefault();
 
