@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LazyStorage
+namespace LazyStorage.Interfaces
 {
     public interface IRepository<T> : IRepository
     {
         ICollection<T> Get(Func<T, bool> exp = null);
-        void Upsert(T item);
+        void Set(T item);
         void Delete(T item);
     }
 

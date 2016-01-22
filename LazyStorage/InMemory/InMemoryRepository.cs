@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
@@ -13,7 +14,7 @@ namespace LazyStorage.InMemory
             return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
         }
 
-        public void Upsert(T item)
+        public void Set(T item)
         {
             if (m_Repository.Contains(item))
             {
@@ -50,7 +51,7 @@ namespace LazyStorage.InMemory
 
                 temp.InitialiseWithStorageInfo(info);
 
-                newRepo.Upsert(temp);
+                newRepo.Set(temp);
             }
 
             return newRepo;

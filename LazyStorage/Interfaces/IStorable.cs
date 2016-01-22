@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace LazyStorage
+namespace LazyStorage.Interfaces
 {
     public interface IStorable<T> : IEquatable<T> where T : new()
     {

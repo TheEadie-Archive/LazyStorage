@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
@@ -59,7 +60,7 @@ namespace LazyStorage.Xml
             return found.Where(x => m_Converter.IsEqual(x, item));
         }
 
-        public void Upsert(T item)
+        public void Set(T item)
         {
             var storableItem = m_Converter.GetStorableObject(item);
 
@@ -130,7 +131,19 @@ namespace LazyStorage.Xml
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var newRepo = new XmlRepositoryWithConverter<T>(XmlFile, m_Converter);
+
+            foreach (var item in Get())
+            {
+                var info = m_Converter.GetStorableObject(item);
+
+                var temp = m_Converter.GetOriginalObject(info);
+
+                newRepo.Set(temp);
+            }
+
+            return newRepo;
+
         }
     }
 }

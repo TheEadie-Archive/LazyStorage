@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests.StorageTypes
 {
