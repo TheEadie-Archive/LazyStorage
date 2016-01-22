@@ -48,12 +48,12 @@ namespace LazyStorage.Tests
 
             var obj = new TestObjectNotIStorable();
             obj.Name = "Test";
-            obj.StartDate = DateTime.Now;
-            obj.EndDate = DateTime.Now;
+            obj.StartDate = new DateTime(2015, 12, 31, 13, 54, 23);
+            obj.EndDate = new DateTime(2015, 12, 31, 13, 54, 23);
             repo.Upsert(obj);
 
-            obj.StartDate = DateTime.Now;
-            obj.EndDate = DateTime.Now;
+            obj.StartDate = new DateTime(2015, 1, 10, 13, 54, 23);
+            obj.EndDate = new DateTime(2015, 2, 28, 13, 54, 23);
             repo.Upsert(obj);
 
             var repoObj = repo.Get().Single();
