@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 
@@ -27,6 +28,18 @@ namespace LazyStorage.Xml
             }
 
             return m_Repos[typeAsString] as IRepository<T>;
+        }
+
+        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : new()
+        {
+            var typeAsString = typeof(T).ToString();
+
+            if (!m_Repos.ContainsKey(typeAsString))
+            {
+                m_Repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(m_File, converter));
+            }
+
+            return (IRepository<T>)m_Repos[typeAsString];
         }
 
         public void Save()

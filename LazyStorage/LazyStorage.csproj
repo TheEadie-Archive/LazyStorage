@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConverter.cs" />
+    <Compile Include="InMemory\InMemoryRepositoryWithConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="IStorable.cs" />
@@ -48,7 +50,9 @@
     <Compile Include="InMemory\InMemoryRepository.cs" />
     <Compile Include="InMemory\InMemorySingleton.cs" />
     <Compile Include="InMemory\InMemoryStorage.cs" />
+    <Compile Include="StorableObject.cs" />
     <Compile Include="StorageFactory.cs" />
+    <Compile Include="Xml\XmlRepositoryWithConverter.cs" />
     <Compile Include="Xml\XmlRepository.cs" />
     <Compile Include="Xml\XmlStorage.cs" />
   </ItemGroup>

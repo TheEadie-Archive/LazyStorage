@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LazyStorage.InMemory
 {
@@ -21,6 +22,18 @@ namespace LazyStorage.InMemory
             }
 
             return (IRepository<T>) m_Repos[typeAsString];
+        }
+
+        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : new()
+        {
+            var typeAsString = typeof(T).ToString();
+
+            if (!m_Repos.ContainsKey(typeAsString))
+            {
+                m_Repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
+            }
+
+            return (IRepository<T>)m_Repos[typeAsString];
         }
 
         public void Save()
