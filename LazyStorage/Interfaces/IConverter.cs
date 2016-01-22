@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LazyStorage
+﻿namespace LazyStorage.Interfaces
 {
     public interface IConverter<T>
     {

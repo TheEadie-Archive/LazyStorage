@@ -1,4 +1,5 @@
 ﻿using LazyStorage.InMemory;
+using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests.StorageTypes
 {

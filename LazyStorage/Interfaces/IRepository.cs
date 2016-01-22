@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LazyStorage
+namespace LazyStorage.Interfaces
 {
     public interface IRepository<T> : IRepository
     {

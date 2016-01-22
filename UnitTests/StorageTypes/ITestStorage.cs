@@ -1,4 +1,6 @@
-﻿namespace LazyStorage.Tests.StorageTypes
+﻿using LazyStorage.Interfaces;
+
+namespace LazyStorage.Tests.StorageTypes
 {
     public interface ITestStorage
     {

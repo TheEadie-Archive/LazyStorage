@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
+using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {

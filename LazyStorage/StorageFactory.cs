@@ -1,4 +1,5 @@
 ﻿using LazyStorage.InMemory;
+using LazyStorage.Interfaces;
 using LazyStorage.Xml;
 
 namespace LazyStorage
