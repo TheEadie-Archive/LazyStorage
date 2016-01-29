@@ -31,7 +31,7 @@ namespace LazyStorage.Xml
             return m_Repos[typeAsString] as IRepository<T>;
         }
 
-        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : new()
+        public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
