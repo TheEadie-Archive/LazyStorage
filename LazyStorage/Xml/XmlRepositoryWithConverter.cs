@@ -8,7 +8,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
-    internal class XmlRepositoryWithConverter<T> : IRepository<T> where T : new()
+    internal class XmlRepositoryWithConverter<T> : IRepository<T>
     {
         private XDocument XmlFile { get; set; }
         private readonly IConverter<T> m_Converter;
