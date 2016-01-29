@@ -25,7 +25,7 @@ namespace LazyStorage.InMemory
             return (IRepository<T>) m_Repos[typeAsString];
         }
 
-        public IRepository<T> GetRepository<T>(IConverter<T> converter) where T : new()
+        public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
