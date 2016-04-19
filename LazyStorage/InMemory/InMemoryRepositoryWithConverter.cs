@@ -71,12 +71,10 @@ namespace LazyStorage.InMemory
 
         public void Save()
         {
-            throw new NotImplementedException();
         }
 
         public void Load()
         {
-            throw new NotImplementedException();
         }
     }
 }
