@@ -12,6 +12,7 @@ namespace LazyStorage.Tests
         {
             new object[] {new InMemoryTestStorage(), },
             new object[] {new XmlTestStorage(), },
+            new object[] {new JsonTestStorage(), },
         };
 
         private ITestStorage m_CurrentStorage;

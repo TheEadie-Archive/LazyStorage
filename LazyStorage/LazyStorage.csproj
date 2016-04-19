@@ -49,6 +49,7 @@
     <Compile Include="InMemory\InMemoryRepositoryWithConverter.cs" />
     <Compile Include="Json\JsonStorage.cs" />
     <Compile Include="Json\JsonRepository.cs" />
+    <Compile Include="Json\JsonRepositoryWithConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IStorable.cs" />
