@@ -145,5 +145,15 @@ namespace LazyStorage.Xml
             return newRepo;
 
         }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

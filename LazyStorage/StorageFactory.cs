@@ -1,5 +1,6 @@
 ﻿using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
+using LazyStorage.Json;
 using LazyStorage.Xml;
 
 namespace LazyStorage
@@ -14,6 +15,11 @@ namespace LazyStorage
         public static IStorage GetXmlStorage(string storageFolder)
         {
             return new XmlStorage(storageFolder);
+        }
+
+        public static IStorage GetJsonStorage(string storageFolder)
+        {
+            return new JsonStorage(storageFolder);
         }
     }
 }

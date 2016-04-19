@@ -65,6 +65,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="RepositoryWithConverterTests.cs" />
+    <Compile Include="StorageTypes\JsonTestStorage.cs" />
     <Compile Include="StorageTypes\InMemoryTestStorage.cs" />
     <Compile Include="StorageTypes\ITestStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

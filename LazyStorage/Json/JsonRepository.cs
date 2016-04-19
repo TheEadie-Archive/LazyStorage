@@ -1,13 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LazyStorage.Interfaces;
+using Newtonsoft.Json;
 
-namespace LazyStorage.InMemory
+namespace LazyStorage.Json
 {
-    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    internal class JsonRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
-        private readonly List<T> m_Repository = new List<T>();
+        private readonly string m_Uri;
+        private List<T> m_Repository = new List<T>();
+
+        public JsonRepository(string storageFolder)
+        {
+            m_Uri = $"{storageFolder}{typeof(T)}.json";
+            Load();
+        }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
@@ -41,7 +50,7 @@ namespace LazyStorage.InMemory
 
         public object Clone()
         {
-            var newRepo = new InMemoryRepository<T>();
+            var newRepo = new JsonRepository<T>(m_Uri);
 
             foreach (var item in Get())
             {
@@ -57,14 +66,24 @@ namespace LazyStorage.InMemory
             return newRepo;
         }
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Load()
         {
-            throw new NotImplementedException();
+            if (File.Exists(m_Uri))
+            {
+                var jsonContent = File.ReadAllText(m_Uri);
+                m_Repository = JsonConvert.DeserializeObject<List<T>>(jsonContent);
+            }
+            else
+            {
+                m_Repository = new List<T>();
+            }
+            
+        }
+
+        public void Save()
+        {
+            var fileContent = JsonConvert.SerializeObject(m_Repository);
+            File.WriteAllText(m_Uri, fileContent);
         }
     }
 }
