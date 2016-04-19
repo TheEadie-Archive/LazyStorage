@@ -8,14 +8,12 @@ namespace LazyStorage.Xml
 {
     internal class XmlStorage : IStorage
     {
-        private XDocument m_File;
-        private readonly string m_Uri;
+        private readonly string m_StorageFolder;
         private Dictionary<string, IRepository> m_Repos;
 
         public XmlStorage(string storageFolder)
         {
-            m_Uri = $"{storageFolder}LazyStorage.xml";
-            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
+            m_StorageFolder = storageFolder;
             m_Repos = new Dictionary<string, IRepository>();
         }
 
@@ -25,7 +23,7 @@ namespace LazyStorage.Xml
 
             if (!m_Repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new XmlRepository<T>(m_File));
+                m_Repos.Add(typeAsString, new XmlRepository<T>(m_StorageFolder));
             }
 
             return m_Repos[typeAsString] as IRepository<T>;
@@ -37,21 +35,25 @@ namespace LazyStorage.Xml
 
             if (!m_Repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(m_File, converter));
+                m_Repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(m_StorageFolder, converter));
             }
 
             return (IRepository<T>)m_Repos[typeAsString];
         }
-
         public void Save()
         {
-            m_File.Save(m_Uri);
+            foreach (var repository in m_Repos)
+            {
+                repository.Value.Save();
+            }
         }
 
         public void Discard()
         {
-            // Don't save
-            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
+            foreach (var repository in m_Repos)
+            {
+                repository.Value.Load();
+            }
             m_Repos = new Dictionary<string, IRepository>();
         }
     }
