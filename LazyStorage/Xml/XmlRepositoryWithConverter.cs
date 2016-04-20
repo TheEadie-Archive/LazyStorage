@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
@@ -10,20 +11,24 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepositoryWithConverter<T> : IRepository<T>
     {
-        private XDocument XmlFile { get; set; }
+        private XDocument m_File;
+        private readonly string m_Uri;
+        private readonly string m_StorageFolder;
         private readonly IConverter<T> m_Converter;
 
-        public XmlRepositoryWithConverter(XDocument file, IConverter<T> converter)
+        public XmlRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
-            XmlFile = file;
+            m_Uri = $"{storageFolder}{typeof(T)}.xml";
+            m_StorageFolder = storageFolder;
             m_Converter = converter;
+            Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
             ICollection<T> found = new List<T>();
 
-            foreach (var node in XmlFile.Element("Root").Elements())
+            foreach (var node in m_File.Element("Root").Elements())
             {
                 var storableObject = new StorableObject();
 
@@ -45,7 +50,7 @@ namespace LazyStorage.Xml
         {
             var found = new List<StorableObject>();
 
-            foreach (var node in XmlFile.Element("Root").Elements())
+            foreach (var node in m_File.Element("Root").Elements())
             {
                 var storableObject = new StorableObject();
                 var idXElements = node.Descendants("Id");
@@ -80,7 +85,7 @@ namespace LazyStorage.Xml
         {
             var info = item.Info;
 
-            var rootElement = XmlFile.Element("Root");
+            var rootElement = m_File.Element("Root");
             var idXElements = rootElement.Descendants("Id");
             var node = idXElements.Single(x => x.Value == oldItem.Id.ToString());
 
@@ -101,7 +106,7 @@ namespace LazyStorage.Xml
         {
             var typeAsString = typeof (T).ToString();
 
-            var rootElement = XmlFile.Element("Root");
+            var rootElement = m_File.Element("Root");
             var idXElements = rootElement.Descendants("Id");
 
             item.Id = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
@@ -121,7 +126,7 @@ namespace LazyStorage.Xml
 
         public void Delete(T item)
         {
-            var rootElement = XmlFile.Element("Root");
+            var rootElement = m_File.Element("Root");
             var idXElements = rootElement.Descendants("Id");
             var node = idXElements.Single(x => x.Value == GetMatchingItemsInStore(item).First().Id.ToString());
 
@@ -131,7 +136,7 @@ namespace LazyStorage.Xml
 
         public object Clone()
         {
-            var newRepo = new XmlRepositoryWithConverter<T>(XmlFile, m_Converter);
+            var newRepo = new XmlRepositoryWithConverter<T>(m_StorageFolder, m_Converter);
 
             foreach (var item in Get())
             {
@@ -144,6 +149,16 @@ namespace LazyStorage.Xml
 
             return newRepo;
 
+        }
+
+        public void Save()
+        {
+            m_File.Save(m_Uri);
+        }
+
+        public void Load()
+        {
+            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
         }
     }
 }

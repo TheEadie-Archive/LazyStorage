@@ -12,5 +12,7 @@ namespace LazyStorage.Interfaces
 
     public interface IRepository : ICloneable
     {
+        void Save();
+        void Load();
     }
 }

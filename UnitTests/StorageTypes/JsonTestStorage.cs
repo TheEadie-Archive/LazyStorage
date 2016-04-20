@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests.StorageTypes
 {
-    public class XmlTestStorage : ITestStorage
+    public class JsonTestStorage : ITestStorage
     {
-        private readonly IStorage m_Storage = StorageFactory.GetXmlStorage(@"");
+        private readonly IStorage m_Storage = StorageFactory.GetJsonStorage(@"");
 
         public IStorage GetStorage()
         {
@@ -17,7 +18,7 @@ namespace LazyStorage.Tests.StorageTypes
         public void CleanUp()
         {
             var di = new DirectoryInfo(Environment.CurrentDirectory);
-            var files = di.GetFiles("*.xml").Where(x => x.Extension == ".xml");
+            var files = di.GetFiles("*.json").Where(x => x.Extension == ".json");
 
             foreach (var file in files)
             {

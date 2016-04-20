@@ -68,5 +68,13 @@ namespace LazyStorage.InMemory
 
             return newRepo;
         }
+
+        public void Save()
+        {
+        }
+
+        public void Load()
+        {
+        }
     }
 }
