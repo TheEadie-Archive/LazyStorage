@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests.StorageTypes

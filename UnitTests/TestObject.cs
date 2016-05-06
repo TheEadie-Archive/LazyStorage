@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests
@@ -16,24 +16,24 @@ namespace LazyStorage.Tests
             Name = "";
         }
 
-        public SerializationInfo GetStorageInfo()
+        public Dictionary<string, string> GetStorageInfo()
         {
-            var info = new SerializationInfo(GetType(),new FormatterConverter());
+            var info = new Dictionary<string, string>();
 
-            info.AddValue("Id", Id);
-            info.AddValue("Name", Name);
-            info.AddValue("StartDate", m_StartDate);
-            info.AddValue("EndDate", m_EndDate);
+            info.Add("Id", Id.ToString());
+            info.Add("Name", Name);
+            info.Add("StartDate", m_StartDate.Ticks.ToString());
+            info.Add("EndDate", m_EndDate.Ticks.ToString());
 
             return info;
         }
 
-        public void InitialiseWithStorageInfo(SerializationInfo info)
+        public void InitialiseWithStorageInfo(Dictionary<string, string> info)
         {
-            Id = info.GetInt32("Id");
-            Name = info.GetString("Name");
-            m_StartDate = info.GetDateTime("StartDate");
-            m_EndDate = info.GetDateTime("EndDate");
+            Id = int.Parse(info["Id"]);
+            Name = info["Name"];
+            m_StartDate = new DateTime(long.Parse(info["StartDate"]));
+            m_EndDate = new DateTime(long.Parse(info["EndDate"]));
         }
 
         public bool Equals(TestObject other)

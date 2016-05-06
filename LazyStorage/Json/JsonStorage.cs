@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
-using Newtonsoft.Json;
 
 namespace LazyStorage.Json
 {

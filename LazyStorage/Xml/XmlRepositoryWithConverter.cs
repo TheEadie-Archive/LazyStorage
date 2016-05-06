@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Xml.Linq;
 using LazyStorage.Interfaces;
 
@@ -34,7 +32,7 @@ namespace LazyStorage.Xml
 
                 foreach (var element in node.Descendants())
                 {
-                    storableObject.Info.AddValue(element.Name.ToString(), element.Value);
+                    storableObject.Info.Add(element.Name.ToString(), element.Value);
                 }
 
                 var temp = m_Converter.GetOriginalObject(storableObject);
@@ -57,7 +55,7 @@ namespace LazyStorage.Xml
                 storableObject.Id = int.Parse(idXElements.Single().Value);
                 foreach (var element in node.Descendants())
                 {
-                    storableObject.Info.AddValue(element.Name.ToString(), element.Value);
+                    storableObject.Info.Add(element.Name.ToString(), element.Value);
                 }
 
                 found.Add(storableObject);
@@ -91,14 +89,7 @@ namespace LazyStorage.Xml
 
             foreach (var data in info)
             {
-                var asDateTime = (data.Value as DateTime?);
-                if (asDateTime != null)
-                {
-                    node.Parent.Element(data.Name).Value = asDateTime.Value.ToString("s");
-                    continue;
-                }
-
-                node.Parent.Element(data.Name).Value = data.Value.ToString();
+                node.Parent.Element(data.Key).Value = data.Value;
             }
         }
 
@@ -118,7 +109,7 @@ namespace LazyStorage.Xml
 
             foreach (var data in info)
             {
-                newElement.Add(new XElement(data.Name, data.Value));
+                newElement.Add(new XElement(data.Key, data.Value));
             }
 
             rootElement.Add(newElement);
