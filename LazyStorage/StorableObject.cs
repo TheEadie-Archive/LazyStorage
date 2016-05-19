@@ -1,16 +1,16 @@
 using System;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace LazyStorage
 {
     public class StorableObject : IEquatable<StorableObject>
     {
         public int Id { get; set; }
-        public SerializationInfo Info { get; }
+        public Dictionary<string, string> Info { get; }
 
         public StorableObject()
         {
-            Info = new SerializationInfo(GetType(), new FormatterConverter());
+            Info = new Dictionary<string, string>();
         }
         
         public bool Equals(StorableObject other)

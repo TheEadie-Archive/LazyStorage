@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
 using LazyStorage.Json;

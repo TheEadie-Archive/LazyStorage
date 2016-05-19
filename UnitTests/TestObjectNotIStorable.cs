@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests
@@ -29,9 +28,9 @@ namespace LazyStorage.Tests
         {
             var storableObject = new StorableObject();
 
-            storableObject.Info.AddValue("Name", item.Name);
-            storableObject.Info.AddValue("StartDate", item.StartDate);
-            storableObject.Info.AddValue("EndDate", item.EndDate);
+            storableObject.Info.Add("Name", item.Name);
+            storableObject.Info.Add("StartDate", item.StartDate.Ticks.ToString());
+            storableObject.Info.Add("EndDate", item.EndDate.Ticks.ToString());
 
             return storableObject;
         }
@@ -40,16 +39,16 @@ namespace LazyStorage.Tests
         {
             var orginalObject = new TestObjectNotIStorable();
 
-            orginalObject.Name = info.Info.GetString("Name");
-            orginalObject.StartDate = info.Info.GetDateTime("StartDate");
-            orginalObject.EndDate = info.Info.GetDateTime("EndDate");
+            orginalObject.Name = info.Info["Name"];
+            orginalObject.StartDate = new DateTime(long.Parse(info.Info["StartDate"]));
+            orginalObject.EndDate = new DateTime(long.Parse(info.Info["EndDate"]));
 
             return orginalObject;
         }
 
         public bool IsEqual(StorableObject storageObject, TestObjectNotIStorable realObject)
         {
-            return realObject.Name == storageObject.Info.GetString("Name");
+            return realObject.Name == storageObject.Info["Name"];
         }
     }
 }

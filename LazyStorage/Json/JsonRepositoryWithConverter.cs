@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using LazyStorage.Interfaces;
-using LazyStorage.Xml;
 using Newtonsoft.Json;
 
 namespace LazyStorage.Json
@@ -90,7 +88,7 @@ namespace LazyStorage.Json
         {
             var convertedItems = m_Repository.Select(item => m_Converter.GetStorableObject(item)).ToList();
 
-            var fileContent = JsonConvert.SerializeObject(convertedItems);
+            var fileContent = JsonConvert.SerializeObject(convertedItems, Formatting.Indented);
             File.WriteAllText(m_Uri, fileContent);
         }
     }

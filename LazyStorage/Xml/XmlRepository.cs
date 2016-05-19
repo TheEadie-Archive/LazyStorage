@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Xml.Linq;
 using LazyStorage.Interfaces;
 
@@ -28,11 +27,11 @@ namespace LazyStorage.Xml
             foreach (var node in m_File.Element("Root").Elements())
             {
                 var temp = new T();
-                var info = new SerializationInfo(temp.GetType(), new FormatterConverter());
+                var info = new Dictionary<string, string>();
                 
                 foreach (var element in node.Descendants())
                 {
-                    info.AddValue(element.Name.ToString(), element.Value);
+                    info.Add(element.Name.ToString(), element.Value);
                 }
 
                 temp.InitialiseWithStorageInfo(info);
@@ -68,14 +67,7 @@ namespace LazyStorage.Xml
 
             foreach (var data in info)
             {
-                var asDateTime = (data.Value as DateTime?);
-                if (asDateTime != null)
-                {
-                    node.Parent.Element(data.Name).Value = asDateTime.Value.ToString("s");
-                    continue;
-                }
-
-                node.Parent.Element(data.Name).Value = data.Value.ToString();
+                node.Parent.Element(data.Key).Value = data.Value;
             }
         }
 
@@ -94,7 +86,7 @@ namespace LazyStorage.Xml
 
             foreach (var data in info)
             {
-                newElement.Add(new XElement(data.Name, data.Value));
+                newElement.Add(new XElement(data.Key, data.Value));
             }
 
             rootElement.Add(newElement);
