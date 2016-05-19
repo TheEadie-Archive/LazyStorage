@@ -64,7 +64,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="PersistenceWithConverterTests .cs" />
     <Compile Include="RepositoryWithConverterTests.cs" />
     <Compile Include="StorageTypes\JsonTestStorage.cs" />
     <Compile Include="StorageTypes\InMemoryTestStorage.cs" />
