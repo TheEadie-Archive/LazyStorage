@@ -31,8 +31,7 @@ namespace LazyStorage.InMemory
             if (matchingItemsInStore.Any())
             {
                 // Update
-                var obj = matchingItemsInStore;
-                m_Repository.Remove(obj.First());
+                m_Repository.Remove(matchingItemsInStore.First());
                 m_Repository.Add(storableItem);
             }
             else
