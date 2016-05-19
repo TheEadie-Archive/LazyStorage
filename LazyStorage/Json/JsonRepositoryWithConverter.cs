@@ -29,12 +29,13 @@ namespace LazyStorage.Json
 
         public void Set(T item)
         {
-            if (m_Repository.Contains(item))
+            var storableObject = m_Converter.GetStorableObject(item);
+            var matchingItemsInStore = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
+
+            if (matchingItemsInStore.Any())
             {
                 // Update
-                var storableObject = m_Converter.GetStorableObject(item);
-                var obj = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
-                m_Repository.Remove(obj.First());
+                m_Repository.Remove(matchingItemsInStore.First());
                 m_Repository.Add(item);
             }
             else
