@@ -37,8 +37,6 @@ namespace LazyStorage.InMemory
             else
             {
                 // Insert
-                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.LazyStorageInternalId) + 1 : 1;
-                storableItem.LazyStorageInternalId = nextId;
                 m_Repository.Add(storableItem);
             }
         }
