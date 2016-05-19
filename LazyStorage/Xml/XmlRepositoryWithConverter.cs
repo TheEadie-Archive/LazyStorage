@@ -9,9 +9,8 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepositoryWithConverter<T> : IRepository<T>
     {
-        private const string InternalIdString = "LazyStorageInternalId";
-        private XDocument m_File;
         private readonly string m_Uri;
+        private List<T> m_Repository = new List<T>();
         private readonly string m_StorageFolder;
         private readonly IConverter<T> m_Converter;
 
@@ -25,106 +24,34 @@ namespace LazyStorage.Xml
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            ICollection<T> found = new List<T>();
-
-            foreach (var node in m_File.Element("Root").Elements())
-            {
-                var storableObject = new StorableObject();
-
-                foreach (var element in node.Descendants())
-                {
-                    storableObject.Info.Add(element.Name.ToString(), element.Value);
-                }
-
-                var temp = m_Converter.GetOriginalObject(storableObject);
-
-                found.Add(temp);
-            }
-
-            var query = found.AsQueryable<T>();
-            return exp != null ? query.Where(exp).ToList() : found;
-        }
-
-        private IEnumerable<StorableObject> GetMatchingItemsInStore(T item)
-        {
-            var found = new List<StorableObject>();
-
-            foreach (var node in m_File.Element("Root").Elements())
-            {
-                var storableObject = new StorableObject();
-                var idXElements = node.Descendants(InternalIdString);
-                storableObject.LazyStorageInternalId = int.Parse(idXElements.Single().Value);
-                foreach (var element in node.Descendants())
-                {
-                    storableObject.Info.Add(element.Name.ToString(), element.Value);
-                }
-
-                found.Add(storableObject);
-            }
-            return found.Where(x => m_Converter.IsEqual(x, item));
+            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
         }
 
         public void Set(T item)
         {
-            var storableItem = m_Converter.GetStorableObject(item);
-
-            var matchingItemsInStore = GetMatchingItemsInStore(item);
+            var storableObject = m_Converter.GetStorableObject(item);
+            var matchingItemsInStore = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
 
             if (matchingItemsInStore.Any())
             {
-                Update(storableItem, matchingItemsInStore.First());
+                // Update
+                m_Repository.Remove(matchingItemsInStore.First());
+                m_Repository.Add(item);
             }
             else
             {
-                Insert(storableItem);
+                // Insert
+                m_Repository.Add(item);
             }
-        }
-
-        private void Update(StorableObject item, StorableObject oldItem)
-        {
-            var info = item.Info;
-
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants(InternalIdString);
-            var node = idXElements.Single(x => x.Value == oldItem.LazyStorageInternalId.ToString());
-
-            foreach (var data in info)
-            {
-                node.Parent.Element(data.Key).Value = data.Value;
-            }
-        }
-
-        private void Insert(StorableObject item)
-        {
-            var typeAsString = typeof (T).ToString();
-
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants(InternalIdString);
-
-            item.LazyStorageInternalId = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
-
-            var info = item.Info;
-
-            var newElement = new XElement(typeAsString);
-            newElement.Add(new XElement(InternalIdString, item.LazyStorageInternalId));
-
-            foreach (var data in info)
-            {
-                newElement.Add(new XElement(data.Key, data.Value));
-            }
-
-            rootElement.Add(newElement);
         }
 
         public void Delete(T item)
         {
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants(InternalIdString);
-            var node = idXElements.Single(x => x.Value == GetMatchingItemsInStore(item).First().LazyStorageInternalId.ToString());
-
-            node = node.Parent;
-            node.Remove();
+            var storableObject = m_Converter.GetStorableObject(item);
+            var obj = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
+            m_Repository.Remove(obj.First());
         }
+
 
         public object Clone()
         {
@@ -142,15 +69,70 @@ namespace LazyStorage.Xml
             return newRepo;
 
         }
+        public void Load()
+        {
+            if (File.Exists(m_Uri))
+            {
+                m_Repository = GetObjectsFromXml(m_Uri);
+            }
+            else
+            {
+                m_Repository = new List<T>();
+            }
+
+        }
 
         public void Save()
         {
-            m_File.Save(m_Uri);
+            GetXmlOuput(m_Repository).Save(m_Uri);
         }
 
-        public void Load()
+        private XDocument GetXmlOuput(List<T> objects)
         {
-            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
+            var file = new XDocument(new XElement("Root"));
+
+            var typeAsString = typeof(T).ToString();
+
+            var rootElement = file.Element("Root");
+
+            foreach (var item in objects)
+            {
+                var info = m_Converter.GetStorableObject(item).Info;
+
+                var newElement = new XElement(typeAsString);
+
+                foreach (var data in info)
+                {
+                    newElement.Add(new XElement(data.Key, data.Value));
+                }
+
+                rootElement.Add(newElement);
+            }
+
+            return file;
+        }
+
+        private List<T> GetObjectsFromXml(string uri)
+        {
+            var file = XDocument.Load(uri);
+
+            var found = new List<T>();
+
+            foreach (var node in file.Element("Root").Elements())
+            {
+                var storableObject = new StorableObject();
+
+                foreach (var element in node.Descendants())
+                {
+                    storableObject.Info.Add(element.Name.ToString(), element.Value);
+                }
+
+                var item = m_Converter.GetOriginalObject(storableObject);
+
+                found.Add(item);
+            }
+
+            return found;
         }
     }
 }
