@@ -82,7 +82,7 @@ namespace LazyStorage.Json
 
         public void Save()
         {
-            var fileContent = JsonConvert.SerializeObject(m_Repository);
+            var fileContent = JsonConvert.SerializeObject(m_Repository, Formatting.Indented);
             File.WriteAllText(m_Uri, fileContent);
         }
     }
