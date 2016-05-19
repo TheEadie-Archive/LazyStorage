@@ -9,6 +9,7 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepositoryWithConverter<T> : IRepository<T>
     {
+        private const string InternalIdString = "LazyStorageInternalId";
         private XDocument m_File;
         private readonly string m_Uri;
         private readonly string m_StorageFolder;
@@ -51,7 +52,7 @@ namespace LazyStorage.Xml
             foreach (var node in m_File.Element("Root").Elements())
             {
                 var storableObject = new StorableObject();
-                var idXElements = node.Descendants("LazyStorageInternalId");
+                var idXElements = node.Descendants(InternalIdString);
                 storableObject.LazyStorageInternalId = int.Parse(idXElements.Single().Value);
                 foreach (var element in node.Descendants())
                 {
@@ -84,7 +85,7 @@ namespace LazyStorage.Xml
             var info = item.Info;
 
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("LazyStorageInternalId");
+            var idXElements = rootElement.Descendants(InternalIdString);
             var node = idXElements.Single(x => x.Value == oldItem.LazyStorageInternalId.ToString());
 
             foreach (var data in info)
@@ -98,14 +99,14 @@ namespace LazyStorage.Xml
             var typeAsString = typeof (T).ToString();
 
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("LazyStorageInternalId");
+            var idXElements = rootElement.Descendants(InternalIdString);
 
             item.LazyStorageInternalId = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
 
             var info = item.Info;
 
             var newElement = new XElement(typeAsString);
-            newElement.Add(new XElement("LazyStorageInternalId", item.LazyStorageInternalId));
+            newElement.Add(new XElement(InternalIdString, item.LazyStorageInternalId));
 
             foreach (var data in info)
             {
@@ -118,7 +119,7 @@ namespace LazyStorage.Xml
         public void Delete(T item)
         {
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("LazyStorageInternalId");
+            var idXElements = rootElement.Descendants(InternalIdString);
             var node = idXElements.Single(x => x.Value == GetMatchingItemsInStore(item).First().LazyStorageInternalId.ToString());
 
             node = node.Parent;
