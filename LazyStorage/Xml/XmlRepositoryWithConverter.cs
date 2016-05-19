@@ -51,8 +51,8 @@ namespace LazyStorage.Xml
             foreach (var node in m_File.Element("Root").Elements())
             {
                 var storableObject = new StorableObject();
-                var idXElements = node.Descendants("Id");
-                storableObject.Id = int.Parse(idXElements.Single().Value);
+                var idXElements = node.Descendants("LazyStorageInternalId");
+                storableObject.LazyStorageInternalId = int.Parse(idXElements.Single().Value);
                 foreach (var element in node.Descendants())
                 {
                     storableObject.Info.Add(element.Name.ToString(), element.Value);
@@ -84,8 +84,8 @@ namespace LazyStorage.Xml
             var info = item.Info;
 
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
-            var node = idXElements.Single(x => x.Value == oldItem.Id.ToString());
+            var idXElements = rootElement.Descendants("LazyStorageInternalId");
+            var node = idXElements.Single(x => x.Value == oldItem.LazyStorageInternalId.ToString());
 
             foreach (var data in info)
             {
@@ -98,14 +98,14 @@ namespace LazyStorage.Xml
             var typeAsString = typeof (T).ToString();
 
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
+            var idXElements = rootElement.Descendants("LazyStorageInternalId");
 
-            item.Id = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
+            item.LazyStorageInternalId = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
 
             var info = item.Info;
 
             var newElement = new XElement(typeAsString);
-            newElement.Add(new XElement("Id", item.Id));
+            newElement.Add(new XElement("LazyStorageInternalId", item.LazyStorageInternalId));
 
             foreach (var data in info)
             {
@@ -118,8 +118,8 @@ namespace LazyStorage.Xml
         public void Delete(T item)
         {
             var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
-            var node = idXElements.Single(x => x.Value == GetMatchingItemsInStore(item).First().Id.ToString());
+            var idXElements = rootElement.Descendants("LazyStorageInternalId");
+            var node = idXElements.Single(x => x.Value == GetMatchingItemsInStore(item).First().LazyStorageInternalId.ToString());
 
             node = node.Parent;
             node.Remove();

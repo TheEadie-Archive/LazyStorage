@@ -5,7 +5,7 @@ namespace LazyStorage
 {
     public class StorableObject : IEquatable<StorableObject>
     {
-        public int Id { get; set; }
+        public int LazyStorageInternalId { get; set; }
         public Dictionary<string, string> Info { get; }
 
         public StorableObject()
@@ -15,7 +15,7 @@ namespace LazyStorage
         
         public bool Equals(StorableObject other)
         {
-            return (other.Id == Id);
+            return (other.LazyStorageInternalId == LazyStorageInternalId);
         }
     }
 }
