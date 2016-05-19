@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using LazyStorage.Interfaces;
 
@@ -9,102 +10,48 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
-        private readonly string m_StorageFolder;
-        private XDocument m_File;
         private readonly string m_Uri;
+        private List<T> m_Repository = new List<T>();
 
         public XmlRepository(string storageFolder)
         {
-            m_StorageFolder = storageFolder;
             m_Uri = $"{storageFolder}{typeof(T)}.xml";
             Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            ICollection<T> found = new List<T>();
-
-            foreach (var node in m_File.Element("Root").Elements())
-            {
-                var temp = new T();
-                var info = new Dictionary<string, string>();
-                
-                foreach (var element in node.Descendants())
-                {
-                    info.Add(element.Name.ToString(), element.Value);
-                }
-
-                temp.InitialiseWithStorageInfo(info);
-
-                found.Add(temp);
-            }
-
-            var query = found.AsQueryable<T>();
-            return exp != null ? query.Where(exp).ToList() : found;
+            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
         }
 
         public void Set(T item)
         {
-            var matchingItem = Get(x => x.Equals(item));
-
-            if (matchingItem.Any())
+            if (m_Repository.Contains(item))
             {
-                Update(item);
+                // Update
+                var obj = m_Repository.Where(x => x.Equals(item));
+                m_Repository.Remove(obj.First());
+                m_Repository.Add(item);
             }
             else
             {
-                Insert(item);
+                // Insert
+                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.Id) + 1 : 1;
+                item.Id = nextId;
+                m_Repository.Add(item);
             }
-        }
-
-        private void Update(T item)
-        {
-            var info = item.GetStorageInfo();
-
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
-            var node = idXElements.SingleOrDefault(x => x.Value == item.Id.ToString());
-
-            foreach (var data in info)
-            {
-                node.Parent.Element(data.Key).Value = data.Value;
-            }
-        }
-
-        private void Insert(T item)
-        {
-            var typeAsString = typeof (T).ToString();
-
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
-
-            item.Id = idXElements.Any() ? idXElements.Max(x => (int) x) + 1 : 1;
-
-            var info = item.GetStorageInfo();
-
-            var newElement = new XElement(typeAsString);
-
-            foreach (var data in info)
-            {
-                newElement.Add(new XElement(data.Key, data.Value));
-            }
-
-            rootElement.Add(newElement);
         }
 
         public void Delete(T item)
         {
-            var rootElement = m_File.Element("Root");
-            var idXElements = rootElement.Descendants("Id");
-            var node = idXElements.SingleOrDefault(x => x.Value == item.Id.ToString());
-
-            node = node.Parent;
-            node.Remove();
+            var obj = m_Repository.SingleOrDefault(x => x.Id == item.Id);
+            m_Repository.Remove(obj);
         }
+
 
         public object Clone()
         {
-            var newRepo = new XmlRepository<T>(m_StorageFolder);
+            var newRepo = new XmlRepository<T>(m_Uri);
 
             foreach (var item in Get())
             {
@@ -120,14 +67,71 @@ namespace LazyStorage.Xml
             return newRepo;
         }
 
-        public void Save()
-        {
-            m_File.Save(m_Uri);
-        }
-
         public void Load()
         {
-            m_File = !File.Exists(m_Uri) ? new XDocument(new XElement("Root")) : XDocument.Load(m_Uri);
+            if (File.Exists(m_Uri))
+            {
+                m_Repository = GetObjectsFromXml(m_Uri);
+            }
+            else
+            {
+                m_Repository = new List<T>();
+            }
+
+        }
+
+        public void Save()
+        {
+            GetXmlOuput(m_Repository).Save(m_Uri);
+        }
+
+        private XDocument GetXmlOuput(List<T> objects)
+        {
+            var file = new XDocument(new XElement("Root"));
+
+            var typeAsString = typeof(T).ToString();
+
+            var rootElement = file.Element("Root");
+
+            foreach (var item in objects)
+            {
+                var info = item.GetStorageInfo();
+
+                var newElement = new XElement(typeAsString);
+                
+                foreach (var data in info)
+                {
+                    newElement.Add(new XElement(data.Key, data.Value));
+                }
+
+                rootElement.Add(newElement);
+            }
+
+            return file;
+        }
+
+        private List<T> GetObjectsFromXml(string uri)
+        {
+            var file = XDocument.Load(uri);
+
+            var found = new List<T>();
+
+            foreach (var node in file.Element("Root").Elements())
+            {
+                var storageInfo = new Dictionary<string, string>();
+
+                foreach (var element in node.Descendants())
+                {
+                    storageInfo.Add(element.Name.ToString(), element.Value);
+                }
+
+                var item = new T();
+                item.InitialiseWithStorageInfo(storageInfo);
+
+                found.Add(item);
+            }
+
+            return found;
         }
     }
 }
