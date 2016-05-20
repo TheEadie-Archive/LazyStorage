@@ -28,7 +28,7 @@ namespace LazyStorage.Tests
         {
             var storableObject = new StorableObject();
 
-            storableObject.Info.Add("Name", item.Name);
+            storableObject.Info.Add("Id", item.Name);
             storableObject.Info.Add("StartDate", item.StartDate.Ticks.ToString());
             storableObject.Info.Add("EndDate", item.EndDate.Ticks.ToString());
 
@@ -39,7 +39,7 @@ namespace LazyStorage.Tests
         {
             var orginalObject = new TestObjectNotIStorable();
 
-            orginalObject.Name = info.Info["Name"];
+            orginalObject.Name = info.Info["Id"];
             orginalObject.StartDate = new DateTime(long.Parse(info.Info["StartDate"]));
             orginalObject.EndDate = new DateTime(long.Parse(info.Info["EndDate"]));
 
@@ -48,7 +48,7 @@ namespace LazyStorage.Tests
 
         public bool IsEqual(StorableObject storageObject, TestObjectNotIStorable realObject)
         {
-            return realObject.Name == storageObject.Info["Name"];
+            return realObject.Name == storageObject.Info["Id"];
         }
     }
 }

@@ -31,15 +31,12 @@ namespace LazyStorage.InMemory
             if (matchingItemsInStore.Any())
             {
                 // Update
-                var obj = matchingItemsInStore;
-                m_Repository.Remove(obj.First());
+                m_Repository.Remove(matchingItemsInStore.First());
                 m_Repository.Add(storableItem);
             }
             else
             {
                 // Insert
-                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.Id) + 1 : 1;
-                storableItem.Id = nextId;
                 m_Repository.Add(storableItem);
             }
         }
