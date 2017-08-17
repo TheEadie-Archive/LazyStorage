@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using System.Xml.Linq;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
-    internal class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    public class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private readonly string m_Uri;
         private List<T> m_Repository = new List<T>();
@@ -82,7 +81,10 @@ namespace LazyStorage.Xml
 
         public void Save()
         {
-            GetXmlOuput(m_Repository).Save(m_Uri);
+            using (var writer = new FileStream(m_Uri, FileMode.Create))
+            {
+                GetXmlOuput(m_Repository).Save(writer);
+            }
         }
 
         private XDocument GetXmlOuput(List<T> objects)

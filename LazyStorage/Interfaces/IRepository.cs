@@ -15,4 +15,9 @@ namespace LazyStorage.Interfaces
         void Save();
         void Load();
     }
+
+    public interface ICloneable
+    {
+        object Clone();
+    }
 }
