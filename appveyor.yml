@@ -5,6 +5,7 @@ before_build:
   - nuget restore
 
 configuration: Release
+image: Visual Studio 2017 Preview
 
 build:
   project: LazyStorage.sln
