@@ -10,7 +10,6 @@ build:
 
 after_build:
   - cmd: dotnet pack LazyStorage\LazyStorage.csproj -c Release /p:PackageVersion=%GitVersion_NuGetVersion%"
-  - cmd: appveyor PushArtifact "LazyStorage.1.0.0.nupkg"
 
 deploy:
   - provider: GitHub
