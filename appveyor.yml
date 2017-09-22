@@ -1,6 +1,3 @@
-nuget:
-  account_feed: true
-
 before_build:
   - dotnet restore
   - nuget restore
