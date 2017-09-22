@@ -3,6 +3,7 @@ nuget:
 
 before_build:
   - dotnet restore
+  - nuget restore
 
 configuration: Release
 image: Visual Studio 2017 Preview
