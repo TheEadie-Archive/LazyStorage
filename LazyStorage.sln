@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazyStorage", "LazyStorage\LazyStorage.csproj", "{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B1957548-22B4-41EC-98B9-45FBCE0F4A75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorage.Tests", "LazyStorage.Tests\LazyStorage.Tests.csproj", "{ADB61FEF-43F3-4AEC-9017-A23A1835254E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1957548-22B4-41EC-98B9-45FBCE0F4A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1957548-22B4-41EC-98B9-45FBCE0F4A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1957548-22B4-41EC-98B9-45FBCE0F4A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1957548-22B4-41EC-98B9-45FBCE0F4A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
