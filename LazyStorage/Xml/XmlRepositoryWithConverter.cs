@@ -7,7 +7,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
-    internal class XmlRepositoryWithConverter<T> : IRepository<T>
+    public class XmlRepositoryWithConverter<T> : IRepository<T>
     {
         private readonly string m_Uri;
         private List<T> m_Repository = new List<T>();

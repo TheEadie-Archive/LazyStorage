@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace LazyStorage.Json
 {
-    internal class JsonRepositoryWithConverter<T> : IRepository<T>
+    public class JsonRepositoryWithConverter<T> : IRepository<T>
     {
         private readonly string m_Uri;
         private List<T> m_Repository = new List<T>();
