@@ -15,8 +15,8 @@ namespace LazyStorage.Tests
         public static IEnumerable<object[]> Repos => new[]
         {
             new object[] {new InMemoryRepositoryWithConverter<TestObjectNotIStorable>(new TestObjectStorageConverter())},
-            new object[] {new XmlRepositoryWithConverter<TestObjectNotIStorable>("", new TestObjectStorageConverter())},
-            new object[] {new JsonRepositoryWithConverter<TestObjectNotIStorable>("", new TestObjectStorageConverter())},
+            new object[] {new XmlRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
+            new object[] {new JsonRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
         };
 
         [Theory, MemberData("Repos")]
