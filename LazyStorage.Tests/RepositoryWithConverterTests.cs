@@ -10,17 +10,14 @@ namespace LazyStorage.Tests
     {
         public static IEnumerable<object[]> StorageTypes => new[]
         {
+            new object[] {new InMemoryTestStorage(), },
             new object[] {new XmlTestStorage(), },
             new object[] {new JsonTestStorage(), },
         };
 
-        private ITestStorage m_CurrentStorage;
-
         [Theory, MemberData("StorageTypes")]
         public void CanAddToRepo(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
-
             var converter = new TestObjectStorageConverter();
 
             var repo = storage.GetStorage().GetRepository(converter);
@@ -35,13 +32,13 @@ namespace LazyStorage.Tests
             var repoObj = repo.Get().Single();
 
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
+
+            storage.CleanUp();
         }
 
         [Theory, MemberData("StorageTypes")]
         public void CanUpdateRepo(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
-
             var converter = new TestObjectStorageConverter();
 
             var repo = storage.GetStorage().GetRepository(converter);
@@ -59,12 +56,13 @@ namespace LazyStorage.Tests
             var repoObj = repo.Get().Single();
 
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
+
+            storage.CleanUp();
         }
 
         [Theory, MemberData("StorageTypes")]
         public void CanDeleteFromRepo(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
             var converter = new TestObjectStorageConverter();
 
             var repo = storage.GetStorage().GetRepository(converter);
@@ -76,12 +74,13 @@ namespace LazyStorage.Tests
             repo.Delete(obj);
 
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
+
+            storage.CleanUp();
         }
 
         [Theory, MemberData("StorageTypes")]
         public void CanGetByLinq(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
             var converter = new TestObjectStorageConverter();
 
             var repo = storage.GetStorage().GetRepository(converter);
@@ -95,11 +94,8 @@ namespace LazyStorage.Tests
 
             Assert.NotNull(result);
             Assert.True(result.ContentEquals(objOne), "The object could not be retrieved from the repository");
-        }
 
-        public void Dispose()
-        {
-            m_CurrentStorage.CleanUp();
+            storage.CleanUp();
         }
     }
 }
