@@ -5,7 +5,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
-    public class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
         private readonly List<T> m_Repository = new List<T>();
 

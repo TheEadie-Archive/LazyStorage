@@ -5,7 +5,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
-    public class InMemoryRepositoryWithConverter<T> : IRepository<T>
+    internal class InMemoryRepositoryWithConverter<T> : IRepository<T>
     {
         private readonly IConverter<T> m_Converter;
 

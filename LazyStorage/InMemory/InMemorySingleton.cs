@@ -3,7 +3,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
-    public static class InMemorySingleton
+    internal static class InMemorySingleton
     {
         private static Dictionary<string, IRepository> repos = new Dictionary<string, IRepository>();
 
