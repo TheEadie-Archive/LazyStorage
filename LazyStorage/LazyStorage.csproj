@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://github.com/TheEadie/LazyStorage</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheEadie/LazyStorage</RepositoryUrl>
     <Version>0.0.1.0</Version>
+    <PackageVersion>0.0.1-local</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -19,7 +19,7 @@ build:
   verbosity: minimal
 
 after_build:
-  - cmd: dotnet pack LazyStorage\LazyStorage.csproj -c Release /p:PackageVersion=%GitVersion_NuGetVersion%"
+  - cmd: dotnet pack LazyStorage\LazyStorage.csproj -c Release
   - cmd: appveyor PushArtifact "LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
 
 deploy:
