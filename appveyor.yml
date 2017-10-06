@@ -1,18 +1,18 @@
+configuration: Release
+image: Visual Studio 2017 Preview
+
 install:
   - choco install GitVersion.Portable
   - GitVersion /output buildserver
-
-before_build:
-  - dotnet restore
-
-configuration: Release
-image: Visual Studio 2017 Preview
 
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '%GitVersion_MajorMinorPatch%'
   package_version: '%GitVersion_NuGetVersion%'
+
+before_build:
+  - dotnet restore
 
 build:
   project: LazyStorage.sln
