@@ -11,8 +11,8 @@ image: Visual Studio 2017 Preview
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '%GitVersion_AssemblySemVer%'
-  package_version: '%GitVersion_FullSemVer%'
+  version: '%GitVersion_MajorMinorPatch%'
+  package_version: '%GitVersion_NuGetVersion%'
 
 build:
   project: LazyStorage.sln
