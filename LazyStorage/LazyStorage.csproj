@@ -9,6 +9,8 @@
     <PackageLicenseUrl>https://github.com/TheEadie/LazyStorage/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/TheEadie/LazyStorage</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheEadie/LazyStorage</RepositoryUrl>
+    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <FileVersion>0.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
