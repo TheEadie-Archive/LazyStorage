@@ -1,17 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorage", "LazyStorage\LazyStorage.csproj", "{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazyStorage", "LazyStorage\LazyStorage.csproj", "{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorageTests", "UnitTests\LazyStorageTests.csproj", "{14193C9F-6AC1-49EB-AC55-708C0DC78475}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04FE4E86-BE6B-4A93-B2A2-FF6A89C215C5}"
-	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		GitVersionConfig.yaml = GitVersionConfig.yaml
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorage.Tests", "LazyStorage.Tests\LazyStorage.Tests.csproj", "{ADB61FEF-43F3-4AEC-9017-A23A1835254E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AD75E73B-C3A9-4B7C-BD9D-10874A3E07A9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14193C9F-6AC1-49EB-AC55-708C0DC78475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14193C9F-6AC1-49EB-AC55-708C0DC78475}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14193C9F-6AC1-49EB-AC55-708C0DC78475}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14193C9F-6AC1-49EB-AC55-708C0DC78475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADB61FEF-43F3-4AEC-9017-A23A1835254E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC98AA6E-C9EB-4CB7-B216-255428734252}
 	EndGlobalSection
 EndGlobal

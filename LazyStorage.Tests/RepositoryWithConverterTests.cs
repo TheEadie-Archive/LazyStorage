@@ -1,31 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LazyStorage.InMemory;
+using LazyStorage.Interfaces;
+using LazyStorage.Json;
 using LazyStorage.Tests.StorageTypes;
+using LazyStorage.Xml;
 using Xunit;
 
 namespace LazyStorage.Tests
 {
     public class RepositoryWithConverterTests
     {
-        public static IEnumerable<object[]> StorageTypes => new[]
+        public static IEnumerable<object[]> Repos => new[]
         {
-            new object[] {new InMemoryTestStorage(), },
-            new object[] {new XmlTestStorage(), },
-            new object[] {new JsonTestStorage(), },
+            new object[] {new InMemoryRepositoryWithConverter<TestObjectNotIStorable>(new TestObjectStorageConverter())},
+            new object[] {new XmlRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
+            new object[] {new JsonRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
         };
 
-        private ITestStorage m_CurrentStorage;
-
-        [Theory, MemberData("StorageTypes")]
-        public void CanAddToRepo(ITestStorage storage)
+        [Theory, MemberData("Repos")]
+        public void CanAddToRepo(IRepository<TestObjectNotIStorable> repo)
         {
-            m_CurrentStorage = storage;
-
-            var converter = new TestObjectStorageConverter();
-
-            var repo = storage.GetStorage().GetRepository(converter);
-
             var obj = new TestObjectNotIStorable();
             obj.Name = "Test";
             obj.StartDate = DateTime.Now;
@@ -38,15 +34,9 @@ namespace LazyStorage.Tests
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
-        [Theory, MemberData("StorageTypes")]
-        public void CanUpdateRepo(ITestStorage storage)
+        [Theory, MemberData("Repos")]
+        public void CanUpdateRepo(IRepository<TestObjectNotIStorable> repo)
         {
-            m_CurrentStorage = storage;
-
-            var converter = new TestObjectStorageConverter();
-
-            var repo = storage.GetStorage().GetRepository(converter);
-
             var obj = new TestObjectNotIStorable();
             obj.Name = "Test";
             obj.StartDate = new DateTime(2015, 12, 31, 13, 54, 23);
@@ -62,14 +52,9 @@ namespace LazyStorage.Tests
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
-        [Theory, MemberData("StorageTypes")]
-        public void CanDeleteFromRepo(ITestStorage storage)
+        [Theory, MemberData("Repos")]
+        public void CanDeleteFromRepo(IRepository<TestObjectNotIStorable> repo)
         {
-            m_CurrentStorage = storage;
-            var converter = new TestObjectStorageConverter();
-
-            var repo = storage.GetStorage().GetRepository(converter);
-
             var obj = new TestObjectNotIStorable();
             obj.Name = "Test";
 
@@ -79,13 +64,9 @@ namespace LazyStorage.Tests
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
         }
 
-        [Theory, MemberData("StorageTypes")]
-        public void CanGetByLinq(ITestStorage storage)
+        [Theory, MemberData("Repos")]
+        public void CanGetByLinq(IRepository<TestObjectNotIStorable> repo)
         {
-            m_CurrentStorage = storage;
-            var converter = new TestObjectStorageConverter();
-
-            var repo = storage.GetStorage().GetRepository(converter);
             var objOne = new TestObjectNotIStorable { Name = "one" };
             var objTwo = new TestObjectNotIStorable { Name = "two" };
 
@@ -96,11 +77,6 @@ namespace LazyStorage.Tests
 
             Assert.NotNull(result);
             Assert.True(result.ContentEquals(objOne), "The object could not be retrieved from the repository");
-        }
-
-        public void Dispose()
-        {
-            m_CurrentStorage.CleanUp();
         }
     }
 }

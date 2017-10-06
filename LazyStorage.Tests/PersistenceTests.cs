@@ -10,7 +10,7 @@ namespace LazyStorage.Tests
     {
         public static IEnumerable<object[]> StorageTypes => new[]
         {
-            new object[] {new InMemoryTestStorage(), },
+            new object[] {new InMemoryTestStorage()},
             new object[] {new XmlTestStorage()},
             new object[] {new JsonTestStorage()},
         };
