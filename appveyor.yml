@@ -6,6 +6,12 @@ before_build:
 configuration: Release
 image: Visual Studio 2017 Preview
 
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '%GitVersion_AssemblySemVer%'
+  package_version: '%GitVersion_FullSemVer%'
+
 build:
   project: LazyStorage.sln
   verbosity: minimal
