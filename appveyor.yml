@@ -1,7 +1,9 @@
-before_build:
-  - dotnet restore
+install:
   - choco install GitVersion.Portable
   - GitVersion /output buildserver
+
+before_build:
+  - dotnet restore
 
 configuration: Release
 image: Visual Studio 2017 Preview
