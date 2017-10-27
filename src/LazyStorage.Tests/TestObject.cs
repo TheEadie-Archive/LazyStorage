@@ -8,8 +8,8 @@ namespace LazyStorage.Tests
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        private DateTime m_StartDate;
-        private DateTime m_EndDate;
+        private DateTime _startDate;
+        private DateTime _endDate;
 
         public TestObject()
         {
@@ -22,8 +22,8 @@ namespace LazyStorage.Tests
 
             info.Add("Id", Id.ToString());
             info.Add("Name", Name);
-            info.Add("StartDate", m_StartDate.Ticks.ToString());
-            info.Add("EndDate", m_EndDate.Ticks.ToString());
+            info.Add("StartDate", _startDate.Ticks.ToString());
+            info.Add("EndDate", _endDate.Ticks.ToString());
 
             return info;
         }
@@ -32,8 +32,8 @@ namespace LazyStorage.Tests
         {
             Id = int.Parse(info["Id"]);
             Name = info["Name"];
-            m_StartDate = new DateTime(long.Parse(info["StartDate"]));
-            m_EndDate = new DateTime(long.Parse(info["EndDate"]));
+            _startDate = new DateTime(long.Parse(info["StartDate"]));
+            _endDate = new DateTime(long.Parse(info["EndDate"]));
         }
 
         public bool Equals(TestObject other)
@@ -45,8 +45,8 @@ namespace LazyStorage.Tests
         {
             return (other.Id == Id)
                 && (other.Name == Name)
-                && (other.m_StartDate == m_StartDate)
-                && (other.m_EndDate == m_EndDate);
+                && (other._startDate == _startDate)
+                && (other._endDate == _endDate);
         }
     }
 }
