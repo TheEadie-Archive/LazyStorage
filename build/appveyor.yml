@@ -13,10 +13,10 @@ dotnet_csproj:
   package_version: '%GitVersion_NuGetVersion%'
 
 before_build:
-  - dotnet restore src\LazyStorage.sln
+  - dotnet restore
 
 build_script:
-  - dotnet build src\LazyStorage.sln
+  - dotnet build
 
 after_build:
   - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release

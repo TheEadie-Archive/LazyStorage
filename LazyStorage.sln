@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazyStorage", "LazyStorage\LazyStorage.csproj", "{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LazyStorage", "src\LazyStorage\LazyStorage.csproj", "{30829DA6-B3AB-4B5A-BCC1-67EAE4B5C9A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorage.Tests", "LazyStorage.Tests\LazyStorage.Tests.csproj", "{ADB61FEF-43F3-4AEC-9017-A23A1835254E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyStorage.Tests", "src\LazyStorage.Tests\LazyStorage.Tests.csproj", "{ADB61FEF-43F3-4AEC-9017-A23A1835254E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
