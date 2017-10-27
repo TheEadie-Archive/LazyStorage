@@ -15,12 +15,12 @@ namespace LazyStorage.Tests
             new object[] {new JsonTestStorage()},
         };
 
-        private ITestStorage m_CurrentStorage;
+        private ITestStorage _currentStorage;
 
         [Theory, MemberData("StorageTypes")]
         public void CanSaveToStorage(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
@@ -34,7 +34,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StoragePersistsBetweenSessions(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
             var obj = new TestObject(); ;
@@ -51,7 +51,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
 
             // Create an object in memory
             var obj1 = new TestObject();
@@ -81,7 +81,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void CanSaveToStorageWithConverter(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
             var dal = storage.GetStorage();
             var converter = new TestObjectStorageConverter();
 
@@ -101,7 +101,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StoragePersistsBetweenSessionsWithConverter(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
             var dal = storage.GetStorage();
             var converter = new TestObjectStorageConverter();
 
@@ -124,7 +124,7 @@ namespace LazyStorage.Tests
         [Theory, MemberData("StorageTypes")]
         public void StorageDoesNotPersistIfDiscardedWithConverter(ITestStorage storage)
         {
-            m_CurrentStorage = storage;
+            _currentStorage = storage;
 
             // Insert into the repo
             var dal = storage.GetStorage();
@@ -155,7 +155,7 @@ namespace LazyStorage.Tests
 
         public void Dispose()
         {
-            m_CurrentStorage.CleanUp();
+            _currentStorage.CleanUp();
         }
     }
 }
