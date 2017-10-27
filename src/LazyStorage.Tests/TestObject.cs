@@ -18,12 +18,13 @@ namespace LazyStorage.Tests
 
         public Dictionary<string, string> GetStorageInfo()
         {
-            var info = new Dictionary<string, string>();
-
-            info.Add("Id", Id.ToString());
-            info.Add("Name", Name);
-            info.Add("StartDate", _startDate.Ticks.ToString());
-            info.Add("EndDate", _endDate.Ticks.ToString());
+            var info = new Dictionary<string, string>
+            {
+                {"Id", Id.ToString()},
+                {"Name", Name},
+                {"StartDate", _startDate.Ticks.ToString()},
+                {"EndDate", _endDate.Ticks.ToString()}
+            };
 
             return info;
         }
@@ -38,15 +39,15 @@ namespace LazyStorage.Tests
 
         public bool Equals(TestObject other)
         {
-            return (other.Id == Id);
+            return other.Id == Id;
         }
 
         public bool ContentEquals(TestObject other)
         {
-            return (other.Id == Id)
-                && (other.Name == Name)
-                && (other._startDate == _startDate)
-                && (other._endDate == _endDate);
+            return other.Id == Id
+                && other.Name == Name
+                && other._startDate == _startDate
+                && other._endDate == _endDate;
         }
     }
 }

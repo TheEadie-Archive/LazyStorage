@@ -37,11 +37,12 @@ namespace LazyStorage.Tests
 
         public TestObjectNotIStorable GetOriginalObject(StorableObject info)
         {
-            var orginalObject = new TestObjectNotIStorable();
-
-            orginalObject.Name = info.Info["Id"];
-            orginalObject.StartDate = new DateTime(long.Parse(info.Info["StartDate"]));
-            orginalObject.EndDate = new DateTime(long.Parse(info.Info["EndDate"]));
+            var orginalObject = new TestObjectNotIStorable
+            {
+                Name = info.Info["Id"],
+                StartDate = new DateTime(long.Parse(info.Info["StartDate"])),
+                EndDate = new DateTime(long.Parse(info.Info["EndDate"]))
+            };
 
             return orginalObject;
         }

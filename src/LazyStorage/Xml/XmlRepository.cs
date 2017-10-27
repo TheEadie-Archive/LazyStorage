@@ -68,15 +68,7 @@ namespace LazyStorage.Xml
 
         public void Load()
         {
-            if (File.Exists(_uri))
-            {
-                _repository = GetObjectsFromXml(_uri);
-            }
-            else
-            {
-                _repository = new List<T>();
-            }
-
+            _repository = File.Exists(_uri) ? GetObjectsFromXml(_uri) : new List<T>();
         }
 
         public void Save()
