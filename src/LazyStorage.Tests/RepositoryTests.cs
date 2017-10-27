@@ -17,7 +17,7 @@ namespace LazyStorage.Tests
             new object[] {new JsonRepository<TestObject>("RepositoryTests") }
         };
 
-        [Theory, MemberData("Repos")]
+        [Theory, MemberData(nameof(Repos))]
         public void CanAddToRepo(IRepository<TestObject> repo)
         {
             var obj = new TestObject();
@@ -29,7 +29,7 @@ namespace LazyStorage.Tests
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
         
-        [Theory, MemberData("Repos")]
+        [Theory, MemberData(nameof(Repos))]
         public void CanUpdateRepo(IRepository<TestObject> repo)
         {
             var obj = new TestObject();
@@ -44,7 +44,7 @@ namespace LazyStorage.Tests
             Assert.True(repoObj.ContentEquals(obj), "The object returned does not match the one added");
         }
 
-        [Theory, MemberData("Repos")]
+        [Theory, MemberData(nameof(Repos))]
         public void CanDelete(IRepository<TestObject> repo)
         {
             var obj = new TestObject();
@@ -55,7 +55,7 @@ namespace LazyStorage.Tests
             Assert.False(repo.Get().Any(), "The object could not be deleted from the repository");
         }
 
-        [Theory, MemberData("Repos")]
+        [Theory, MemberData(nameof(Repos))]
         public void CanGetByLinq(IRepository<TestObject> repo)
         {
             var objOne = new TestObject {Name = "one"};
