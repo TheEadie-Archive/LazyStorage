@@ -5,45 +5,45 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryStorage : IStorage
     {
-        private Dictionary<string, IRepository> m_Repos;
+        private Dictionary<string, IRepository> _repos;
 
         public InMemoryStorage()
         {
-            m_Repos = InMemorySingleton.GetRepo();
+            _repos = InMemorySingleton.GetRepo();
         }
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
         {
             var typeAsString = typeof (T).ToString();
 
-            if (!m_Repos.ContainsKey(typeAsString))
+            if (!_repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new InMemoryRepository<T>());
+                _repos.Add(typeAsString, new InMemoryRepository<T>());
             }
 
-            return (IRepository<T>) m_Repos[typeAsString];
+            return (IRepository<T>) _repos[typeAsString];
         }
 
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
-            if (!m_Repos.ContainsKey(typeAsString))
+            if (!_repos.ContainsKey(typeAsString))
             {
-                m_Repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
+                _repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
             }
 
-            return (IRepository<T>)m_Repos[typeAsString];
+            return (IRepository<T>)_repos[typeAsString];
         }
 
         public void Save()
         {
-            InMemorySingleton.Sync(m_Repos);
+            InMemorySingleton.Sync(_repos);
         }
 
         public void Discard()
         {
-            m_Repos = InMemorySingleton.GetRepo();
+            _repos = InMemorySingleton.GetRepo();
         }
     }
 }
