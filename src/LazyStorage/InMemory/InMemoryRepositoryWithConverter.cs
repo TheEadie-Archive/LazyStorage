@@ -26,7 +26,7 @@ namespace LazyStorage.InMemory
         public void Set(T item)
         {
             var storableItem = _converter.GetStorableObject(item);
-            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(x, item));
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(x, item)).ToList();
 
             if (matchingItemsInStore.Any())
             {
