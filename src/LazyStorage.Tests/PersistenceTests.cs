@@ -17,13 +17,13 @@ namespace LazyStorage.Tests
 
         private ITestStorage _currentStorage;
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void CanSaveToStorage(ITestStorage storage)
         {
             _currentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
-            var obj = new TestObject(); ;
+            var obj = new TestObject();
 
             repo.Set(obj);
             dal.Save();
@@ -31,13 +31,13 @@ namespace LazyStorage.Tests
             Assert.True(repo.Get().Any(), "The object could not be added to the repository");
         }
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void StoragePersistsBetweenSessions(ITestStorage storage)
         {
             _currentStorage = storage;
             var dal = storage.GetStorage();
             var repo = dal.GetRepository<TestObject>();
-            var obj = new TestObject(); ;
+            var obj = new TestObject();
 
             repo.Set(obj);
             dal.Save();
@@ -48,7 +48,7 @@ namespace LazyStorage.Tests
             Assert.True(repo2.Get().Single().ContentEquals(obj), "The object could not be found in the persistent repo");
         }
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
         {
             _currentStorage = storage;
@@ -78,7 +78,7 @@ namespace LazyStorage.Tests
             Assert.True(testObject.ContentEquals(obj1), "The object changes were not reverted in the repo");
         }
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void CanSaveToStorageWithConverter(ITestStorage storage)
         {
             _currentStorage = storage;
@@ -98,7 +98,7 @@ namespace LazyStorage.Tests
             Assert.True(repo.Get().Any(), "The object could not be added to the repository");
         }
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void StoragePersistsBetweenSessionsWithConverter(ITestStorage storage)
         {
             _currentStorage = storage;
@@ -121,7 +121,7 @@ namespace LazyStorage.Tests
             Assert.True(repo2.Get().Single().ContentEquals(obj), "The object could not be found in the persistent repo");
         }
 
-        [Theory, MemberData("StorageTypes")]
+        [Theory, MemberData(nameof(StorageTypes))]
         public void StorageDoesNotPersistIfDiscardedWithConverter(ITestStorage storage)
         {
             _currentStorage = storage;
