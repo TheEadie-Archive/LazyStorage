@@ -4,7 +4,6 @@ using System.Linq;
 using LazyStorage.InMemory;
 using LazyStorage.Interfaces;
 using LazyStorage.Json;
-using LazyStorage.Tests.StorageTypes;
 using LazyStorage.Xml;
 using Xunit;
 
