@@ -9,48 +9,48 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
-        private readonly string m_Uri;
-        private List<T> m_Repository = new List<T>();
+        private readonly string _uri;
+        private List<T> _repository = new List<T>();
 
         public XmlRepository(string storageFolder)
         {
-            m_Uri = $"{storageFolder}{typeof(T)}.xml";
+            _uri = $"{storageFolder}{typeof(T)}.xml";
             Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
+            return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
         }
 
         public void Set(T item)
         {
-            if (m_Repository.Contains(item))
+            if (_repository.Contains(item))
             {
                 // Update
-                var obj = m_Repository.Where(x => x.Equals(item));
-                m_Repository.Remove(obj.First());
-                m_Repository.Add(item);
+                var obj = _repository.Where(x => x.Equals(item));
+                _repository.Remove(obj.First());
+                _repository.Add(item);
             }
             else
             {
                 // Insert
-                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.Id) + 1 : 1;
+                var nextId = _repository.Any() ? _repository.Max(x => x.Id) + 1 : 1;
                 item.Id = nextId;
-                m_Repository.Add(item);
+                _repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
-            var obj = m_Repository.SingleOrDefault(x => x.Id == item.Id);
-            m_Repository.Remove(obj);
+            var obj = _repository.SingleOrDefault(x => x.Id == item.Id);
+            _repository.Remove(obj);
         }
 
 
         public object Clone()
         {
-            var newRepo = new XmlRepository<T>(m_Uri);
+            var newRepo = new XmlRepository<T>(_uri);
 
             foreach (var item in Get())
             {
@@ -68,22 +68,22 @@ namespace LazyStorage.Xml
 
         public void Load()
         {
-            if (File.Exists(m_Uri))
+            if (File.Exists(_uri))
             {
-                m_Repository = GetObjectsFromXml(m_Uri);
+                _repository = GetObjectsFromXml(_uri);
             }
             else
             {
-                m_Repository = new List<T>();
+                _repository = new List<T>();
             }
 
         }
 
         public void Save()
         {
-            using (var writer = new FileStream(m_Uri, FileMode.Create))
+            using (var writer = new FileStream(_uri, FileMode.Create))
             {
-                GetXmlOuput(m_Repository).Save(writer);
+                GetXmlOuput(_repository).Save(writer);
             }
         }
 
