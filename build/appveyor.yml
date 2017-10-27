@@ -1,9 +1,10 @@
-configuration: Release
-image: Visual Studio 2017 Preview
+image: Visual Studio 2017
 
 install:
   - choco install GitVersion.Portable
+  - cd build
   - GitVersion /output buildserver
+  - cd ..
 
 dotnet_csproj:
   patch: true
@@ -14,13 +15,12 @@ dotnet_csproj:
 before_build:
   - dotnet restore
 
-build:
-  project: LazyStorage.sln
-  verbosity: minimal
+build_script:
+  - dotnet build
 
 after_build:
-  - cmd: dotnet pack LazyStorage\LazyStorage.csproj -c Release
-  - cmd: appveyor PushArtifact "LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
+  - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release
+  - appveyor PushArtifact "src\LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
 
 deploy:
   - provider: GitHub
