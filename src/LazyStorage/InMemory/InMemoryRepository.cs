@@ -7,35 +7,35 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
-        private readonly List<T> m_Repository = new List<T>();
+        private readonly List<T> _repository = new List<T>();
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
+            return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
         }
 
         public void Set(T item)
         {
-            if (m_Repository.Contains(item))
+            if (_repository.Contains(item))
             {
                 // Update
-                var obj = m_Repository.Where(x => x.Equals(item));
-                m_Repository.Remove(obj.First());
-                m_Repository.Add(item);
+                var obj = _repository.Where(x => x.Equals(item));
+                _repository.Remove(obj.First());
+                _repository.Add(item);
             }
             else
             {
                 // Insert
-                var nextId = m_Repository.Any() ? m_Repository.Max(x => x.Id) + 1 : 1;
+                var nextId = _repository.Any() ? _repository.Max(x => x.Id) + 1 : 1;
                 item.Id = nextId;
-                m_Repository.Add(item);
+                _repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
-            var obj = m_Repository.SingleOrDefault(x => x.Id == item.Id);
-            m_Repository.Remove(obj);
+            var obj = _repository.SingleOrDefault(x => x.Id == item.Id);
+            _repository.Remove(obj);
         }
 
 
