@@ -9,59 +9,59 @@ namespace LazyStorage.Xml
 {
     internal class XmlRepositoryWithConverter<T> : IRepository<T>
     {
-        private readonly string m_Uri;
-        private List<T> m_Repository = new List<T>();
-        private readonly string m_StorageFolder;
-        private readonly IConverter<T> m_Converter;
+        private readonly string _uri;
+        private List<T> _repository = new List<T>();
+        private readonly string _storageFolder;
+        private readonly IConverter<T> _converter;
 
         public XmlRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
-            m_Uri = $"{storageFolder}{typeof(T)}.xml";
-            m_StorageFolder = storageFolder;
-            m_Converter = converter;
+            _uri = $"{storageFolder}{typeof(T)}.xml";
+            _storageFolder = storageFolder;
+            _converter = converter;
             Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? m_Repository.Where(exp).ToList() : m_Repository.ToList();
+            return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
         }
 
         public void Set(T item)
         {
-            var storableObject = m_Converter.GetStorableObject(item);
-            var matchingItemsInStore = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
+            var storableObject = _converter.GetStorableObject(item);
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableObject, x));
 
             if (matchingItemsInStore.Any())
             {
                 // Update
-                m_Repository.Remove(matchingItemsInStore.First());
-                m_Repository.Add(item);
+                _repository.Remove(matchingItemsInStore.First());
+                _repository.Add(item);
             }
             else
             {
                 // Insert
-                m_Repository.Add(item);
+                _repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
-            var storableObject = m_Converter.GetStorableObject(item);
-            var obj = m_Repository.Where(x => m_Converter.IsEqual(storableObject, x));
-            m_Repository.Remove(obj.First());
+            var storableObject = _converter.GetStorableObject(item);
+            var obj = _repository.Where(x => _converter.IsEqual(storableObject, x));
+            _repository.Remove(obj.First());
         }
 
 
         public object Clone()
         {
-            var newRepo = new XmlRepositoryWithConverter<T>(m_StorageFolder, m_Converter);
+            var newRepo = new XmlRepositoryWithConverter<T>(_storageFolder, _converter);
 
             foreach (var item in Get())
             {
-                var info = m_Converter.GetStorableObject(item);
+                var info = _converter.GetStorableObject(item);
 
-                var temp = m_Converter.GetOriginalObject(info);
+                var temp = _converter.GetOriginalObject(info);
 
                 newRepo.Set(temp);
             }
@@ -71,22 +71,22 @@ namespace LazyStorage.Xml
         }
         public void Load()
         {
-            if (File.Exists(m_Uri))
+            if (File.Exists(_uri))
             {
-                m_Repository = GetObjectsFromXml(m_Uri);
+                _repository = GetObjectsFromXml(_uri);
             }
             else
             {
-                m_Repository = new List<T>();
+                _repository = new List<T>();
             }
 
         }
 
         public void Save()
         {
-            using (var writer = new FileStream(m_Uri, FileMode.Create))
+            using (var writer = new FileStream(_uri, FileMode.Create))
             {
-                GetXmlOuput(m_Repository).Save(writer);
+                GetXmlOuput(_repository).Save(writer);
             }
         }
 
@@ -100,7 +100,7 @@ namespace LazyStorage.Xml
 
             foreach (var item in objects)
             {
-                var info = m_Converter.GetStorableObject(item).Info;
+                var info = _converter.GetStorableObject(item).Info;
 
                 var newElement = new XElement(typeAsString);
 
@@ -130,7 +130,7 @@ namespace LazyStorage.Xml
                     storableObject.Info.Add(element.Name.ToString(), element.Value);
                 }
 
-                var item = m_Converter.GetOriginalObject(storableObject);
+                var item = _converter.GetOriginalObject(storableObject);
 
                 found.Add(item);
             }
