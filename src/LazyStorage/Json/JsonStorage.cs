@@ -6,7 +6,7 @@ namespace LazyStorage.Json
     internal class JsonStorage : IStorage
     {
         private readonly string _storageFolder;
-        private Dictionary<string, IRepository> _repos;
+        private readonly Dictionary<string, IRepository> _repos;
 
         public JsonStorage(string storageFolder)
         {
