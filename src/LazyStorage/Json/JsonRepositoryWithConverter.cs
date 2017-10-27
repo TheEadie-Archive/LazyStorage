@@ -30,7 +30,7 @@ namespace LazyStorage.Json
         public void Set(T item)
         {
             var storableObject = _converter.GetStorableObject(item);
-            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableObject, x));
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableObject, x)).ToList();
 
             if (matchingItemsInStore.Any())
             {
