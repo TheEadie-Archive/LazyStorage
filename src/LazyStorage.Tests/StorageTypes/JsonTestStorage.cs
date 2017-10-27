@@ -7,11 +7,11 @@ namespace LazyStorage.Tests.StorageTypes
 {
     public class JsonTestStorage : ITestStorage
     {
-        private readonly IStorage m_Storage = StorageFactory.GetJsonStorage(@"");
+        private readonly IStorage _storage = StorageFactory.GetJsonStorage(@"");
 
         public IStorage GetStorage()
         {
-            return m_Storage;
+            return _storage;
         }
 
         public void CleanUp()

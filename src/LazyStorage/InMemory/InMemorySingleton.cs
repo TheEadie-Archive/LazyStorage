@@ -5,26 +5,26 @@ namespace LazyStorage.InMemory
 {
     internal static class InMemorySingleton
     {
-        private static Dictionary<string, IRepository> repos = new Dictionary<string, IRepository>();
+        private static Dictionary<string, IRepository> _repos = new Dictionary<string, IRepository>();
 
         public static void Sync(Dictionary<string, IRepository> repoList)
         {
-            repos = new Dictionary<string, IRepository>();
+            _repos = new Dictionary<string, IRepository>();
 
             foreach (var repo in repoList)
             {
-                repos.Add(repo.Key, (IRepository)repo.Value.Clone());
+                _repos.Add(repo.Key, (IRepository)repo.Value.Clone());
             }
         }
 
         public static Dictionary<string, IRepository> GetRepo()
         {
-            return repos;
+            return _repos;
         }
 
         public static void Clear()
         {
-            repos.Clear();
+            _repos.Clear();
         }
     }
 }
