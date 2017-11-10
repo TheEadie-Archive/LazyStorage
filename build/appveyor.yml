@@ -2,25 +2,23 @@ image: Visual Studio 2017
 
 install:
   - choco install GitVersion.Portable
+  - choco install opencover.Portable
+  - choco install codecov
   - cd build
   - GitVersion /output buildserver
   - cd ..
 
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '%GitVersion_MajorMinorPatch%'
-  package_version: '%GitVersion_NuGetVersion%'
-
-before_build:
-  - dotnet restore
-
 build_script:
-  - dotnet build
+  - dotnet restore
+  - dotnet build -c Release /p:Version=%GitVersion_MajorMinorPatch%
 
 after_build:
-  - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release
+  - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release /p:Version=%GitVersion_MajorMinorPatch% /p:PackageVersion=%GitVersion_NuGetVersion%
   - appveyor PushArtifact "src\LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
+
+test_script:
+  - OpenCover.Console.exe -oldstyle -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""src\LazyStorage.Tests\LazyStorage.Tests.csproj"" -f netcoreapp2.0" -filter:"+[*]* -[*.Tests*]*" -returntargetcode -output:coverage.xml
+  - codecov -f "coverage.xml"
 
 deploy:
   - provider: GitHub
