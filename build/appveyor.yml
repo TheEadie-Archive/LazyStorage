@@ -6,20 +6,14 @@ install:
   - GitVersion /output buildserver
   - cd ..
 
-dotnet_csproj:
-  patch: true
-  file: '**\*.csproj'
-  version: '%GitVersion_MajorMinorPatch%'
-  package_version: '%GitVersion_NuGetVersion%'
-
 before_build:
   - dotnet restore
 
 build_script:
-  - dotnet build
+  - dotnet build -c Release /p:Version=%GitVersion_MajorMinorPatch%
 
 after_build:
-  - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release
+  - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release /p:Version=%GitVersion_MajorMinorPatch% /p:PackageVersion=%GitVersion_NuGetVersion%
   - appveyor PushArtifact "src\LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
 
 deploy:
