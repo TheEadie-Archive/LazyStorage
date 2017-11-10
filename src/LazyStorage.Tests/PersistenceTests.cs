@@ -8,7 +8,7 @@ namespace LazyStorage.Tests
 {
     public class PersistenceTests : IDisposable
     {
-        private static IEnumerable<object[]> StorageTypes => new[]
+        public static IEnumerable<object[]> StorageTypes => new[]
         {
             new object[] {new InMemoryTestStorage()},
             new object[] {new XmlTestStorage()},

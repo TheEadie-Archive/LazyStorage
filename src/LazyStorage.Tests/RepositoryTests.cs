@@ -10,7 +10,7 @@ namespace LazyStorage.Tests
 {
     public class RepositoryTests
     {
-        private static IEnumerable<object[]> Repos => new[]
+        public static IEnumerable<object[]> Repos => new[]
         {
             new object[] {new InMemoryRepository<TestObject>()},
             new object[] {new XmlRepository<TestObject>("RepositoryTests") },

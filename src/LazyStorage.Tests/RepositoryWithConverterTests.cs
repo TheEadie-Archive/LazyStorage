@@ -11,7 +11,7 @@ namespace LazyStorage.Tests
 {
     public class RepositoryWithConverterTests
     {
-        private static IEnumerable<object[]> Repos => new[]
+        public static IEnumerable<object[]> Repos => new[]
         {
             new object[] {new InMemoryRepositoryWithConverter<TestObjectNotIStorable>(new TestObjectStorageConverter())},
             new object[] {new XmlRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
