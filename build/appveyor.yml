@@ -17,7 +17,7 @@ build_script:
 after_build:
   - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release /p:Version=%GitVersion_MajorMinorPatch% /p:PackageVersion=%GitVersion_NuGetVersion%
   - appveyor PushArtifact "src\LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
-  - OpenCover.Console.exe -oldstyle -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""src\LazyStorage.Tests\LazyStorage.Tests.csproj"" -f netcoreapp2.0" -output:coverage.xml
+  - OpenCover.Console.exe -oldstyle -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""src\LazyStorage.Tests\LazyStorage.Tests.csproj"" -f netcoreapp2.0" -filter:"+[*]* -[xunit*]*" -output:coverage.xml
   - codecov -f "coverage.xml"
 
 deploy:
