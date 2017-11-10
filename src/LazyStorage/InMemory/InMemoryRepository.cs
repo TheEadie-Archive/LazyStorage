@@ -59,6 +59,7 @@ namespace LazyStorage.InMemory
 
         public void Save()
         {
+            InMemorySingleton.Sync<T>(typeof(T).ToString(), this);
         }
 
         public void Load()

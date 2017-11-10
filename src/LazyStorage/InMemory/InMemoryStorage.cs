@@ -38,12 +38,18 @@ namespace LazyStorage.InMemory
 
         public void Save()
         {
-            InMemorySingleton.Sync(_repos);
+            foreach(var repo in _repos)
+            {
+                repo.Value.Save();
+            }
         }
 
         public void Discard()
         {
-            _repos = InMemorySingleton.GetRepo();
+            foreach(var repo in _repos)
+            {
+                repo.Value.Load();
+            }
         }
     }
 }

@@ -7,19 +7,33 @@ namespace LazyStorage.InMemory
     {
         private static Dictionary<string, IRepository> _repos = new Dictionary<string, IRepository>();
 
-        public static void Sync(Dictionary<string, IRepository> repoList)
+        public static void Sync<T>(string type, InMemoryRepository<T> repo) where T : IStorable<T>, new()
         {
-            _repos = new Dictionary<string, IRepository>();
-
-            foreach (var repo in repoList)
+            if (!_repos.ContainsKey(type))
             {
-                _repos.Add(repo.Key, (IRepository)repo.Value.Clone());
+                _repos.Add(type, repo);
+            }
+            else
+            {
+                _repos[type] = (IRepository)repo.Clone();
             }
         }
 
-        public static Dictionary<string, IRepository> GetRepo()
+        public static void Sync<T>(string type, InMemoryRepositoryWithConverter<T> repo)
         {
-            return _repos;
+            if (!_repos.ContainsKey(type))
+            {
+                _repos.Add(type, repo);
+            }
+            else
+            {
+                _repos[type] = (IRepository)repo.Clone();
+            }
+        }
+
+        public static IRepository<T> GetRepo<T>()
+        {
+            return _repos[nameof(T)];
         }
 
         public static void Clear()
