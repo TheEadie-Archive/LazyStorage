@@ -7,7 +7,7 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
     {
-        private readonly List<T> _repository = new List<T>();
+        private List<T> _repository = new List<T>();
 
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
@@ -38,32 +38,22 @@ namespace LazyStorage.InMemory
             _repository.Remove(obj);
         }
 
-
-        public object Clone()
-        {
-            var newRepo = new InMemoryRepository<T>();
-
-            foreach (var item in Get())
-            {
-                var temp = new T();
-
-                var info = item.GetStorageInfo();
-
-                temp.InitialiseWithStorageInfo(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-        }
-
         public void Save()
         {
-            InMemorySingleton.Sync<T>(typeof(T).ToString(), this);
+            var itemsInRepo = Get().Select(x => x.GetStorageInfo());
+            InMemorySingleton.Sync<T>(nameof(T), itemsInRepo);
         }
 
         public void Load()
         {
+            _repository = InMemorySingleton.GetRepo<T>().Select(GetObjectFromStorageInfo).ToList();
+        }
+
+        private T GetObjectFromStorageInfo(Dictionary<string, string> storageInfo)
+        {
+            var item = new T();
+            item.InitialiseWithStorageInfo(storageInfo);
+            return item;
         }
     }
 }

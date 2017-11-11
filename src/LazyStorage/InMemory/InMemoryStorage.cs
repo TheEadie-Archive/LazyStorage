@@ -9,7 +9,7 @@ namespace LazyStorage.InMemory
 
         public InMemoryStorage()
         {
-            _repos = InMemorySingleton.GetRepo();
+            _repos = new Dictionary<string, IRepository>();
         }
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()

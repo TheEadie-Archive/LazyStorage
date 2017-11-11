@@ -1,39 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
     internal static class InMemorySingleton
     {
-        private static Dictionary<string, IRepository> _repos = new Dictionary<string, IRepository>();
+        private static Dictionary<string, IEnumerable<Dictionary<string,string>>> _repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
 
-        public static void Sync<T>(string type, InMemoryRepository<T> repo) where T : IStorable<T>, new()
+        public static void Sync<T>(string type, IEnumerable<Dictionary<string, string>> items)
         {
             if (!_repos.ContainsKey(type))
             {
-                _repos.Add(type, repo);
+                _repos.Add(type, items);
             }
             else
             {
-                _repos[type] = (IRepository)repo.Clone();
+                _repos[type] = items;
             }
         }
 
-        public static void Sync<T>(string type, InMemoryRepositoryWithConverter<T> repo)
+        public static IEnumerable<Dictionary<string, string>> GetRepo<T>()
         {
-            if (!_repos.ContainsKey(type))
+            if (_repos.ContainsKey(nameof(T)))
             {
-                _repos.Add(type, repo);
+                return _repos[nameof(T)];
             }
             else
             {
-                _repos[type] = (IRepository)repo.Clone();
+                return new List<Dictionary<string,string>>();
             }
-        }
-
-        public static IRepository<T> GetRepo<T>()
-        {
-            return _repos[nameof(T)];
         }
 
         public static void Clear()
