@@ -9,6 +9,11 @@ namespace LazyStorage.InMemory
     {
         private List<T> _repository = new List<T>();
 
+        public InMemoryRepository()
+        {
+            Load();
+        }
+
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
             return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
