@@ -5,7 +5,7 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryStorage : IStorage
     {
-        private Dictionary<string, IRepository> _repos;
+        private readonly Dictionary<string, IRepository> _repos;
 
         public InMemoryStorage()
         {

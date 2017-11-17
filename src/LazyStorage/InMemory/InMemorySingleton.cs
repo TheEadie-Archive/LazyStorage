@@ -4,7 +4,7 @@ namespace LazyStorage.InMemory
 {
     internal static class InMemorySingleton
     {
-        private static Dictionary<string, IEnumerable<Dictionary<string,string>>> _repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
+        private static readonly Dictionary<string, IEnumerable<Dictionary<string,string>>> _repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
 
         public static void Sync(string type, IEnumerable<Dictionary<string, string>> items)
         {
