@@ -11,13 +11,11 @@ namespace LazyStorage.Xml
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
-        private readonly string _storageFolder;
         private readonly IConverter<T> _converter;
 
         public XmlRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
-            _storageFolder = storageFolder;
             _converter = converter;
             Load();
         }
