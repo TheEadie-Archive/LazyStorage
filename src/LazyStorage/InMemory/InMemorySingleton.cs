@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using LazyStorage.Interfaces;
+﻿using System.Collections.Generic;
 
 namespace LazyStorage.InMemory
 {
