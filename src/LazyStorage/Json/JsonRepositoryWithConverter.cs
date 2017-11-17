@@ -11,13 +11,11 @@ namespace LazyStorage.Json
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
-        private readonly string _storageFolder;
         private readonly IConverter<T> _converter;
 
         public JsonRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.json";
-            _storageFolder = storageFolder;
             _converter = converter;
             Load();
         }
