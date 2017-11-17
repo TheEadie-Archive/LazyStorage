@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LazyStorage.InMemory;
 using LazyStorage.Tests.StorageTypes;
 using Xunit;
 
