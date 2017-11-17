@@ -17,7 +17,6 @@ namespace LazyStorage.Json
         {
             _uri = $"{storageFolder}{typeof(T)}.json";
             _converter = converter;
-            Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
