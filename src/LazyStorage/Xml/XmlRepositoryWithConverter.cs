@@ -11,13 +11,11 @@ namespace LazyStorage.Xml
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
-        private readonly string _storageFolder;
         private readonly IConverter<T> _converter;
 
         public XmlRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
-            _storageFolder = storageFolder;
             _converter = converter;
             Load();
         }
@@ -53,22 +51,6 @@ namespace LazyStorage.Xml
         }
 
 
-        public object Clone()
-        {
-            var newRepo = new XmlRepositoryWithConverter<T>(_storageFolder, _converter);
-
-            foreach (var item in Get())
-            {
-                var info = _converter.GetStorableObject(item);
-
-                var temp = _converter.GetOriginalObject(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-
-        }
         public void Load()
         {
             _repository = File.Exists(_uri) ? GetObjectsFromXml(_uri) : new List<T>();

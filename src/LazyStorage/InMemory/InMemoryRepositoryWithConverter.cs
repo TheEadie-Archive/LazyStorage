@@ -12,13 +12,14 @@ namespace LazyStorage.InMemory
         public InMemoryRepositoryWithConverter(IConverter<T> converter)
         {
             _converter = converter;
+            Load();
         }
 
-        private readonly List<StorableObject> _repository = new List<StorableObject>();
+        private List<T> _repository = new List<T>();
         
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            var allObjects = _repository.Select(item => _converter.GetOriginalObject(item)).ToList();
+            var allObjects = _repository;
 
             return exp != null ? allObjects.Where(exp).ToList() : allObjects.ToList();
         }
@@ -26,18 +27,18 @@ namespace LazyStorage.InMemory
         public void Set(T item)
         {
             var storableItem = _converter.GetStorableObject(item);
-            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(x, item)).ToList();
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableItem, x)).ToList();
 
             if (matchingItemsInStore.Any())
             {
                 // Update
                 _repository.Remove(matchingItemsInStore.First());
-                _repository.Add(storableItem);
+                _repository.Add(item);
             }
             else
             {
                 // Insert
-                _repository.Add(storableItem);
+                _repository.Add(item);
             }
         }
 
@@ -49,29 +50,29 @@ namespace LazyStorage.InMemory
             _repository.Remove(obj.First());
         }
 
-
-        public object Clone()
-        {
-            var newRepo = new InMemoryRepositoryWithConverter<T>(_converter);
-
-            foreach (var item in Get())
-            {
-                var info = _converter.GetStorableObject(item);
-
-                var temp = _converter.GetOriginalObject(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-        }
-
         public void Save()
         {
+            var itemsInRepo = Get().Select(x => _converter.GetStorableObject(x).Info);
+            InMemorySingleton.Sync(nameof(T), itemsInRepo);
         }
 
         public void Load()
         {
+            _repository = InMemorySingleton.GetRepo<T>().Select(GetObjectFromStorageInfo).ToList();
+        }
+
+        private T GetObjectFromStorageInfo(Dictionary<string, string> storageInfo)
+        {
+            var storableItem = new StorableObject();
+
+            foreach(var itemInfo in storageInfo)
+            {
+                storableItem.Info.Add(itemInfo.Key, itemInfo.Value);
+            }
+
+            var item = _converter.GetOriginalObject(storableItem);
+            
+            return item;
         }
     }
 }

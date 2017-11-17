@@ -5,11 +5,11 @@ namespace LazyStorage.InMemory
 {
     internal class InMemoryStorage : IStorage
     {
-        private Dictionary<string, IRepository> _repos;
+        private readonly Dictionary<string, IRepository> _repos;
 
         public InMemoryStorage()
         {
-            _repos = InMemorySingleton.GetRepo();
+            _repos = new Dictionary<string, IRepository>();
         }
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
@@ -21,7 +21,7 @@ namespace LazyStorage.InMemory
                 _repos.Add(typeAsString, new InMemoryRepository<T>());
             }
 
-            return (IRepository<T>) _repos[typeAsString];
+            return _repos[typeAsString] as IRepository<T>;
         }
 
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
@@ -33,17 +33,23 @@ namespace LazyStorage.InMemory
                 _repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
             }
 
-            return (IRepository<T>)_repos[typeAsString];
+            return _repos[typeAsString] as IRepository<T>;
         }
 
         public void Save()
         {
-            InMemorySingleton.Sync(_repos);
+            foreach(var repo in _repos)
+            {
+                repo.Value.Save();
+            }
         }
 
         public void Discard()
         {
-            _repos = InMemorySingleton.GetRepo();
+            foreach(var repo in _repos)
+            {
+                repo.Value.Load();
+            }
         }
     }
 }

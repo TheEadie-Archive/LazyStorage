@@ -10,14 +10,9 @@ namespace LazyStorage.Interfaces
         void Delete(T item);
     }
 
-    public interface IRepository : ICloneable
+    public interface IRepository
     {
         void Save();
         void Load();
-    }
-
-    public interface ICloneable
-    {
-        object Clone();
     }
 }

@@ -11,13 +11,11 @@ namespace LazyStorage.Json
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
-        private readonly string _storageFolder;
         private readonly IConverter<T> _converter;
 
         public JsonRepositoryWithConverter(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.json";
-            _storageFolder = storageFolder;
             _converter = converter;
             Load();
         }
@@ -53,22 +51,6 @@ namespace LazyStorage.Json
         }
 
 
-        public object Clone()
-        {
-            var newRepo = new JsonRepositoryWithConverter<T>(_storageFolder, _converter);
-
-            foreach (var item in Get())
-            {
-                var info = _converter.GetStorableObject(item);
-
-                var temp = _converter.GetOriginalObject(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-
-        }
         public void Load()
         {
             if (File.Exists(_uri))

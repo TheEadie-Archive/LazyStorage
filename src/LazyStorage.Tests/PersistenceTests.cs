@@ -109,7 +109,7 @@ namespace LazyStorage.Tests
             var dal = storage.GetStorage();
             var converter = new TestObjectStorageConverter();
 
-            var repo = storage.GetStorage().GetRepository(converter);
+            var repo = dal.GetRepository(converter);
 
             var obj = new TestObjectNotIStorable
             {
@@ -136,7 +136,7 @@ namespace LazyStorage.Tests
             var dal = storage.GetStorage();
             var converter = new TestObjectStorageConverter();
 
-            var repo = storage.GetStorage().GetRepository(converter);
+            var repo = dal.GetRepository(converter);
 
             var obj1 = new TestObjectNotIStorable {Name = "Test"};
 
