@@ -20,7 +20,9 @@ namespace LazyStorage.Xml
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new XmlRepository<T>(_storageFolder));
+                var xmlRepository = new XmlRepository<T>(_storageFolder);
+                xmlRepository.Load();
+                _repos.Add(typeAsString, xmlRepository);
             }
 
             return _repos[typeAsString] as IRepository<T>;
@@ -32,7 +34,9 @@ namespace LazyStorage.Xml
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(_storageFolder, converter));
+                var xmlRepositoryWithConverter = new XmlRepositoryWithConverter<T>(_storageFolder, converter);
+                xmlRepositoryWithConverter.Load();
+                _repos.Add(typeAsString, xmlRepositoryWithConverter);
             }
 
             return _repos[typeAsString] as IRepository<T>;

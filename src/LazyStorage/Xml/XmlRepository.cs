@@ -15,7 +15,6 @@ namespace LazyStorage.Xml
         public XmlRepository(string storageFolder)
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
-            Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)

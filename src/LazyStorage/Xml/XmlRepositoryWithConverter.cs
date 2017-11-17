@@ -17,7 +17,6 @@ namespace LazyStorage.Xml
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
             _converter = converter;
-            Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)

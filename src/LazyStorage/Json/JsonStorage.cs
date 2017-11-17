@@ -20,7 +20,9 @@ namespace LazyStorage.Json
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new JsonRepository<T>(_storageFolder));
+                var jsonRepository = new JsonRepository<T>(_storageFolder);
+                jsonRepository.Load();
+                _repos.Add(typeAsString, jsonRepository);
             }
 
             return _repos[typeAsString] as IRepository<T>;
@@ -32,7 +34,9 @@ namespace LazyStorage.Json
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new JsonRepositoryWithConverter<T>(_storageFolder, converter));
+                var jsonRepositoryWithConverter = new JsonRepositoryWithConverter<T>(_storageFolder, converter);
+                jsonRepositoryWithConverter.Load();
+                _repos.Add(typeAsString, jsonRepositoryWithConverter);
             }
 
             return _repos[typeAsString] as IRepository<T>;

@@ -15,7 +15,6 @@ namespace LazyStorage.Json
         public JsonRepository(string storageFolder)
         {
             _uri = $"{storageFolder}{typeof(T)}.json";
-            Load();
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
