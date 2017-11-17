@@ -18,7 +18,9 @@ namespace LazyStorage.InMemory
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new InMemoryRepository<T>());
+                var inMemoryRepository = new InMemoryRepository<T>();
+                inMemoryRepository.Load();
+                _repos.Add(typeAsString, inMemoryRepository);
             }
 
             return _repos[typeAsString] as IRepository<T>;
@@ -30,7 +32,9 @@ namespace LazyStorage.InMemory
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                _repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
+                var inMemoryRepositoryWithConverter = new InMemoryRepositoryWithConverter<T>(converter);
+                inMemoryRepositoryWithConverter.Load();
+                _repos.Add(typeAsString, inMemoryRepositoryWithConverter);
             }
 
             return _repos[typeAsString] as IRepository<T>;

@@ -12,7 +12,6 @@ namespace LazyStorage.InMemory
         public InMemoryRepositoryWithConverter(IConverter<T> converter)
         {
             _converter = converter;
-            Load();
         }
 
         private List<T> _repository = new List<T>();
