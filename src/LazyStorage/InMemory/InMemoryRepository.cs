@@ -46,7 +46,7 @@ namespace LazyStorage.InMemory
         public void Save()
         {
             var itemsInRepo = Get().Select(x => x.GetStorageInfo());
-            InMemorySingleton.Sync<T>(nameof(T), itemsInRepo);
+            InMemorySingleton.Sync(nameof(T), itemsInRepo);
         }
 
         public void Load()

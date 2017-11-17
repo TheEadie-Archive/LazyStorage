@@ -6,7 +6,7 @@ namespace LazyStorage.InMemory
     {
         private static Dictionary<string, IEnumerable<Dictionary<string,string>>> _repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
 
-        public static void Sync<T>(string type, IEnumerable<Dictionary<string, string>> items)
+        public static void Sync(string type, IEnumerable<Dictionary<string, string>> items)
         {
             if (!_repos.ContainsKey(type))
             {
