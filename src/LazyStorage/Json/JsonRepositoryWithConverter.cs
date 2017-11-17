@@ -53,22 +53,6 @@ namespace LazyStorage.Json
         }
 
 
-        public object Clone()
-        {
-            var newRepo = new JsonRepositoryWithConverter<T>(_storageFolder, _converter);
-
-            foreach (var item in Get())
-            {
-                var info = _converter.GetStorableObject(item);
-
-                var temp = _converter.GetOriginalObject(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-
-        }
         public void Load()
         {
             if (File.Exists(_uri))

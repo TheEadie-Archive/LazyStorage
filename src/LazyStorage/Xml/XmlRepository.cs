@@ -48,24 +48,6 @@ namespace LazyStorage.Xml
         }
 
 
-        public object Clone()
-        {
-            var newRepo = new XmlRepository<T>(_uri);
-
-            foreach (var item in Get())
-            {
-                var temp = new T();
-
-                var info = item.GetStorageInfo();
-
-                temp.InitialiseWithStorageInfo(info);
-
-                newRepo.Set(temp);
-            }
-
-            return newRepo;
-        }
-
         public void Load()
         {
             _repository = File.Exists(_uri) ? GetObjectsFromXml(_uri) : new List<T>();
