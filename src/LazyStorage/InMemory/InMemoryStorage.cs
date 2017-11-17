@@ -21,7 +21,7 @@ namespace LazyStorage.InMemory
                 _repos.Add(typeAsString, new InMemoryRepository<T>());
             }
 
-            return (IRepository<T>) _repos[typeAsString];
+            return _repos[typeAsString] as IRepository<T>;
         }
 
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
@@ -33,7 +33,7 @@ namespace LazyStorage.InMemory
                 _repos.Add(typeAsString, new InMemoryRepositoryWithConverter<T>(converter));
             }
 
-            return (IRepository<T>)_repos[typeAsString];
+            return _repos[typeAsString] as IRepository<T>;
         }
 
         public void Save()

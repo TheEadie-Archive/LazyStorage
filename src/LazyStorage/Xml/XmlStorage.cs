@@ -6,7 +6,7 @@ namespace LazyStorage.Xml
     internal class XmlStorage : IStorage
     {
         private readonly string _storageFolder;
-        private Dictionary<string, IRepository> _repos;
+        private readonly Dictionary<string, IRepository> _repos;
 
         public XmlStorage(string storageFolder)
         {
@@ -35,7 +35,7 @@ namespace LazyStorage.Xml
                 _repos.Add(typeAsString, new XmlRepositoryWithConverter<T>(_storageFolder, converter));
             }
 
-            return (IRepository<T>)_repos[typeAsString];
+            return _repos[typeAsString] as IRepository<T>;
         }
         public void Save()
         {
@@ -51,7 +51,6 @@ namespace LazyStorage.Xml
             {
                 repository.Value.Load();
             }
-            _repos = new Dictionary<string, IRepository>();
         }
     }
 }
