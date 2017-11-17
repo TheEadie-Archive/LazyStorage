@@ -4,25 +4,25 @@ namespace LazyStorage.InMemory
 {
     internal static class InMemorySingleton
     {
-        private static readonly Dictionary<string, IEnumerable<Dictionary<string,string>>> _repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
+        private static readonly Dictionary<string, IEnumerable<Dictionary<string,string>>> Repos = new Dictionary<string, IEnumerable<Dictionary<string,string>>>();
 
         public static void Sync(string type, IEnumerable<Dictionary<string, string>> items)
         {
-            if (!_repos.ContainsKey(type))
+            if (!Repos.ContainsKey(type))
             {
-                _repos.Add(type, items);
+                Repos.Add(type, items);
             }
             else
             {
-                _repos[type] = items;
+                Repos[type] = items;
             }
         }
 
         public static IEnumerable<Dictionary<string, string>> GetRepo<T>()
         {
-            if (_repos.ContainsKey(nameof(T)))
+            if (Repos.ContainsKey(nameof(T)))
             {
-                return _repos[nameof(T)];
+                return Repos[nameof(T)];
             }
             else
             {
@@ -32,7 +32,7 @@ namespace LazyStorage.InMemory
 
         public static void Clear()
         {
-            _repos.Clear();
+            Repos.Clear();
         }
     }
 }
