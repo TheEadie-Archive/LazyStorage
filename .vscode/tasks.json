@@ -14,7 +14,20 @@
             "label": "test",
             "command": "dotnet test \"src\\LazyStorage.Tests\\LazyStorage.Tests.csproj\"",
             "type": "shell",
-            "group": "test"
+            "group": "test",
+            "problemMatcher": {
+                "owner": "csharptests",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": [
+                {
+                    "regexp": "^\\[(xUnit.net)(.*)\\](.*)(\\[FAIL\\])$",
+                    "file": 1,
+                    "line": 3,
+                    "message": 3,
+                    "loop": true
+                }
+                ]
+            }
         }
     ]
 }
