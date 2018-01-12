@@ -26,6 +26,29 @@
                     "message": 4
                 }
             }
+        },
+        {
+            "label": "test (background)",
+            "command": "cd src/LazyStorage.Tests; dotnet watch test \"LazyStorage.Tests.csproj\"",
+            "type": "shell",
+            "group": "test",
+            "problemMatcher": {
+                "owner": "csharptests",
+                "fileLocation": ["absolute"],
+                "pattern": {
+                    "regexp": "^\\[xUnit.net.*\\]\\s*(.*)\\((\\d+),(\\d+)\\):\\sat\\s(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*39mStarted$",
+                    "endsPattern": "^.*Waiting for a file to change before restarting dotnet.*$"
+                }
+            },
+            "isBackground": true
         }
     ]
 }
