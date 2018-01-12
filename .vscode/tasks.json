@@ -17,16 +17,14 @@
             "group": "test",
             "problemMatcher": {
                 "owner": "csharptests",
-                "fileLocation": ["relative", "${workspaceFolder}"],
-                "pattern": [
-                {
-                    "regexp": "^\\[(xUnit.net)(.*)\\](.*)(\\[FAIL\\])$",
+                "fileLocation": ["absolute"],
+                "pattern": {
+                    "regexp": "^\\[xUnit.net.*\\]\\s*(.*)\\((\\d+),(\\d+)\\):\\sat\\s(.*)$",
                     "file": 1,
-                    "line": 3,
-                    "message": 3,
-                    "loop": true
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
                 }
-                ]
             }
         }
     ]
