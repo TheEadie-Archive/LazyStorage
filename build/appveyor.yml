@@ -10,7 +10,7 @@ install:
   - cd ..
 
 build_script:
-  - SonarQube.Scanner.MSBuild.exe begin /k:"LazyStorage" /d:sonar.organization="theeadie-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="e8e208620fa374d16e3b12a9e56af8d3ca0895d3" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml" /d:sonar.coverage.exclusions="**\*"
+  - SonarQube.Scanner.MSBuild.exe begin /k:"LazyStorage" /d:sonar.organization="theeadie-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="e8e208620fa374d16e3b12a9e56af8d3ca0895d3" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml"
   - dotnet restore
   - dotnet build -c Release /p:Version=%GitVersion_MajorMinorPatch%
 

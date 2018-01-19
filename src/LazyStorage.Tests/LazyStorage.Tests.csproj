@@ -19,4 +19,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <ItemGroup>
+    <SonarQubeSetting Include="sonar.coverage.exclusions">
+      <Value>**\*</Value>
+    </SonarQubeSetting>
+  </ItemGroup>
+
 </Project>
