@@ -19,7 +19,7 @@ after_build:
   - appveyor PushArtifact "src\LazyStorage\bin\release\LazyStorage.%GitVersion_NuGetVersion%.nupkg"
 
 test_script:
-  - OpenCover.Console.exe -oldstyle -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""src\LazyStorage.Tests\LazyStorage.Tests.csproj"" -f netcoreapp2.0" -filter:"+[*]* -[*.Tests*]*" -returntargetcode -output:coverage.xml
+  - OpenCover.Console.exe -oldstyle -register:user -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""src\LazyStorage.Tests\LazyStorage.Tests.csproj"" /p:DebugType=full /p:DebugSymbols=true -f netcoreapp2.0" -filter:"+[*]* -[*.Tests*]*" -returntargetcode -output:coverage.xml
   - SonarQube.Scanner.MSBuild.exe end /d:sonar.login="e8e208620fa374d16e3b12a9e56af8d3ca0895d3"
 
 deploy:
