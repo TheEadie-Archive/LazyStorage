@@ -9,9 +9,16 @@ install:
   - cd ..
 
 build_script:
-  - SonarQube.Scanner.MSBuild.exe begin /k:"LazyStorage" /d:sonar.organization="theeadie-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="e8e208620fa374d16e3b12a9e56af8d3ca0895d3" /v:%GitVersion_MajorMinorPatch% /d:sonar.branch.name="%APPVEYOR_REPO_BRANCH%" /d:sonar.cs.opencover.reportsPaths="%CD%\coverage.xml"
-  - dotnet restore
-  - dotnet build -c Release /p:Version=%GitVersion_MajorMinorPatch%
+  - ps: |
+      if($env:APPVEYOR_REPO_BRANCH -eq "master" -and $env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH -ne "")
+      {
+        $branchName = $env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH
+      }else{
+        $branchName = $env:APPVEYOR_REPO_BRANCH
+      }
+      . SonarQube.Scanner.MSBuild.exe begin /k:"LazyStorage" /d:sonar.organization="theeadie-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="e8e208620fa374d16e3b12a9e56af8d3ca0895d3" /v:$env:GitVersion_MajorMinorPatch /d:sonar.branch.name="$branchName" /d:sonar.cs.opencover.reportsPaths="$env:CD\coverage.xml"
+      dotnet restore
+      dotnet build -c Release /p:Version=$env:GitVersion_MajorMinorPatch
 
 after_build:
   - dotnet pack src\LazyStorage\LazyStorage.csproj -c Release /p:Version=%GitVersion_MajorMinorPatch% /p:PackageVersion=%GitVersion_NuGetVersion%
