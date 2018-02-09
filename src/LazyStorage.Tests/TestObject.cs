@@ -4,7 +4,7 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests
 {
-    public class TestObject : IStorable<TestObject>
+    public sealed class TestObject : IStorable<TestObject>
     {
         public int Id { get; set; }
         public string Name { get; set; }
