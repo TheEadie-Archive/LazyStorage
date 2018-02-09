@@ -6,7 +6,7 @@ using Xunit;
 
 namespace LazyStorage.Tests
 {
-    public class PersistenceTests : IDisposable
+    public sealed class PersistenceTests : IDisposable
     {
         public static IEnumerable<object[]> StorageTypes => new[]
         {
