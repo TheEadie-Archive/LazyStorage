@@ -1,53 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.Tests
 {
-    public sealed class TestObject : IStorable<TestObject>
+    public class TestObject
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        private DateTime _startDate;
-        private DateTime _endDate;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public TestObject()
         {
             Name = "";
         }
 
-        public Dictionary<string, string> GetStorageInfo()
-        {
-            var info = new Dictionary<string, string>
-            {
-                {"Id", Id.ToString()},
-                {"Name", Name},
-                {"StartDate", _startDate.Ticks.ToString()},
-                {"EndDate", _endDate.Ticks.ToString()}
-            };
-
-            return info;
-        }
-
-        public void InitialiseWithStorageInfo(Dictionary<string, string> info)
-        {
-            Id = int.Parse(info["Id"]);
-            Name = info["Name"];
-            _startDate = new DateTime(long.Parse(info["StartDate"]));
-            _endDate = new DateTime(long.Parse(info["EndDate"]));
-        }
-
-        public bool Equals(TestObject other)
-        {
-            return other.Id == Id;
-        }
-
         public bool ContentEquals(TestObject other)
         {
-            return other.Id == Id
-                && other.Name == Name
-                && other._startDate == _startDate
-                && other._endDate == _endDate;
+            return (other.Name == Name)
+                && (other.StartDate == StartDate)
+                && (other.EndDate == EndDate);
+        }
+    }
+
+    public class TestObjectStorageConverter : IConverter<TestObject>
+    {
+        public StorableObject GetStorableObject(TestObject item)
+        {
+            var storableObject = new StorableObject();
+
+            storableObject.Info.Add("Id", item.Name);
+            storableObject.Info.Add("StartDate", item.StartDate.Ticks.ToString());
+            storableObject.Info.Add("EndDate", item.EndDate.Ticks.ToString());
+
+            return storableObject;
+        }
+
+        public TestObject GetOriginalObject(StorableObject info)
+        {
+            var orginalObject = new TestObject
+            {
+                Name = info.Info["Id"],
+                StartDate = new DateTime(long.Parse(info.Info["StartDate"])),
+                EndDate = new DateTime(long.Parse(info.Info["EndDate"]))
+            };
+
+            return orginalObject;
+        }
+
+        public bool IsEqual(StorableObject storageObject, TestObject realObject)
+        {
+            return realObject.Name == storageObject.Info["Id"];
         }
     }
 }

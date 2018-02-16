@@ -14,27 +14,13 @@ namespace LazyStorage.Json
             _storageFolder = storageFolder;
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
-        {
-            var typeAsString = typeof (T).ToString();
-
-            if (!_repos.ContainsKey(typeAsString))
-            {
-                var jsonRepository = new JsonRepository<T>(_storageFolder);
-                jsonRepository.Load();
-                _repos.Add(typeAsString, jsonRepository);
-            }
-
-            return _repos[typeAsString] as IRepository<T>;
-        }
-
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                var jsonRepositoryWithConverter = new JsonRepositoryWithConverter<T>(_storageFolder, converter);
+                var jsonRepositoryWithConverter = new JsonRepository<T>(_storageFolder, converter);
                 jsonRepositoryWithConverter.Load();
                 _repos.Add(typeAsString, jsonRepositoryWithConverter);
             }

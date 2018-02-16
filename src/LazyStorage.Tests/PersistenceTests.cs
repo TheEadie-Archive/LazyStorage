@@ -22,74 +22,11 @@ namespace LazyStorage.Tests
         {
             _currentStorage = storage;
             var dal = storage.GetStorage();
-            var repo = dal.GetRepository<TestObject>();
-            var obj = new TestObject();
-
-            repo.Set(obj);
-            dal.Save();
-            
-            Assert.True(repo.Get().Any(), "The object could not be added to the repository");
-        }
-
-        [Theory, MemberData(nameof(StorageTypes))]
-        public void StoragePersistsBetweenSessions(ITestStorage storage)
-        {
-            _currentStorage = storage;
-            var dal = storage.GetStorage();
-            var repo = dal.GetRepository<TestObject>();
-            var obj = new TestObject();
-
-            repo.Set(obj);
-            dal.Save();
-
-            var dal2 = storage.GetStorage();
-            var repo2 = dal2.GetRepository<TestObject>();
-
-            Assert.True(repo2.Get().Single().ContentEquals(obj), "The object could not be found in the persistent repo");
-        }
-
-        [Theory, MemberData(nameof(StorageTypes))]
-        public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
-        {
-            _currentStorage = storage;
-
-            // Create an object in memory
-            var obj1 = new TestObject();
-
-            // Insert into the repo
-            var dal = storage.GetStorage();
-            var repo = dal.GetRepository<TestObject>();
-            repo.Set(obj1);
-            dal.Save();
-
-            // Make some changes
-            var obj2 = new TestObject
-            {
-                Id = 1,
-                Name = "Test"
-            };
-
-            // Update the object in the repo but discard changes
-            repo.Set(obj2);
-            dal.Discard();
-
-            var dal2 = storage.GetStorage();
-            var repo2 = dal2.GetRepository<TestObject>();
-
-            var testObject = repo2.Get().Single();
-            Assert.True(testObject.ContentEquals(obj1), "The object changes were not reverted in the repo");
-        }
-
-        [Theory, MemberData(nameof(StorageTypes))]
-        public void CanSaveToStorageWithConverter(ITestStorage storage)
-        {
-            _currentStorage = storage;
-            var dal = storage.GetStorage();
             var converter = new TestObjectStorageConverter();
 
             var repo = storage.GetStorage().GetRepository(converter);
 
-            var obj = new TestObjectNotIStorable
+            var obj = new TestObject
             {
                 Name = "Test",
                 StartDate = DateTime.Now,
@@ -103,7 +40,7 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData(nameof(StorageTypes))]
-        public void StoragePersistsBetweenSessionsWithConverter(ITestStorage storage)
+        public void StoragePersistsBetweenSessions(ITestStorage storage)
         {
             _currentStorage = storage;
             var dal = storage.GetStorage();
@@ -111,7 +48,7 @@ namespace LazyStorage.Tests
 
             var repo = dal.GetRepository(converter);
 
-            var obj = new TestObjectNotIStorable
+            var obj = new TestObject
             {
                 Name = "Test",
                 StartDate = DateTime.Now,
@@ -128,7 +65,7 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData(nameof(StorageTypes))]
-        public void StorageDoesNotPersistIfDiscardedWithConverter(ITestStorage storage)
+        public void StorageDoesNotPersistIfDiscarded(ITestStorage storage)
         {
             _currentStorage = storage;
 
@@ -138,13 +75,13 @@ namespace LazyStorage.Tests
 
             var repo = dal.GetRepository(converter);
 
-            var obj1 = new TestObjectNotIStorable {Name = "Test"};
+            var obj1 = new TestObject {Name = "Test"};
 
             repo.Set(obj1);
             dal.Save();
 
             // Make some changes
-            var obj2 = new TestObjectNotIStorable {Name = "Test"};
+            var obj2 = new TestObject {Name = "Test"};
 
             // Update the object in the repo but discard changes
             repo.Set(obj2);

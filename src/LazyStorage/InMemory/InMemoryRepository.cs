@@ -5,42 +5,53 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
 {
-    internal class InMemoryRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    internal class InMemoryRepository<T> : IRepository<T>
     {
-        private List<T> _repository = new List<T>();
+        private readonly IConverter<T> _converter;
 
+        public InMemoryRepository(IConverter<T> converter)
+        {
+            _converter = converter;
+        }
+
+        private List<T> _repository = new List<T>();
+        
         public ICollection<T> Get(Func<T, bool> exp = null)
         {
-            return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
+            var allObjects = _repository;
+
+            return exp != null ? allObjects.Where(exp).ToList() : allObjects.ToList();
         }
 
         public void Set(T item)
         {
-            if (_repository.Contains(item))
+            var storableItem = _converter.GetStorableObject(item);
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableItem, x)).ToList();
+
+            if (matchingItemsInStore.Any())
             {
                 // Update
-                var obj = _repository.Where(x => x.Equals(item));
-                _repository.Remove(obj.First());
+                _repository.Remove(matchingItemsInStore.First());
                 _repository.Add(item);
             }
             else
             {
                 // Insert
-                var nextId = _repository.Any() ? _repository.Max(x => x.Id) + 1 : 1;
-                item.Id = nextId;
                 _repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
-            var obj = _repository.SingleOrDefault(x => x.Id == item.Id);
-            _repository.Remove(obj);
+            var storableItem = _converter.GetStorableObject(item);
+
+            var obj = _repository.Where(x => _converter.IsEqual(storableItem, item));
+            _repository.Remove(obj.First());
         }
 
         public void Save()
         {
-            var itemsInRepo = Get().Select(x => x.GetStorageInfo());
+            var itemsInRepo = Get().Select(x => _converter.GetStorableObject(x).Info);
             InMemorySingleton.Sync(nameof(T), itemsInRepo);
         }
 
@@ -51,8 +62,15 @@ namespace LazyStorage.InMemory
 
         private T GetObjectFromStorageInfo(Dictionary<string, string> storageInfo)
         {
-            var item = new T();
-            item.InitialiseWithStorageInfo(storageInfo);
+            var storableItem = new StorableObject();
+
+            foreach(var itemInfo in storageInfo)
+            {
+                storableItem.Info.Add(itemInfo.Key, itemInfo.Value);
+            }
+
+            var item = _converter.GetOriginalObject(storableItem);
+            
             return item;
         }
     }

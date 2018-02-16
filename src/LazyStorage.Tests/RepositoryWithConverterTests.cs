@@ -9,19 +9,19 @@ using Xunit;
 
 namespace LazyStorage.Tests
 {
-    public class RepositoryWithConverterTests
+    public class RepositoryTests
     {
         public static IEnumerable<object[]> Repos => new[]
         {
-            new object[] {new InMemoryRepositoryWithConverter<TestObjectNotIStorable>(new TestObjectStorageConverter())},
-            new object[] {new XmlRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
-            new object[] {new JsonRepositoryWithConverter<TestObjectNotIStorable>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
+            new object[] {new InMemoryRepository<TestObject>(new TestObjectStorageConverter())},
+            new object[] {new XmlRepository<TestObject>("RepositoryWithConverter", new TestObjectStorageConverter())},
+            new object[] {new JsonRepository<TestObject>("RepositoryWithConverter", new TestObjectStorageConverter())},
         };
 
         [Theory, MemberData(nameof(Repos))]
-        public void CanAddToRepo(IRepository<TestObjectNotIStorable> repo)
+        public void CanAddToRepo(IRepository<TestObject> repo)
         {
-            var obj = new TestObjectNotIStorable
+            var obj = new TestObject
             {
                 Name = "Test",
                 StartDate = DateTime.Now,
@@ -36,9 +36,9 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData(nameof(Repos))]
-        public void CanUpdateRepo(IRepository<TestObjectNotIStorable> repo)
+        public void CanUpdateRepo(IRepository<TestObject> repo)
         {
-            var obj = new TestObjectNotIStorable
+            var obj = new TestObject
             {
                 Name = "Test",
                 StartDate = new DateTime(2015, 12, 31, 13, 54, 23),
@@ -56,9 +56,9 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData(nameof(Repos))]
-        public void CanDeleteFromRepo(IRepository<TestObjectNotIStorable> repo)
+        public void CanDeleteFromRepo(IRepository<TestObject> repo)
         {
-            var obj = new TestObjectNotIStorable { Name = "Test" };
+            var obj = new TestObject { Name = "Test" };
 
             repo.Set(obj);
             repo.Delete(obj);
@@ -67,10 +67,10 @@ namespace LazyStorage.Tests
         }
 
         [Theory, MemberData(nameof(Repos))]
-        public void CanGetByLinq(IRepository<TestObjectNotIStorable> repo)
+        public void CanGetByLinq(IRepository<TestObject> repo)
         {
-            var objOne = new TestObjectNotIStorable { Name = "one" };
-            var objTwo = new TestObjectNotIStorable { Name = "two" };
+            var objOne = new TestObject { Name = "one" };
+            var objTwo = new TestObject { Name = "two" };
 
             repo.Set(objOne);
             repo.Set(objTwo);

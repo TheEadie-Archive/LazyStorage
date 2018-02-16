@@ -7,14 +7,16 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
-    internal class XmlRepository<T> : IRepository<T> where T : IStorable<T>, new()
+    internal class XmlRepository<T> : IRepository<T>
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
+        private readonly IConverter<T> _converter;
 
-        public XmlRepository(string storageFolder)
+        public XmlRepository(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
+            _converter = converter;
         }
 
         public ICollection<T> Get(Func<T, bool> exp = null)
@@ -24,26 +26,27 @@ namespace LazyStorage.Xml
 
         public void Set(T item)
         {
-            if (_repository.Contains(item))
+            var storableObject = _converter.GetStorableObject(item);
+            var matchingItemsInStore = _repository.Where(x => _converter.IsEqual(storableObject, x)).ToList();
+
+            if (matchingItemsInStore.Any())
             {
                 // Update
-                var obj = _repository.Where(x => x.Equals(item));
-                _repository.Remove(obj.First());
+                _repository.Remove(matchingItemsInStore.First());
                 _repository.Add(item);
             }
             else
             {
                 // Insert
-                var nextId = _repository.Any() ? _repository.Max(x => x.Id) + 1 : 1;
-                item.Id = nextId;
                 _repository.Add(item);
             }
         }
 
         public void Delete(T item)
         {
-            var obj = _repository.SingleOrDefault(x => x.Id == item.Id);
-            _repository.Remove(obj);
+            var storableObject = _converter.GetStorableObject(item);
+            var obj = _repository.Where(x => _converter.IsEqual(storableObject, x));
+            _repository.Remove(obj.First());
         }
 
 
@@ -70,10 +73,10 @@ namespace LazyStorage.Xml
 
             foreach (var item in objects)
             {
-                var info = item.GetStorageInfo();
+                var info = _converter.GetStorableObject(item).Info;
 
                 var newElement = new XElement(typeAsString);
-                
+
                 foreach (var data in info)
                 {
                     newElement.Add(new XElement(data.Key, data.Value));
@@ -93,15 +96,14 @@ namespace LazyStorage.Xml
 
             foreach (var node in file.Element("Root").Elements())
             {
-                var storageInfo = new Dictionary<string, string>();
+                var storableObject = new StorableObject();
 
                 foreach (var element in node.Descendants())
                 {
-                    storageInfo.Add(element.Name.ToString(), element.Value);
+                    storableObject.Info.Add(element.Name.ToString(), element.Value);
                 }
 
-                var item = new T();
-                item.InitialiseWithStorageInfo(storageInfo);
+                var item = _converter.GetOriginalObject(storableObject);
 
                 found.Add(item);
             }
