@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using LazyStorage.Interfaces;
+using LazyStorage.Xml;
 
 namespace LazyStorage.Json
 {
@@ -16,16 +17,7 @@ namespace LazyStorage.Json
 
         public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
         {
-            var typeAsString = typeof (T).ToString();
-
-            if (!_repos.ContainsKey(typeAsString))
-            {
-                var jsonRepository = new JsonRepository<T>(_storageFolder);
-                jsonRepository.Load();
-                _repos.Add(typeAsString, jsonRepository);
-            }
-
-            return _repos[typeAsString] as IRepository<T>;
+            return GetRepository(new StorableConverter<T>());
         }
 
         public IRepository<T> GetRepository<T>(IConverter<T> converter)

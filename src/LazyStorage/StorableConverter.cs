@@ -1,7 +1,7 @@
 using System;
 using LazyStorage.Interfaces;
 
-namespace LazyStorage.Xml
+namespace LazyStorage
 {
     internal class StorableConverter<T> : IConverter<T> where T : IStorable<T>, IEquatable<T>, new()
     {
