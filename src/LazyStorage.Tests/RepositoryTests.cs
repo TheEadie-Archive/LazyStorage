@@ -13,7 +13,7 @@ namespace LazyStorage.Tests
         public static IEnumerable<object[]> Repos => new[]
         {
             new object[] {new InMemoryRepository<TestObject>()},
-            new object[] {new XmlRepository<TestObject>("RepositoryTests") },
+            new object[] {new XmlRepositoryWithConverter<TestObject>("RepositoryTests", new StorableConverter<TestObject>()) },
             new object[] {new JsonRepository<TestObject>("RepositoryTests") }
         };
 
@@ -58,8 +58,8 @@ namespace LazyStorage.Tests
         [Theory, MemberData(nameof(Repos))]
         public void CanGetByLinq(IRepository<TestObject> repo)
         {
-            var objOne = new TestObject {Name = "one"};
-            var objTwo = new TestObject {Name = "two"};
+            var objOne = new TestObject {Id = 1, Name = "one"};
+            var objTwo = new TestObject {Id = 2, Name = "two"};
 
             repo.Set(objOne);
             repo.Set(objTwo);

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace LazyStorage
 {
@@ -9,6 +10,11 @@ namespace LazyStorage
         public StorableObject()
         {
             Info = new Dictionary<string, string>();
+        }
+
+        internal StorableObject(Dictionary<string, string> info)
+        {
+            Info = info;
         }
     }
 }
