@@ -7,13 +7,13 @@ using LazyStorage.Interfaces;
 
 namespace LazyStorage.Xml
 {
-    internal class XmlRepositoryWithConverter<T> : IRepository<T>
+    internal class XmlRepository<T> : IRepository<T>
     {
         private readonly string _uri;
         private List<T> _repository = new List<T>();
         private readonly IConverter<T> _converter;
 
-        public XmlRepositoryWithConverter(string storageFolder, IConverter<T> converter)
+        public XmlRepository(string storageFolder, IConverter<T> converter)
         {
             _uri = $"{storageFolder}{typeof(T)}.xml";
             _converter = converter;

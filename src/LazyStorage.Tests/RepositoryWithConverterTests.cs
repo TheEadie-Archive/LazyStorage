@@ -9,13 +9,13 @@ using Xunit;
 
 namespace LazyStorage.Tests
 {
-    public class RepositoryWithConverterTests
+    public class RepositoryTests
     {
         public static IEnumerable<object[]> Repos => new[]
         {
-            new object[] {new InMemoryRepositoryWithConverter<TestObject>(new TestObjectStorageConverter())},
-            new object[] {new XmlRepositoryWithConverter<TestObject>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
-            new object[] {new JsonRepositoryWithConverter<TestObject>("RepositoryWithConverterTests", new TestObjectStorageConverter())},
+            new object[] {new InMemoryRepository<TestObject>(new TestObjectStorageConverter())},
+            new object[] {new XmlRepository<TestObject>("RepositoryWithConverter", new TestObjectStorageConverter())},
+            new object[] {new JsonRepository<TestObject>("RepositoryWithConverter", new TestObjectStorageConverter())},
         };
 
         [Theory, MemberData(nameof(Repos))]

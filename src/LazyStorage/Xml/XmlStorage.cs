@@ -14,19 +14,13 @@ namespace LazyStorage.Xml
             _repos = new Dictionary<string, IRepository>();
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
-        {
-            var storableConverter = new StorableConverter<T>();
-            return GetRepository(storableConverter);
-        }
-
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                var xmlRepositoryWithConverter = new XmlRepositoryWithConverter<T>(_storageFolder, converter);
+                var xmlRepositoryWithConverter = new XmlRepository<T>(_storageFolder, converter);
                 xmlRepositoryWithConverter.Load();
                 _repos.Add(typeAsString, xmlRepositoryWithConverter);
             }

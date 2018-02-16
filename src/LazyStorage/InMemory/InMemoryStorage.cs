@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LazyStorage.Interfaces;
-using LazyStorage.Xml;
 
 namespace LazyStorage.InMemory
 {
@@ -13,18 +12,13 @@ namespace LazyStorage.InMemory
             _repos = new Dictionary<string, IRepository>();
         }
 
-        public IRepository<T> GetRepository<T>() where T : IStorable<T>, new()
-        {
-            return GetRepository(new StorableConverter<T>());
-        }
-
         public IRepository<T> GetRepository<T>(IConverter<T> converter)
         {
             var typeAsString = typeof(T).ToString();
 
             if (!_repos.ContainsKey(typeAsString))
             {
-                var inMemoryRepositoryWithConverter = new InMemoryRepositoryWithConverter<T>(converter);
+                var inMemoryRepositoryWithConverter = new InMemoryRepository<T>(converter);
                 inMemoryRepositoryWithConverter.Load();
                 _repos.Add(typeAsString, inMemoryRepositoryWithConverter);
             }
