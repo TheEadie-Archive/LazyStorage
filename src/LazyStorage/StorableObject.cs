@@ -10,10 +10,5 @@ namespace LazyStorage
         {
             Info = new Dictionary<string, string>();
         }
-
-        internal StorableObject(Dictionary<string, string> info)
-        {
-            Info = info;
-        }
     }
 }
