@@ -19,7 +19,7 @@ namespace LazyStorage.Xml
             _converter = converter;
         }
 
-        public ICollection<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool>? exp = null)
         {
             return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
         }
@@ -57,10 +57,8 @@ namespace LazyStorage.Xml
 
         public void Save()
         {
-            using (var writer = new FileStream(_uri, FileMode.Create))
-            {
-                GetXmlOuput(_repository).Save(writer);
-            }
+            using var writer = new FileStream(_uri, FileMode.Create);
+            GetXmlOuput(_repository).Save(writer);
         }
 
         private XDocument GetXmlOuput(List<T> objects)

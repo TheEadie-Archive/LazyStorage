@@ -19,7 +19,7 @@ namespace LazyStorage.Json
             _converter = converter;
         }
 
-        public ICollection<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool>? exp = null)
         {
             return exp != null ? _repository.Where(exp).ToList() : _repository.ToList();
         }

@@ -15,7 +15,7 @@ namespace LazyStorage.Tests
             new object[] {new JsonTestStorage()},
         };
 
-        private ITestStorage _currentStorage;
+        private ITestStorage? _currentStorage;
 
         [Theory, MemberData(nameof(StorageTypes))]
         public void CanSaveToStorage(ITestStorage storage)
@@ -126,7 +126,7 @@ namespace LazyStorage.Tests
 
         public void Dispose()
         {
-            _currentStorage.CleanUp();
+            _currentStorage?.CleanUp();
         }
     }
 }

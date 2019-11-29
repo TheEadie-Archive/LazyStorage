@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LazyStorage.Interfaces;
 
 namespace LazyStorage.InMemory
@@ -23,7 +24,12 @@ namespace LazyStorage.InMemory
                 _repos.Add(typeAsString, inMemoryRepositoryWithConverter);
             }
 
-            return _repos[typeAsString] as IRepository<T>;
+            if (!(_repos[typeAsString] is IRepository<T> repository))
+            {
+                throw new InvalidOperationException($"Unable to retrieve Repository for type {typeAsString}");
+            }
+
+            return repository;
         }
 
         public void Save()

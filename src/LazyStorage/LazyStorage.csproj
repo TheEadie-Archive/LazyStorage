@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;netcoreapp3.0</TargetFrameworks>
     <Version>0.0.1.0</Version>
     
     <PackageVersion>0.0.1-local</PackageVersion>
@@ -11,10 +11,17 @@
     <PackageLicenseUrl>https://github.com/TheEadie/LazyStorage/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/TheEadie/LazyStorage</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TheEadie/LazyStorage</RepositoryUrl>
+
+    <LangVersion>Latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Nullable" Version="1.1.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

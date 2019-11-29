@@ -16,7 +16,7 @@ namespace LazyStorage.InMemory
 
         private List<T> _repository = new List<T>();
         
-        public ICollection<T> Get(Func<T, bool> exp = null)
+        public ICollection<T> Get(Func<T, bool>? exp = null)
         {
             var allObjects = _repository;
 
