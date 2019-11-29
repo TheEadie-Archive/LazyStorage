@@ -57,10 +57,8 @@ namespace LazyStorage.Xml
 
         public void Save()
         {
-            using (var writer = new FileStream(_uri, FileMode.Create))
-            {
-                GetXmlOuput(_repository).Save(writer);
-            }
+            using var writer = new FileStream(_uri, FileMode.Create);
+            GetXmlOuput(_repository).Save(writer);
         }
 
         private XDocument GetXmlOuput(List<T> objects)
