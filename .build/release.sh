@@ -42,4 +42,4 @@ done
 
 # Upload to NuGet
 WriteHeading "Publishing to NuGet.org"
-dotnet nuget push **/*.nupkg -k $NUGET_API_TOKEN
+dotnet nuget push **/*.nupkg -k $NUGET_API_TOKEN -s https://api.nuget.org/v3/index.json
