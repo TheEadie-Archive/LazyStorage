@@ -80,7 +80,7 @@ namespace LazyStorage.Xml
                     newElement.Add(new XElement(data.Key, data.Value));
                 }
 
-                rootElement.Add(newElement);
+                rootElement?.Add(newElement);
             }
 
             return file;
@@ -90,9 +90,21 @@ namespace LazyStorage.Xml
         {
             var file = XDocument.Load(uri);
 
+            if (file is null)
+            {
+                throw new FileLoadException($"The XML file {uri} could not be opened");
+            }
+
+            var rootElement = file.Element("Root");
+
+            if (rootElement is null)
+            {
+                throw new FileLoadException($"The XML file {uri} doesn't contain a Root node");
+            }
+
             var found = new List<T>();
 
-            foreach (var node in file.Element("Root").Elements())
+            foreach (var node in rootElement.Elements())
             {
                 var storableObject = new StorableObject();
 

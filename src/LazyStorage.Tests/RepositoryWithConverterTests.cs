@@ -78,7 +78,7 @@ namespace LazyStorage.Tests
             var result = repo.Get(x => x.Name == "one").SingleOrDefault();
 
             Assert.NotNull(result);
-            Assert.True(result.ContentEquals(objOne), "The object could not be retrieved from the repository");
+            Assert.True(result?.ContentEquals(objOne), "The object could not be retrieved from the repository");
         }
     }
 }
