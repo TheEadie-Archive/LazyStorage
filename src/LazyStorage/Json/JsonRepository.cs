@@ -57,6 +57,11 @@ namespace LazyStorage.Json
                 var jsonContent = File.ReadAllText(_uri);
                 var convertedItems = JsonConvert.DeserializeObject<List<StorableObject>>(jsonContent);
 
+                if (convertedItems is null)
+                {
+                    throw new FileLoadException($"The JSON file {_uri} could not be deserialized");
+                }
+
                 _repository = convertedItems.Select(x => _converter.GetOriginalObject(x)).ToList();
             }
             else
